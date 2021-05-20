@@ -8,7 +8,8 @@ public class User extends com.example.ServletProject.model.entity.Entity {
     private String firstName;
 
     private String lastName;
-    private boolean roleId;
+
+    private String role;
     private String email;
 
     private String city;
@@ -35,12 +36,12 @@ public class User extends com.example.ServletProject.model.entity.Entity {
         this.lastName = lastName;
     }
 
-    public boolean isRoleId() {
-        return roleId;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleId(boolean roleId) {
-        this.roleId = roleId;
+    public void setRoleId(String role) {
+        this.role = role;
     }
 
     public String getEmail() {
