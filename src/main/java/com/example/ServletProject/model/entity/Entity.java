@@ -1,6 +1,6 @@
 package com.example.ServletProject.model.entity;
 
-public abstract class Entity {
+public class Entity {
 
     private Long id;
 

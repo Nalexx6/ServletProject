@@ -12,6 +12,7 @@ public class User extends com.example.ServletProject.model.entity.Entity {
     private String email;
 
     private String city;
+    private String region;
     private String institution;
 
     private Map<String, Integer> grades;
@@ -48,5 +49,29 @@ public class User extends com.example.ServletProject.model.entity.Entity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(String institution) {
+        this.institution = institution;
     }
 }
