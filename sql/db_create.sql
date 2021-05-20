@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
     first_name  VARCHAR(20),
     last_name   VARCHAR(20),
     email       VARCHAR(30),
-    role        BOOLEAN,
+    role        VARCHAR(10),
     city        VARCHAR(20),
     region      VARCHAR(20),
     institution VARCHAR(30)
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 INSERT INTO users (first_name, last_name, email, role, city, region, institution)
-VALUES ('Ivan', 'Ivanov', 'test@test.com', 1, 'Kyiv', 'Kyiv', 'School N100');
+VALUES ('Ivan', 'Ivanov', 'test@test.com', 'ADMIN', 'Kyiv', 'Kyiv', 'School N100');
 
 # DROP TABLE submissions;
 CREATE TABLE IF NOT EXISTS submissions (
