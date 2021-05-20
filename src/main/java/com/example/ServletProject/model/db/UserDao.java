@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 
 public class UserDao {
-    private static final Logger log = Logger.getLogger(Servlet.class);
+//    private static final Logger log = Logger.getLogger(Servlet.class);
 
     private static final String SQL__FIND_USER_BY_ID =
             "SELECT * FROM users WHERE id=?";
