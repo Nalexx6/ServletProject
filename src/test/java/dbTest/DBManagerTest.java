@@ -21,7 +21,7 @@ public class DBManagerTest {
             ResultSet rs = stmt.executeQuery("SELECT * from users");
             System.out.println("Tables in the current database: ");
             while(rs.next()) {
-                System.out.print(rs.getString(Fields.USER__FIRST_NAME));
+                System.out.print(rs.getString(Fields.USER__EMAIL));
                 System.out.println();
             }
         } catch (SQLException e){

@@ -51,6 +51,12 @@ public class DBManager {
         String con_url = resourceBundle.getString("connection_url");
 //        String user = resourceBundle.getString("user");
 //        String password = resourceBundle.getString("password");
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         Connection con = DriverManager.getConnection(con_url);
 
 

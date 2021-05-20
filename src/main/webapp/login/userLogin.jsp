@@ -5,7 +5,7 @@
   Time: 6:04 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%--<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <form class="container " method="post" action="${pageContext.request.contextPath}/login">
+    <form class="container " method="post" action="${pageContext.request.contextPath}/servlet">
+        <input type="hidden" name="command" value="login"/>
 
         <div class="form-control">
             <h1 class="header">Log into system</h1>
