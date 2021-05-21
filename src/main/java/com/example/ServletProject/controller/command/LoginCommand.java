@@ -40,7 +40,11 @@ public class LoginCommand implements Command{
 
         if(validateUserData(user, request)){
             setUserRole(request, user, email);
-            return /*redirect:*/"/login/loginRes.jsp";
+            if(user.getRole().equals("ADMIN")) {
+                return /*redirect:*/"/login/adminRes.jsp";
+            } else {
+                return /*redirect:*/"/login/userRes.jsp";
+            }
         } else {
             return null;
         }

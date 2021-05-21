@@ -4,10 +4,8 @@ import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.User;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.servlet.http.HttpServletRequest;
+import java.sql.*;
 
 //import org.apache.log4j.Logger;
 
@@ -15,11 +13,9 @@ import java.sql.SQLException;
 public class UserDao {
 //    private static final Logger log = Logger.getLogger(Servlet.class);
 
-    private static final String SQL__FIND_USER_BY_ID =
-            "SELECT * FROM users WHERE id=?";
 
-    private static final String SQL__FIND_USER_BY_EMAIL =
-            "SELECT * FROM users WHERE email=?";
+
+
 
     public User findUser(Long id){
         User user = null;
@@ -28,7 +24,7 @@ public class UserDao {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL__FIND_USER_BY_ID);
+            pstmt = con.prepareStatement(SQL.SQL__FIND_USER_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             if (rs.next())
@@ -55,7 +51,7 @@ public class UserDao {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL__FIND_USER_BY_EMAIL);
+            pstmt = con.prepareStatement(SQL.SQL__FIND_USER_BY_EMAIL);
             pstmt.setString(1, email);
             rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -76,6 +72,42 @@ public class UserDao {
         return user;
     }
 
+    public void insertUser(User user) {
+        Connection con = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            psmt = con.prepareStatement(SQL.SQL__INSERT_USER, Statement.RETURN_GENERATED_KEYS);
+            psmt.setString(1, user.getFirstName());
+            psmt.setString(2, user.getLastName());
+            psmt.setString(3, user.getEmail());
+            psmt.setString(4, user.getRole());
+            psmt.setString(5, user.getCity());
+            psmt.setString(6, user.getRegion());
+            psmt.setString(7, user.getInstitution());
+
+            if(psmt.executeUpdate() > 0) {
+                rs = psmt.getGeneratedKeys();
+                if (rs.next()) {
+                    user.setId(rs.getLong(1));
+                }
+                rs.close();
+            }
+            psmt.close();
+        } catch (SQLException ex) {
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
+            ex.printStackTrace();
+        } finally {
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
+        }
+    }
+
 
     private User mapUser(ResultSet rs){
         try {
@@ -84,7 +116,7 @@ public class UserDao {
             user.setFirstName(rs.getString(Fields.USER__FIRST_NAME));
             user.setLastName(rs.getString(Fields.USER__LAST_NAME));
             user.setEmail(rs.getString(Fields.USER__EMAIL));
-            user.setRoleId(rs.getString(Fields.USER__ROLE_ID));
+            user.setRole(rs.getString(Fields.USER__ROLE_ID));
             user.setCity(rs.getString(Fields.USER__CITY));
             user.setRegion(rs.getString(Fields.USER__REGION));
             user.setInstitution(rs.getString(Fields.USER__INSTITUTION));
@@ -93,5 +125,19 @@ public class UserDao {
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    public static User mapUser(HttpServletRequest request){
+        User user = new User();
+
+        user.setFirstName(request.getParameter(Fields.USER__FIRST_NAME));
+        user.setLastName(request.getParameter(Fields.USER__LAST_NAME));
+        user.setEmail(request.getParameter(Fields.USER__EMAIL));
+        user.setRole("USER");
+        user.setCity(request.getParameter(Fields.USER__CITY));
+        user.setRegion(request.getParameter(Fields.USER__REGION));
+        user.setInstitution(request.getParameter(Fields.USER__INSTITUTION));
+
+        return user;
     }
 }

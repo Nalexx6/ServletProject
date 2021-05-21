@@ -2,6 +2,7 @@ package com.example.ServletProject.controller;
 
 import com.example.ServletProject.controller.command.Command;
 import com.example.ServletProject.controller.command.LoginCommand;
+import com.example.ServletProject.controller.command.SignUpCommand;
 
 import java.io.*;
 import java.util.HashMap;
@@ -28,6 +29,8 @@ public class Servlet extends HttpServlet {
 
         commands.put("login",
                 new LoginCommand());
+        commands.put("sign_up",
+                new SignUpCommand());
 //        commands.put("exception" , new ExceptionCommand());
     }
 

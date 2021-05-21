@@ -40,7 +40,7 @@ public class User extends com.example.ServletProject.model.entity.Entity {
         return role;
     }
 
-    public void setRoleId(String role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
