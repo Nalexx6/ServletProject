@@ -16,13 +16,14 @@
     <form class="container " method="post" action="${pageContext.request.contextPath}/servlet">
         <input type="hidden" name="command" value="login"/>
 
+
         <div class="form-control">
             <h1 class="header">Log into system</h1>
             <label>First Name</label>
-            <input type="text" name="firstName" placeholder="Enter First Name"><br/>
+            <input type="text" name="first_name" placeholder="Enter First Name"><br/>
 
             <label>Last Name</label>
-            <input type="text" name="lastName" placeholder="Enter Last Name"><br/>
+            <input type="text" name="last_name" placeholder="Enter Last Name"><br/>
 
             <label>Email</label>
             <input type="email" name="email" placeholder="Enter Email"><br/>

@@ -1,6 +1,5 @@
 package com.example.ServletProject.model.db;
 
-import com.example.ServletProject.controller.Servlet;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.User;
 
@@ -9,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.NoSuchElementException;
 
 //import org.apache.log4j.Logger;
 
@@ -38,10 +36,14 @@ public class UserDao {
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
-            DBManager.getInstance().rollbackAndClose(con);
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
             ex.printStackTrace();
         } finally {
-            DBManager.getInstance().commitAndClose(con);
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
         }
         return user;
     }
@@ -62,10 +64,14 @@ public class UserDao {
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
-//            DBManager.getInstance().rollbackAndClose(con);
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
             ex.printStackTrace();
         } finally {
-//            DBManager.getInstance().commitAndClose(con);
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
         }
         return user;
     }

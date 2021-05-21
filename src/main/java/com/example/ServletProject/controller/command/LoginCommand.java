@@ -1,6 +1,7 @@
 package com.example.ServletProject.controller.command;
 
 import com.example.ServletProject.model.db.UserDao;
+import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.User;
 
 import javax.servlet.ServletContext;
@@ -9,12 +10,13 @@ import javax.servlet.http.HttpSession;
 
 public class LoginCommand implements Command{
 
-    static void setUserRole(HttpServletRequest request,
-                            String role, String email) {
+    static private void setUserRole(HttpServletRequest request,
+                                    User user, String email) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
         context.setAttribute("useremail", email);
-        session.setAttribute("role", role);
+        session.setAttribute("role", user.getRole());
+        session.setAttribute("user", user);
     }
 
     @Override
@@ -24,11 +26,11 @@ public class LoginCommand implements Command{
 
         if( email == null || email.equals("") ){
             //System.out.println("Not");
-            return "/login.jsp";
+            return null;
         }
         System.out.println(email + " ");
         //System.out.println("Yes!");
-        //todo: check login with DB
+        //todo: check user is already logged
 
 //        if(CommandUtility.checkUserIsLogged(request, email)){
 //            return "/WEB-INF/error.jsp";
@@ -36,11 +38,20 @@ public class LoginCommand implements Command{
         UserDao dao = new UserDao();
         User user = dao.findUserByEmail(email);
 
-        if(user != null){
-            setUserRole(request, user.getRole(), email);
+        if(validateUserData(user, request)){
+            setUserRole(request, user, email);
             return /*redirect:*/"/login/loginRes.jsp";
         } else {
-            return "/index.jsp";
+            return null;
         }
+    }
+
+    private boolean validateUserData(User user, HttpServletRequest request){
+        return  (user != null) &&
+                (request.getParameter(Fields.USER__FIRST_NAME).equals(user.getFirstName())) &&
+                (request.getParameter(Fields.USER__LAST_NAME).equals(user.getLastName())) &&
+                (request.getParameter(Fields.USER__CITY).equals(user.getCity())) &&
+                (request.getParameter(Fields.USER__REGION).equals(user.getRegion())) &&
+                (request.getParameter(Fields.USER__INSTITUTION).equals(user.getInstitution()));
     }
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Win10Pro
@@ -12,5 +13,7 @@
 </head>
 <body>
     <h1>Congrats</h1>
+    <c:set var="user" scope="session" value="${sessionScope.user}"/>
+    <c:out value="${user.firstName}"/>
 </body>
 </html>
