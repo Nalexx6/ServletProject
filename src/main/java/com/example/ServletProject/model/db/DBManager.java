@@ -24,17 +24,7 @@ public class DBManager {
     public static synchronized DBManager getInstance() {
         if (instance == null) {
             instance = new DBManager();
-            try {
-                Connection con = instance.getConnection();
-                //Initialize the script runner
-                ScriptRunner sr = new ScriptRunner(con);
-                //Creating a reader object
-                Reader reader = new BufferedReader(new FileReader("./sql/db_create.sql"));
-                //Running the script
-                sr.runScript(reader);
-            } catch (SQLException | FileNotFoundException e){
-                e.printStackTrace();
-            }
+
         }
         return instance;
     }
