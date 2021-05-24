@@ -17,6 +17,10 @@
 
     <div class="form-control">
         <h1 class="header">Hello Admin</h1>
+        <c:set var = "faculties" scope="session" value="${sessionScope.faculties}"/>
+        <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
+            <p>${faculties.get(f).name}</p>
+        </c:forEach>
     </div>
 </form></body>
 </html>

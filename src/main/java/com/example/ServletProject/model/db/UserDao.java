@@ -6,14 +6,16 @@ import com.example.ServletProject.model.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
+import java.util.List;
 
 //import org.apache.log4j.Logger;
 
 
-public class UserDao {
+public class UserDao implements DaoFactory<User> {
 //    private static final Logger log = Logger.getLogger(Servlet.class);
 
-    public User findUser(Long id){
+    @Override
+    public User findById(Long id){
         User user = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -24,7 +26,7 @@ public class UserDao {
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             if (rs.next())
-                user = mapUser(rs);
+                user = mapObject(rs);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
@@ -40,6 +42,11 @@ public class UserDao {
         return user;
     }
 
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
+
     public User findUserByLogin(String login){
         User user = null;
         PreparedStatement pstmt = null;
@@ -51,7 +58,7 @@ public class UserDao {
             pstmt.setString(1, login);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                user = mapUser(rs);
+                user = mapObject(rs);
             }
             rs.close();
             pstmt.close();
@@ -61,14 +68,15 @@ public class UserDao {
             }
             ex.printStackTrace();
         } finally {
-//            if(con != null){
-//                DBManager.getInstance().commitAndClose(con);
-//            }
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
         }
         return user;
     }
 
-    public void insertUser(User user) {
+    @Override
+    public void insert(User user) {
         Connection con = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
@@ -106,8 +114,18 @@ public class UserDao {
         }
     }
 
+    @Override
+    public void update(User user) {
 
-    private User mapUser(ResultSet rs){
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
+    public User mapObject(ResultSet rs) {
         try {
             User user = new User();
             user.setId(rs.getLong(Fields.ENTITY__ID));

@@ -2,18 +2,22 @@ package com.example.ServletProject.model.entity;
 
 import java.util.Map;
 
-public class Faculty{
+public class Faculty extends Entity{
 
     private String name;
     private int studentsAmount;
     private int stateFundedAmount;
 
-    private Map<String, Double> subjectWeights;
+    private Map<Subject, Double> subjectWeights;
 
     public Faculty(String name, int stateFundedAmount, int studentsAmount){
         this.name = name;
         this.stateFundedAmount = stateFundedAmount;
         this.studentsAmount = studentsAmount;
+    }
+
+    public Faculty(){
+
     }
 
     public int getStudentsAmount() {
@@ -40,11 +44,11 @@ public class Faculty{
         this.name = name;
     }
 
-    public Map<String, Double> getSubjectWeights() {
+    public Map<Subject, Double> getSubjectWeights() {
         return subjectWeights;
     }
 
-    public void setSubjectWeights(Map<String, Double> subjectWeights) {
+    public void setSubjectWeights(Map<Subject, Double> subjectWeights) {
         this.subjectWeights = subjectWeights;
     }
 }

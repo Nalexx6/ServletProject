@@ -34,7 +34,7 @@ public class SignUpCommand implements Command{
 //        if(CommandUtility.checkUserIsLogged(request, email)){
 //            return "/WEB-INF/error.jsp";
 //        }
-        dao.insertUser(user);
+        dao.insert(user);
 
         setUserRole(request, user);
         if(user.getRole().equals("ADMIN")) {
