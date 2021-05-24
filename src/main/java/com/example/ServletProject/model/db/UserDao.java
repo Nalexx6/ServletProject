@@ -13,10 +13,6 @@ import java.sql.*;
 public class UserDao {
 //    private static final Logger log = Logger.getLogger(Servlet.class);
 
-
-
-
-
     public User findUser(Long id){
         User user = null;
         PreparedStatement pstmt = null;
@@ -44,15 +40,15 @@ public class UserDao {
         return user;
     }
 
-    public User findUserByEmail(String email){
+    public User findUserByLogin(String login){
         User user = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL.SQL__FIND_USER_BY_EMAIL);
-            pstmt.setString(1, email);
+            pstmt = con.prepareStatement(SQL.SQL__FIND_USER_BY_LOGIN);
+            pstmt.setString(1, login);
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 user = mapUser(rs);
@@ -65,9 +61,9 @@ public class UserDao {
             }
             ex.printStackTrace();
         } finally {
-            if(con != null){
-                DBManager.getInstance().commitAndClose(con);
-            }
+//            if(con != null){
+//                DBManager.getInstance().commitAndClose(con);
+//            }
         }
         return user;
     }
@@ -80,13 +76,15 @@ public class UserDao {
         try {
             con = DBManager.getInstance().getConnection();
             psmt = con.prepareStatement(SQL.SQL__INSERT_USER, Statement.RETURN_GENERATED_KEYS);
-            psmt.setString(1, user.getFirstName());
-            psmt.setString(2, user.getLastName());
-            psmt.setString(3, user.getEmail());
-            psmt.setString(4, user.getRole());
-            psmt.setString(5, user.getCity());
-            psmt.setString(6, user.getRegion());
-            psmt.setString(7, user.getInstitution());
+            psmt.setString(1, user.getLogin());
+            psmt.setString(2, user.getPassword());
+            psmt.setString(3, user.getFirstName());
+            psmt.setString(4, user.getLastName());
+            psmt.setString(5, user.getEmail());
+            psmt.setString(6, user.getRole());
+            psmt.setString(7, user.getCity());
+            psmt.setString(8, user.getRegion());
+            psmt.setString(9, user.getInstitution());
 
             if(psmt.executeUpdate() > 0) {
                 rs = psmt.getGeneratedKeys();
@@ -113,6 +111,8 @@ public class UserDao {
         try {
             User user = new User();
             user.setId(rs.getLong(Fields.ENTITY__ID));
+            user.setLogin(rs.getString(Fields.USER__LOGIN));
+            user.setPassword(rs.getString(Fields.USER__PASSWORD));
             user.setFirstName(rs.getString(Fields.USER__FIRST_NAME));
             user.setLastName(rs.getString(Fields.USER__LAST_NAME));
             user.setEmail(rs.getString(Fields.USER__EMAIL));
@@ -127,17 +127,4 @@ public class UserDao {
         }
     }
 
-    public static User mapUser(HttpServletRequest request){
-        User user = new User();
-
-        user.setFirstName(request.getParameter(Fields.USER__FIRST_NAME));
-        user.setLastName(request.getParameter(Fields.USER__LAST_NAME));
-        user.setEmail(request.getParameter(Fields.USER__EMAIL));
-        user.setRole("USER");
-        user.setCity(request.getParameter(Fields.USER__CITY));
-        user.setRegion(request.getParameter(Fields.USER__REGION));
-        user.setInstitution(request.getParameter(Fields.USER__INSTITUTION));
-
-        return user;
-    }
 }

@@ -11,24 +11,23 @@ import javax.servlet.http.HttpSession;
 public class LoginCommand implements Command{
 
     static private void setUserRole(HttpServletRequest request,
-                                    User user, String email) {
+                                    User user) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
-        context.setAttribute("useremail", email);
         session.setAttribute("role", user.getRole());
         session.setAttribute("user", user);
     }
 
     @Override
     public String execute(HttpServletRequest request) {
-        String email = request.getParameter("email");
+        String login = request.getParameter(Fields.USER__LOGIN);
 //        String pass = request.getParameter();
 
-        if( email == null || email.equals("") ){
+        if( login == null || login.equals("") ){
             //System.out.println("Not");
             return null;
         }
-        System.out.println(email + " ");
+        System.out.println(login + " ");
         //System.out.println("Yes!");
         //todo: check user is already logged
 
@@ -36,10 +35,11 @@ public class LoginCommand implements Command{
 //            return "/WEB-INF/error.jsp";
 //        }
         UserDao dao = new UserDao();
-        User user = dao.findUserByEmail(email);
+        User user = dao.findUserByLogin(login);
 
         if(validateUserData(user, request)){
-            setUserRole(request, user, email);
+            setUserRole(request, user);
+            System.out.println("User validated");
             if(user.getRole().equals("ADMIN")) {
                 return /*redirect:*/"/login/adminRes.jsp";
             } else {
@@ -52,10 +52,6 @@ public class LoginCommand implements Command{
 
     private boolean validateUserData(User user, HttpServletRequest request){
         return  (user != null) &&
-                (request.getParameter(Fields.USER__FIRST_NAME).equals(user.getFirstName())) &&
-                (request.getParameter(Fields.USER__LAST_NAME).equals(user.getLastName())) &&
-                (request.getParameter(Fields.USER__CITY).equals(user.getCity())) &&
-                (request.getParameter(Fields.USER__REGION).equals(user.getRegion())) &&
-                (request.getParameter(Fields.USER__INSTITUTION).equals(user.getInstitution()));
+                (request.getParameter(Fields.USER__PASSWORD).equals(user.getPassword()));
     }
 }

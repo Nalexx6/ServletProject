@@ -5,23 +5,23 @@ import java.util.Map;
 public class Faculty{
 
     private String name;
+    private int studentsAmount;
     private int stateFundedAmount;
-    private int feePayedAmount;
 
     private Map<String, Double> subjectWeights;
 
-    public Faculty(String name, int stateFundedAmount, int feePayedAmount){
+    public Faculty(String name, int stateFundedAmount, int studentsAmount){
         this.name = name;
         this.stateFundedAmount = stateFundedAmount;
-        this.feePayedAmount = feePayedAmount;
+        this.studentsAmount = studentsAmount;
     }
 
-    public int getFeePayedAmount() {
-        return feePayedAmount;
+    public int getStudentsAmount() {
+        return studentsAmount;
     }
 
-    public void setFeePayedAmount(int feePayedAmount) {
-        this.feePayedAmount = feePayedAmount;
+    public void setStudentsAmount(int studentsAmount) {
+        this.studentsAmount = studentsAmount;
     }
 
     public int getStateFundedAmount() {
@@ -38,5 +38,13 @@ public class Faculty{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Map<String, Double> getSubjectWeights() {
+        return subjectWeights;
+    }
+
+    public void setSubjectWeights(Map<String, Double> subjectWeights) {
+        this.subjectWeights = subjectWeights;
     }
 }

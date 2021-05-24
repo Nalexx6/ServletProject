@@ -19,23 +19,11 @@
 
         <div class="form-control">
             <h1 class="header">Log into system</h1>
-            <label>First Name</label>
-            <input type="text" name="first_name" placeholder="Enter First Name"><br/>
+            <label>User</label>
+            <input type="text" name="login" placeholder="Enter Login"><br/>
 
-            <label>Last Name</label>
-            <input type="text" name="last_name" placeholder="Enter Last Name"><br/>
-
-            <label>Email</label>
-            <input type="email" name="email" placeholder="Enter Email"><br/>
-
-            <label>City</label>
-            <input type="text" name="city" placeholder="Enter City"><br/>
-
-            <label>Region</label>
-            <input type="text" name="region" placeholder="Enter Region"><br/>
-
-            <label>Institution</label>
-            <input type="text" name="institution" placeholder="Enter Institution"><br/>
+            <label>Password</label>
+            <input type="text" name="password" placeholder="Enter Password"><br/>
 
             <input class="button btn" type="submit" value="Log In">
             <a class="link" href="${pageContext.request.contextPath}/index.jsp">Back to main page</a>

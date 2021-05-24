@@ -48,8 +48,7 @@ public class DBManager {
             e.printStackTrace();
         }
         Connection con = DriverManager.getConnection(con_url);
-
-
+        con.setAutoCommit(false);
         return con;
     }
 

@@ -19,6 +19,12 @@
 
     <div class="form-control">
         <h1 class="header">Sign up to system</h1>
+        <label>Login</label>
+        <input type="text" name="login" placeholder="Enter Login"><br/>
+
+        <label>Password</label>
+        <input type="text" name="password" placeholder="Enter Password"><br/>
+
         <label>First Name</label>
         <input type="text" name="first_name" placeholder="Enter First Name"><br/>
 

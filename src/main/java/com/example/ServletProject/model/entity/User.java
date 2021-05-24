@@ -5,8 +5,10 @@ import java.util.Map;
 
 public class User extends com.example.ServletProject.model.entity.Entity {
 
-    private String firstName;
+    private String login;
+    private String password;
 
+    private String firstName;
     private String lastName;
 
     private String role;
@@ -19,6 +21,22 @@ public class User extends com.example.ServletProject.model.entity.Entity {
     private Map<String, Integer> grades;
     private List<Faculty> submissions;
     private double secEducationAvg;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getFirstName() {
         return firstName;
