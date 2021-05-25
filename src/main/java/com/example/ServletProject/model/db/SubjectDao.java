@@ -40,6 +40,33 @@ public class SubjectDao implements DaoFactory<Subject>{
         return subject;
     }
 
+    public Subject findByName(String name){
+        Subject subject = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL.SQL__FIND_SUB_BY_NAME);
+            pstmt.setString(1, name);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                subject = mapObject(rs);
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
+            ex.printStackTrace();
+        } finally {
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
+        }
+        return subject;
+    }
+
     @Override
     public List<Subject> findAll() {
         return null;

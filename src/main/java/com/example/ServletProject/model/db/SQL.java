@@ -3,6 +3,9 @@ package com.example.ServletProject.model.db;
 public final class SQL {
 
     //User queries
+    public static final String SQL__FIND_ALL_USERS =
+            "SELECT * FROM users";
+
     public static final String SQL__FIND_USER_BY_ID =
             "SELECT * FROM users WHERE id=?";
 
@@ -13,15 +16,17 @@ public final class SQL {
             "INSERT INTO users (login, password, first_name, last_name, email, role, city, region, institution)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-//    public static final String SQL__UPDATE_USER =
-//            "UPDATE users SET (login, password, first_name, last_name, email, role, city, region, institution)" +
-//                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE id = ?";
+    public static final String SQL__UPDATE_USER =
+            "UPDATE users SET login = ?,  password = ?, first_name = ?, last_name = ?, " +
+                    "email = ?, role = ?, city = ?, region = ?, institution = ? " +
+                    "WHERE id = ?";
 
 
     //////////////////////////////////////////////////////////
     //Faculty queries
     public static final String SQL__FIND_ALL_FAC =
             "SELECT * FROM faculties";
+
     public static final String SQL__FIND_FAC_BY_ID =
             "SELECT * FROM faculties WHERE id=?";
 
@@ -32,6 +37,14 @@ public final class SQL {
             "INSERT INTO faculties (name, studentsAmount, stateFundedAmount, subject1_id, subject2_id, subject3_id," +
                     "weight1, weight2, weight3)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    public static final String SQL__UPDATE_FAC =
+            "UPDATE faculties SET name = ?,  students_amount = ?, state_funded_amount = ?, subject1_id = ?, weight1_id = ?, " +
+                    "subject2_id = ?, weight2_id = ?, subject3_id = ?, weight3_id = ?, " +
+                    "WHERE id = ?";
+
+    public static final String SQL__DELETE_FAC =
+            "DELETE FROM faculties WHERE id=?";
 
 
     //////////////////////////////////////////////////////////

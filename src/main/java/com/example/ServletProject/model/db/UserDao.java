@@ -3,9 +3,8 @@ package com.example.ServletProject.model.db;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.User;
 
-
-import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 //import org.apache.log4j.Logger;
@@ -44,7 +43,33 @@ public class UserDao implements DaoFactory<User> {
 
     @Override
     public List<User> findAll() {
-        return null;
+        List<User> res = new ArrayList<>();
+
+        Statement stmt = null;
+        ResultSet rs = null;
+        Connection con = null;
+
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL.SQL__FIND_ALL_USERS);
+
+            while (rs.next()) {
+                res.add(mapObject(rs));
+            }
+        } catch (SQLException ex) {
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
+            ex.printStackTrace();
+        } finally {
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
+        }
+
+        return res;
     }
 
     public User findUserByLogin(String login){
@@ -116,12 +141,41 @@ public class UserDao implements DaoFactory<User> {
 
     @Override
     public void update(User user) {
+        Connection con = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
 
+        try {
+            con = DBManager.getInstance().getConnection();
+            psmt = con.prepareStatement(SQL.SQL__UPDATE_USER);
+            psmt.setString(1, user.getLogin());
+            psmt.setString(2, user.getPassword());
+            psmt.setString(3, user.getFirstName());
+            psmt.setString(4, user.getLastName());
+            psmt.setString(5, user.getEmail());
+            psmt.setString(6, user.getRole());
+            psmt.setString(7, user.getCity());
+            psmt.setString(8, user.getRegion());
+            psmt.setString(9, user.getInstitution());
+            psmt.setLong(10, user.getId());
+
+            psmt.executeUpdate();
+            psmt.close();
+        } catch (SQLException ex) {
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
+            ex.printStackTrace();
+        } finally {
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
+        }
     }
 
     @Override
     public void delete(int id) {
-
+        //Not necessary
     }
 
     @Override
