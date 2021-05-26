@@ -93,4 +93,13 @@ public class User extends com.example.ServletProject.model.entity.Entity {
     public void setInstitution(String institution) {
         this.institution = institution;
     }
+
+    public List<Faculty> getSubmissions() {
+        return submissions;
+    }
+
+    public void setSubmissions(List<Faculty> submissions) {
+        this.submissions = submissions;
+    }
+
 }

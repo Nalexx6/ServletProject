@@ -34,7 +34,6 @@ public class LoginCommand implements Command{
     @Override
     public String execute(HttpServletRequest request) {
         String login = request.getParameter(Fields.USER__LOGIN);
-//        String pass = request.getParameter();
 
         if( login == null || login.equals("") ){
             //System.out.println("Not");
@@ -44,20 +43,19 @@ public class LoginCommand implements Command{
         //System.out.println("Yes!");
         //todo: check user is already logged
 
-//        if(CommandUtility.checkUserIsLogged(request, email)){
-//            return "/WEB-INF/error.jsp";
-//        }
         UserDao dao = new UserDao();
         User user = dao.findUserByLogin(login);
+
+        DaoFactory<Faculty> fDao = new FacultyDao();
+        setUserRole(request, user, fDao.findAll());
 
         if(validateUserData(user, request)){
             System.out.println("User validated");
             if(user.getRole().equals("ADMIN")) {
-                DaoFactory<Faculty> fDao = new FacultyDao();
-                setUserRole(request, user, fDao.findAll());
+
                 return /*redirect:*/"/login/adminRes.jsp";
             } else {
-                setUserRole(request, user);
+
                 return /*redirect:*/"/login/userRes.jsp";
             }
         } else {
