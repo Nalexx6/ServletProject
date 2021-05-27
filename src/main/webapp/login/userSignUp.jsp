@@ -14,7 +14,7 @@
 </head>
 <body>
 <form class="container " method="post" action="${pageContext.request.contextPath}/servlet">
-    <input type="hidden" name="command" value="sign_up"/>
+    <input type="hidden" name="command" value="signUp"/>
 
 
     <div class="form-control">

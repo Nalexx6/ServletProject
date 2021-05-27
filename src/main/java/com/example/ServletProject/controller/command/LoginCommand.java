@@ -15,11 +15,13 @@ import java.util.List;
 public class LoginCommand implements Command{
 
     static private void setUserRole(HttpServletRequest request,
-                                    User user) {
+                                    User user, List<Faculty> faculties, List<User> users) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
         session.setAttribute("role", user.getRole());
         session.setAttribute("user", user);
+        session.setAttribute("faculties", faculties);
+        session.setAttribute("users", users);
     }
 
     static private void setUserRole(HttpServletRequest request,
@@ -37,29 +39,29 @@ public class LoginCommand implements Command{
 
         if( login == null || login.equals("") ){
             //System.out.println("Not");
-            return null;
+            return "/login/userLogin.jsp";
         }
         System.out.println(login + " ");
         //System.out.println("Yes!");
         //todo: check user is already logged
 
-        UserDao dao = new UserDao();
-        User user = dao.findUserByLogin(login);
+        UserDao sDao = new UserDao();
+        User user = sDao.findUserByLogin(login);
 
         DaoFactory<Faculty> fDao = new FacultyDao();
-        setUserRole(request, user, fDao.findAll());
 
         if(validateUserData(user, request)){
             System.out.println("User validated");
             if(user.getRole().equals("ADMIN")) {
 
+                setUserRole(request, user, fDao.findAll(), sDao.findAll());
                 return /*redirect:*/"/login/adminRes.jsp";
             } else {
-
+                setUserRole(request, user, fDao.findAll());
                 return /*redirect:*/"/login/userRes.jsp";
             }
         } else {
-            return null;
+            return "/login/userLogin.jsp";
         }
     }
 

@@ -39,22 +39,27 @@
             <p>You have no Submissions</p>
         </div>
 
-        <div id="create-submission" style="display: none">
-            <c:set var = "faculties" scope="session" value="${sessionScope.faculties}"/>
-            <label for="fac-list">Select Faculty</label>
-            <select id="fac-list">
-                <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
-                    <option>${faculties.get(f).name}</option>
-                </c:forEach>
-            </select><br>
+        <form id="create-submission" style="display: none" method="get" action="${pageContext.request.contextPath}/servlet">
 
+            <form id="select-faculty" method="get" action="${pageContext.request.contextPath}/servlet">
+                <c:set var = "faculties" scope="session" value="${sessionScope.faculties}"/>
+                <label for="fac-list">Select Faculty</label>
+                <select id="fac-list">
+                    <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
+                        <option name="fac-${f}">${faculties.get(f).name}</option>
+                    </c:forEach>
+                </select><br>
+            </form>
+
+            <input type="hidden" name="selected" value="1"/>
 <%--            <c:set var="selectedIndex">getSelectedIndex()</c:set>--%>
 <%--            <c:out value="${selectedIndex}"/>--%>
-            <c:set var="subjects" scope="session" value="${sessionScope.faculties.get(0).subjectWeights}"/>
+            <%--todo: get selected index--%>
+            <c:set var="subjects" scope="session" value="${sessionScope.faculties.get(0).subjects}"/>
 
             <c:forEach items="${subjects}" var="s">
-                <label>${s.key.name} (weights ${s.value})</label>
-                <input type="text" name="${s.key}" placeholder="Enter grade for ${s.key.name} "><br/>
+                <label>${s.name}</label>
+                <input type="text" name="${s.name}" placeholder="Enter grade for ${s.name} "/><br/>
             </c:forEach>
 
             <label for="sec-avg">Secondary Education Average</label>
@@ -62,7 +67,7 @@
 
             <input class="btn" type="button" value="Submit">
 
-        </div>
+        </form>
     </form>
 
 
@@ -71,6 +76,7 @@
 </html>
 
 <script>
+
     function showUserCredentials(){
         document.getElementById('pers-inf').style.display = 'block';
         document.getElementById('submissions').style.display = 'none';

@@ -1,6 +1,7 @@
 package com.example.ServletProject.controller;
 
 import com.example.ServletProject.controller.command.Command;
+import com.example.ServletProject.controller.command.CreateFacultyCommand;
 import com.example.ServletProject.controller.command.LoginCommand;
 import com.example.ServletProject.controller.command.SignUpCommand;
 
@@ -29,8 +30,10 @@ public class Servlet extends HttpServlet {
 
         commands.put("login",
                 new LoginCommand());
-        commands.put("sign_up",
+        commands.put("signUp",
                 new SignUpCommand());
+        commands.put("createFaculty",
+                new CreateFacultyCommand());
 //        commands.put("exception" , new ExceptionCommand());
     }
 
@@ -52,6 +55,7 @@ public class Servlet extends HttpServlet {
         System.out.println(command.getClass().getName());
         String page = command.execute(request);
         //request.getRequestDispatcher(page).forward(request,response);
+        System.out.println(page);
         if(page == null){
             //todo: create response in userLogin page
         }else if(page.contains("redirect:")){
