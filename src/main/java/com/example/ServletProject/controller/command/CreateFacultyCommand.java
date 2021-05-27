@@ -35,7 +35,7 @@ public class CreateFacultyCommand implements Command{
         return "/login/adminRes.jsp";
     }
 
-    public Faculty mapFaculty(HttpServletRequest request) {
+    private Faculty mapFaculty(HttpServletRequest request) {
         Faculty faculty = new Faculty();
 
         faculty.setName(request.getParameter(Fields.FACULTY__NAME));

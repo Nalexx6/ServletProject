@@ -150,7 +150,7 @@ public class FacultyDao implements DaoFactory<Faculty> {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         Connection con = null;
         PreparedStatement psmt = null;
 

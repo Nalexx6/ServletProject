@@ -1,9 +1,6 @@
 package com.example.ServletProject.controller;
 
-import com.example.ServletProject.controller.command.Command;
-import com.example.ServletProject.controller.command.CreateFacultyCommand;
-import com.example.ServletProject.controller.command.LoginCommand;
-import com.example.ServletProject.controller.command.SignUpCommand;
+import com.example.ServletProject.controller.command.*;
 
 import java.io.*;
 import java.util.HashMap;
@@ -34,6 +31,8 @@ public class Servlet extends HttpServlet {
                 new SignUpCommand());
         commands.put("createFaculty",
                 new CreateFacultyCommand());
+        commands.put("deleteFaculty",
+                new DeleteFacultyCommand());
 //        commands.put("exception" , new ExceptionCommand());
     }
 

@@ -83,7 +83,7 @@ public class SubjectDao implements DaoFactory<Subject>{
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
 
     }
 

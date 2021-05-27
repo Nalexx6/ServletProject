@@ -9,6 +9,6 @@ public interface DaoFactory<T> {
     List<T> findAll();
     void insert(T entity);
     void update(T entity);
-    void delete(int id);
+    void delete(Long id);
     T mapObject(ResultSet rs);
 }
