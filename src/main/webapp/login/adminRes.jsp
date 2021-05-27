@@ -39,13 +39,25 @@
         <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
             <span id="fac-${f}">${faculties.get(f).name}</span>
             <input class="btn" type="button" value="Edit">
-            <input class="btn" type="button" value="Delete">
+            <input class="btn" type="button" style="background: red" value="Delete" onclick="deleteConfirm(${f})">
             <br>
         </c:forEach>
+
+    </div>
+
+
+    <div class="container message-box" id="delete-confirm" style="display: none; z-index: 999;">
+        <form method="post" action="${pageContext.request.contextPath}/servlet">
+            <input type="hidden" name="command" value="deleteFaculty">
+            <input type="hidden" id="deleted-fac-index" name="deletedFacIndex" value="">
+
+            <h1 class="header">Are you sure, you want to delete this faculty?</h1>
+            <input class="button btn" type="submit" style="background: red" value="Yes">
+            <input class="btn" type="button" value="Cancel" onclick="deleteCancel()">
+        </form>
     </div>
 
     <div id="users" style="display: none">
-        <%--        <input class="btn" type="button" value="Create new submission" onclick="createSubmission()">--%>
         <c:set var = "users" scope="session" value="${sessionScope.users}"/>
         <c:forEach var="u" begin="0" end="${users.size() - 1}">
             <span id="user-${u}">${users.get(u).firstName} ${users.get(u).lastName}</span>
@@ -54,6 +66,7 @@
         </c:forEach>
     </div>
 
+<%--    New faculty functionality form--%>
     <div class="form-control" id="create-faculty" style="display: none">
 
         <form method="post" action="${pageContext.request.contextPath}/servlet">
@@ -124,9 +137,15 @@
         document.getElementById('header').innerHTML = 'Create Faculty';
     }
 
-    function getSelectedIndex(){
-        return document.getElementById('fac-list').selectedIndex;
-
-
+    function deleteConfirm(value){
+        document.getElementById('delete-confirm').style.display = 'block';
+        document.getElementById('faculties').style.display = 'none';
+        document.getElementById('deleted-fac-index').value = value;
     }
+
+    function deleteCancel(){
+        document.getElementById('delete-confirm').style.display = 'none';
+        document.getElementById('faculties').style.display = 'block';
+    }
+
 </script>
