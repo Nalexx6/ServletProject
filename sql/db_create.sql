@@ -19,16 +19,13 @@ CREATE TABLE IF NOT EXISTS faculties (
     state_funded_amount INT,
     subject1_id INT REFERENCES subjects(id) ON DELETE CASCADE,
     subject2_id INT REFERENCES subjects(id) ON DELETE CASCADE,
-    subject3_id INT REFERENCES subjects(id) ON DELETE CASCADE,
-    weight1 INT,
-    weight2 INT,
-    weight3 INT
+    subject3_id INT REFERENCES subjects(id) ON DELETE CASCADE
 );
 
-INSERT INTO faculties (name, students_amount, state_funded_amount, subject1_id, subject2_id, subject3_id, weight1, weight2, weight3)
-VALUES ('Cybernetics', 100, 40,  1, 2, 4, 0.6, 0.2, 0.2);
-INSERT INTO faculties (name, students_amount, state_funded_amount, subject1_id, subject2_id, subject3_id, weight1, weight2, weight3)
-VALUES ('Mechanic-mathematical', 80, 40,  1, 3, 4, 0.6, 0.2, 0.2);
+INSERT INTO faculties (name, students_amount, state_funded_amount, subject1_id, subject2_id, subject3_id)
+VALUES ('Cybernetics', 100, 40,  2, 1, 4);
+INSERT INTO faculties (name, students_amount, state_funded_amount, subject1_id, subject2_id, subject3_id)
+VALUES ('Mechanic-mathematical', 80, 40,  1, 3, 4);
 
 DROP TABLE users;
 CREATE TABLE IF NOT EXISTS users (

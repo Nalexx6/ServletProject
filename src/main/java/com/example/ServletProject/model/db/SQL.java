@@ -34,13 +34,12 @@ public final class SQL {
             "SELECT * FROM faculties WHERE name=?";
 
     public static final String SQL__INSERT_FAC =
-            "INSERT INTO faculties (name, studentsAmount, stateFundedAmount, subject1_id, subject2_id, subject3_id," +
-                    "weight1, weight2, weight3)" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO faculties (name, students_amount, state_funded_amount, subject1_id, subject2_id, subject3_id)" +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
 
     public static final String SQL__UPDATE_FAC =
-            "UPDATE faculties SET name = ?,  students_amount = ?, state_funded_amount = ?, subject1_id = ?, weight1_id = ?, " +
-                    "subject2_id = ?, weight2_id = ?, subject3_id = ?, weight3_id = ?, " +
+            "UPDATE faculties SET name = ?,  students_amount = ?, state_funded_amount = ?," +
+                    " subject1_id = ?, subject2_id = ?, subject3_id = ?," +
                     "WHERE id = ?";
 
     public static final String SQL__DELETE_FAC =

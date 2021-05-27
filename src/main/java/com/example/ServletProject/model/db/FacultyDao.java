@@ -85,15 +85,15 @@ public class FacultyDao implements DaoFactory<Faculty> {
         try {
             con = DBManager.getInstance().getConnection();
             psmt = con.prepareStatement(SQL.SQL__INSERT_FAC, Statement.RETURN_GENERATED_KEYS);
-            psmt.setString(k++, faculty.getName());
-            psmt.setLong(k++, faculty.getStudentsAmount());
-            psmt.setLong(k++, faculty.getStateFundedAmount());
+            psmt.setString(k, faculty.getName());
+            k++;
+            psmt.setInt(k, faculty.getStudentsAmount());
+            k++;
+            psmt.setInt(k, faculty.getStateFundedAmount());
+            k++;
 
-            SubjectDao sDao = new SubjectDao();
-
-            for (Map.Entry<Subject, Double> entry : faculty.getSubjectWeights().entrySet()) {
-                psmt.setLong(k, sDao.findByName(entry.getKey().getName()).getId());
-                psmt.setDouble(k + 3, entry.getValue());
+            for (Subject s : faculty.getSubjects()) {
+                psmt.setInt(k, (int) s.getId());
                 k++;
             }
 
@@ -130,9 +130,8 @@ public class FacultyDao implements DaoFactory<Faculty> {
             psmt.setLong(k++, faculty.getStudentsAmount());
             psmt.setLong(k++, faculty.getStateFundedAmount());
 
-            for (Map.Entry<Subject, Double> entry : faculty.getSubjectWeights().entrySet()) {
-                psmt.setLong(k, entry.getKey().getId());
-                psmt.setDouble(k + 3, entry.getValue());
+            for (Subject s: faculty.getSubjects()) {
+                psmt.setLong(k, s.getId());
                 k++;
             }
 
@@ -183,12 +182,12 @@ public class FacultyDao implements DaoFactory<Faculty> {
             faculty.setStudentsAmount(rs.getInt(Fields.FACULTY__STUDENT_AMOUNT));
             faculty.setStateFundedAmount(rs.getInt(Fields.FACULTY__STATE_FUNDED_AMOUNT));
 
-            Map<Subject, Double> map = new HashMap<>();
+            List<Subject> list = new ArrayList<>();
             SubjectDao sDao = new SubjectDao();
-            map.put(sDao.findById(rs.getLong(Fields.FACULTY__SUB1_ID)), rs.getDouble(Fields.FACULTY__WEIGHT1));
-            map.put(sDao.findById(rs.getLong(Fields.FACULTY__SUB2_ID)), rs.getDouble(Fields.FACULTY__WEIGHT2));
-            map.put(sDao.findById(rs.getLong(Fields.FACULTY__SUB3_ID)), rs.getDouble(Fields.FACULTY__WEIGHT3));
-            faculty.setSubjectWeights(map);
+            list.add(sDao.findById(rs.getLong(Fields.FACULTY__SUB1_ID)));
+            list.add(sDao.findById(rs.getLong(Fields.FACULTY__SUB2_ID)));
+            list.add(sDao.findById(rs.getLong(Fields.FACULTY__SUB3_ID)));
+            faculty.setSubjects(list);
             return faculty;
         } catch (SQLException e){
             e.printStackTrace();

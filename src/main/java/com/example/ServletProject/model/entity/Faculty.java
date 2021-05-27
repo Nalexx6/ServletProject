@@ -1,5 +1,6 @@
 package com.example.ServletProject.model.entity;
 
+import java.util.List;
 import java.util.Map;
 
 public class Faculty extends Entity{
@@ -8,7 +9,7 @@ public class Faculty extends Entity{
     private int studentsAmount;
     private int stateFundedAmount;
 
-    private Map<Subject, Double> subjectWeights;
+    private List<Subject> subjects;
 
     public Faculty(String name, int stateFundedAmount, int studentsAmount){
         this.name = name;
@@ -44,11 +45,11 @@ public class Faculty extends Entity{
         this.name = name;
     }
 
-    public Map<Subject, Double> getSubjectWeights() {
-        return subjectWeights;
+    public List<Subject> getSubjects() {
+        return subjects;
     }
 
-    public void setSubjectWeights(Map<Subject, Double> subjectWeights) {
-        this.subjectWeights = subjectWeights;
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 }
