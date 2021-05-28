@@ -135,6 +135,8 @@ public class FacultyDao implements DaoFactory<Faculty> {
                 k++;
             }
 
+            psmt.setLong(k++, faculty.getId());
+            System.out.println(psmt);
             psmt.executeUpdate();
             psmt.close();
         } catch (SQLException ex) {

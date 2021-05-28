@@ -33,6 +33,8 @@ public class Servlet extends HttpServlet {
                 new CreateFacultyCommand());
         commands.put("deleteFaculty",
                 new DeleteFacultyCommand());
+        commands.put("editFaculty",
+                new EditFacultyCommand());
 //        commands.put("exception" , new ExceptionCommand());
     }
 

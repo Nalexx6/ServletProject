@@ -39,8 +39,8 @@ public final class SQL {
 
     public static final String SQL__UPDATE_FAC =
             "UPDATE faculties SET name = ?,  students_amount = ?, state_funded_amount = ?," +
-                    " subject1_id = ?, subject2_id = ?, subject3_id = ?," +
-                    "WHERE id = ?";
+                    " subject1_id = ?, subject2_id = ?, subject3_id = ? " +
+                    "WHERE id=?";
 
     public static final String SQL__DELETE_FAC =
             "DELETE FROM faculties WHERE id=?";

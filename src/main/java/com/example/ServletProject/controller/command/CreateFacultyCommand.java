@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class CreateFacultyCommand implements Command{
 
-    static private  void setFaculties(HttpServletRequest request, List<Faculty> faculties){
+    static public void setFaculties(HttpServletRequest request, List<Faculty> faculties){
         HttpSession session = request.getSession();
         session.setAttribute("faculties", faculties);
     }
@@ -35,7 +35,7 @@ public class CreateFacultyCommand implements Command{
         return "/login/adminRes.jsp";
     }
 
-    private Faculty mapFaculty(HttpServletRequest request) {
+    public static Faculty mapFaculty(HttpServletRequest request) {
         Faculty faculty = new Faculty();
 
         faculty.setName(request.getParameter(Fields.FACULTY__NAME));
@@ -53,7 +53,7 @@ public class CreateFacultyCommand implements Command{
 
     }
 
-    boolean validateFaculty(Faculty faculty){
+    public static boolean validateFaculty(Faculty faculty){
         return faculty != null &&
                 faculty.getName().length() > 0 &&
                 faculty.getStudentsAmount() > faculty.getStateFundedAmount() &&

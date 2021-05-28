@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/login/index.css">
 </head>
 <body>
-<form class="container">
+<div class="container">
 
 
     <div class="form-control">
@@ -37,24 +37,19 @@
     <div id="faculties" style="display: block">
         <c:set var = "faculties" scope="session" value="${sessionScope.faculties}"/>
         <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
-            <span id="fac-${f}">${faculties.get(f).name}</span>
-            <input class="btn" type="button" value="Edit">
+            <span id="fac-${f}-name">${faculties.get(f).name}</span>
+            <input type="hidden" id="fac-${f}-st-amount" value="${faculties.get(f).studentsAmount}"/>
+            <input type="hidden" id="fac-${f}-st-funded-amount" value="${faculties.get(f).stateFundedAmount}"/>
+            <input type="hidden" id="fac-${f}-subject1" value="${faculties.get(f).subjects.get(0).name}"/>
+            <input type="hidden" id="fac-${f}-subject2" value="${faculties.get(f).subjects.get(1).name}"/>
+            <input type="hidden" id="fac-${f}-subject3" value="${faculties.get(f).subjects.get(2).name}"/>
+            <input class="btn" type="button" value="Edit"
+                   onclick="editFaculty(${f});
+                           <c:set var="editIndex" value="${f}"/> ">
             <input class="btn" type="button" style="background: red" value="Delete" onclick="deleteConfirm(${f})">
             <br>
         </c:forEach>
 
-    </div>
-
-
-    <div class="container message-box" id="delete-confirm" style="display: none; z-index: 999;">
-        <form method="post" action="${pageContext.request.contextPath}/servlet">
-            <input type="hidden" name="command" value="deleteFaculty">
-            <input type="hidden" id="deleted-fac-index" name="deletedFacIndex" value="">
-
-            <h1 class="header">Are you sure, you want to delete this faculty?</h1>
-            <input class="button btn" type="submit" style="background: red" value="Yes">
-            <input class="btn" type="button" value="Cancel" onclick="deleteCancel()">
-        </form>
     </div>
 
     <div id="users" style="display: none">
@@ -66,11 +61,11 @@
         </c:forEach>
     </div>
 
-<%--    New faculty functionality form--%>
     <div class="form-control" id="create-faculty" style="display: none">
 
         <form method="post" action="${pageContext.request.contextPath}/servlet">
-            <input type="hidden" name="command" value="createFaculty"/>
+            <input type="hidden" id="fac-command" name="command" value="createFaculty"/>
+            <input type="hidden" id="edit-fac-index" name="editedFacIndex" value=""/>
 
             <label for="fac-name">Faculty Name</label>
             <input type="text" id="fac-name" name="name" placeholder="Enter name of new Faculty"><br/>
@@ -93,12 +88,24 @@
             <input type="text" id="subject3" name="subject3_id" placeholder="Enter name of third subject">
 
             <input class="button btn" type="submit" value="Submit">
+            <input class="btn" type="button" id="edit-cancel" style="background: blue; visibility: hidden" value="Cancel"
+                onclick="editCancel()">
         </form>
 
     </div>
-</form>
 
+    <div class="container message-box" id="delete-confirm" style="display: none; z-index: 999;">
+        <form method="post" action="${pageContext.request.contextPath}/servlet">
+            <input type="hidden" id="del-command" name="command" value="deleteFaculty">
+            <input type="hidden" id="deleted-fac-index" name="deletedFacIndex" value="">
 
+            <h1 class="header">Are you sure, you want to delete this faculty?</h1>
+            <input class="button btn" type="submit" style="background: red" value="Yes">
+            <input class="btn" type="button" value="Cancel" onclick="deleteCancel()">
+        </form>
+    </div>
+
+</div>
 
 </body>
 </html>
@@ -110,7 +117,10 @@
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'none';
+        document.getElementById('delete-confirm').style.display = 'none';
         document.getElementById('header').innerHTML = 'Your Profile';
+
+        clearFields();
     }
 
     function showFaculties(){
@@ -118,7 +128,10 @@
         document.getElementById('faculties').style.display = 'block';
         document.getElementById('users').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'none';
+        document.getElementById('delete-confirm').style.display = 'none';
         document.getElementById('header').innerHTML = 'Faculties List';
+
+        clearFields();
     }
 
     function showUsers(){
@@ -126,7 +139,10 @@
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'block';
         document.getElementById('create-faculty').style.display = 'none';
+        document.getElementById('delete-confirm').style.display = 'none';
         document.getElementById('header').innerHTML = 'Users List';
+
+        clearFields();
     }
 
     function createFaculty(){
@@ -134,7 +150,11 @@
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'block';
+        document.getElementById('delete-confirm').style.display = 'none';
         document.getElementById('header').innerHTML = 'Create Faculty';
+        document.getElementById('fac-command').value = 'createFaculty';
+
+        clearFields();
     }
 
     function deleteConfirm(value){
@@ -146,6 +166,46 @@
     function deleteCancel(){
         document.getElementById('delete-confirm').style.display = 'none';
         document.getElementById('faculties').style.display = 'block';
+    }
+
+    function editFaculty(index){
+        document.getElementById('faculties').style.display = 'none';
+        document.getElementById('create-faculty').style.display = 'block';
+        document.getElementById('header').innerHTML = 'Edit Faculty';
+        document.getElementById('fac-command').value = 'editFaculty';
+
+        document.getElementById('edit-fac-index').value = index;
+        document.getElementById('fac-name').value = document.getElementById('fac-' + index + '-name').innerText;
+        document.getElementById('st-amount').value = document.getElementById('fac-' + index + '-st-amount').value;
+        document.getElementById('state-funded-amount').value =
+            document.getElementById('fac-' + index + '-st-funded-amount').value;
+        document.getElementById('subject1').value = document.getElementById('fac-' + index + '-subject1').value;
+        document.getElementById('subject2').value = document.getElementById('fac-' + index + '-subject2').value;
+        document.getElementById('subject3').value = document.getElementById('fac-' + index + '-subject3').value;
+
+        document.getElementById('edit-cancel').style.visibility = 'visible';
+
+    }
+
+    function editCancel(){
+        document.getElementById('faculties').style.display = 'block';
+        document.getElementById('create-faculty').style.display = 'none';
+        document.getElementById('header').innerHTML = 'Edit Faculty';
+        document.getElementById('fac-command').value = 'editFaculty';
+
+        clearFields();
+    }
+
+    function clearFields(){
+        document.getElementById('edit-fac-index').value = "";
+        document.getElementById('fac-name').value = "";
+        document.getElementById('st-amount').value = "";
+        document.getElementById('state-funded-amount').value = "";
+        document.getElementById('subject1').value = "";
+        document.getElementById('subject2').value = "";
+        document.getElementById('subject3').value = "";
+
+        document.getElementById('edit-cancel').style.visibility = 'hidden';
     }
 
 </script>
