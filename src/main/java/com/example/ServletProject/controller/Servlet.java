@@ -35,6 +35,10 @@ public class Servlet extends HttpServlet {
                 new DeleteFacultyCommand());
         commands.put("editFaculty",
                 new EditFacultyCommand());
+        commands.put("blockUser",
+                new BlockUserCommand());
+        commands.put("unblockUser",
+                new UnblockUserCommand());
 //        commands.put("exception" , new ExceptionCommand());
     }
 
@@ -60,7 +64,7 @@ public class Servlet extends HttpServlet {
         if(page == null){
             //todo: create response in userLogin page
         }else if(page.contains("redirect:")){
-            response.sendRedirect(page.replace("redirect:", "/coffee"));
+//            response.sendRedirect(page.replace("redirect:", "/coffee"));
         }else {
             request.getRequestDispatcher(page).forward(request, response);
         }

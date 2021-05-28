@@ -56,7 +56,10 @@
         <c:set var = "users" scope="session" value="${sessionScope.users}"/>
         <c:forEach var="u" begin="0" end="${users.size() - 1}">
             <span id="user-${u}">${users.get(u).firstName} ${users.get(u).lastName}</span>
-            <input class="btn" type="button" value="Block">
+            <c:set var="color" value="${!users.get(u).role.equals('BLOCKED') ? 'red' : 'blue'}"/>
+            <input class="btn" id="user-status-${u}" type="button"
+                   style="background: ${color}" value="${!users.get(u).role.equals("BLOCKED") ? "Block" : "Unblock"}"
+                    onclick="blockUser(${u})">
             <br>
         </c:forEach>
     </div>
@@ -96,12 +99,12 @@
 
     <div class="container message-box" id="delete-confirm" style="display: none; z-index: 999;">
         <form method="post" action="${pageContext.request.contextPath}/servlet">
-            <input type="hidden" id="del-command" name="command" value="deleteFaculty">
-            <input type="hidden" id="deleted-fac-index" name="deletedFacIndex" value="">
+            <input type="hidden" id="op-command" name="command" value="deleteFaculty">
+            <input type="hidden" id="op-index" name="opIndex" value="">
 
-            <h1 class="header">Are you sure, you want to delete this faculty?</h1>
+            <h1 id="message-head" class="header">Are you sure, you want to delete this faculty?</h1>
             <input class="button btn" type="submit" style="background: red" value="Yes">
-            <input class="btn" type="button" value="Cancel" onclick="deleteCancel()">
+            <input class="btn" id="op-cancel" type="button" value="Cancel" onclick="deleteCancel()">
         </form>
     </div>
 
@@ -160,7 +163,10 @@
     function deleteConfirm(value){
         document.getElementById('delete-confirm').style.display = 'block';
         document.getElementById('faculties').style.display = 'none';
-        document.getElementById('deleted-fac-index').value = value;
+        document.getElementById('op-index').value = value;
+        document.getElementById('op-command').value = 'deleteFaculty';
+        document.getElementById('message-head').innerHTML = "Are you sure, you want to delete this faculty?";
+        document.getElementById('op-cancel').onclick = deleteCancel;
     }
 
     function deleteCancel(){
@@ -206,6 +212,45 @@
         document.getElementById('subject3').value = "";
 
         document.getElementById('edit-cancel').style.visibility = 'hidden';
+    }
+
+    function blockUser(value){
+
+        document.getElementById('delete-confirm').style.display = 'block';
+        document.getElementById('users').style.display = 'none';
+        document.getElementById('op-index').value = value;
+        document.getElementById('message-head').innerHTML = "Are you sure, you want to block this user?";
+        document.getElementById('op-cancel').onclick = blockCancel;
+        document.getElementById('op-command').value = 'blockUser';
+    }
+    
+    function blockCancel(){
+        document.getElementById('delete-confirm').style.display = 'none';
+        document.getElementById('users').style.display = 'block';
+    }
+
+    function blockUser(value){
+
+        if(document.getElementById('user-status-' + value).value === 'BLOCK') {
+            document.getElementById('delete-confirm').style.display = 'block';
+            document.getElementById('users').style.display = 'none';
+            document.getElementById('op-index').value = value;
+            document.getElementById('message-head').innerHTML = "Are you sure, you want to block this user?";
+            document.getElementById('op-cancel').onclick = blockCancel;
+            document.getElementById('op-command').value = 'blockUser';
+        } else {
+            document.getElementById('delete-confirm').style.display = 'block';
+            document.getElementById('users').style.display = 'none';
+            document.getElementById('op-index').value = value;
+            document.getElementById('message-head').innerHTML = "Are you sure, you want to unblock this user?";
+            document.getElementById('op-cancel').onclick = blockCancel;
+            document.getElementById('op-command').value = 'unblockUser';
+        }
+    }
+
+    function blockCancel(){
+        document.getElementById('delete-confirm').style.display = 'none';
+        document.getElementById('users').style.display = 'block';
     }
 
 </script>

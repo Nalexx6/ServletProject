@@ -20,7 +20,7 @@ public class DeleteFacultyCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        int index = Integer.parseInt(request.getParameter("deletedFacIndex"));
+        int index = Integer.parseInt(request.getParameter("opIndex"));
 
         FacultyDao fDao = new FacultyDao();
         List<Faculty> faculties = fDao.findAll();
