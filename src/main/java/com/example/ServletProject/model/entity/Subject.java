@@ -24,4 +24,17 @@ public class Subject {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o == this){
+            return true;
+        }
+        if(!(o instanceof Subject)){
+            return false;
+        }
+
+        Subject subject = (Subject) o;
+        return name.equals(subject.name);
+    }
 }

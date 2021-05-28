@@ -52,4 +52,22 @@ public class Faculty extends Entity{
     public void setSubjects(List<Subject> subjects) {
         this.subjects = subjects;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o == this){
+            return true;
+        }
+        if(!(o instanceof Faculty)){
+            return false;
+        }
+
+        Faculty faculty = (Faculty) o;
+        return name.equals(faculty.name) &&
+                studentsAmount == faculty.studentsAmount &&
+                stateFundedAmount == faculty.getStateFundedAmount() &&
+                subjects.get(0).equals(faculty.subjects.get(0)) &&
+                subjects.get(0).equals(faculty.subjects.get(1)) &&
+                subjects.get(0).equals(faculty.subjects.get(2));
+    }
 }
