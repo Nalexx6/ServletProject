@@ -1,22 +1,27 @@
 package com.example.ServletProject.controller.command;
 
+import com.example.ServletProject.model.db.FacultyDao;
 import com.example.ServletProject.model.db.UserDao;
+import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUpCommand implements Command{
 
     static private void setUserRole(HttpServletRequest request,
-                                    User user) {
+                                    User user, List<Faculty> faculties) {
         HttpSession session = request.getSession();
+        ServletContext context = request.getServletContext();
         session.setAttribute("role", user.getRole());
         session.setAttribute("user", user);
+        session.setAttribute("faculties", faculties);
     }
 
     @Override
@@ -28,15 +33,11 @@ public class SignUpCommand implements Command{
             System.out.println("kfdkfld");
             return null;
         }
-        //System.out.println("Yes!");
-        //todo: check user is already logged
 
-//        if(CommandUtility.checkUserIsLogged(request, email)){
-//            return "/WEB-INF/error.jsp";
-//        }
         dao.insert(user);
+        FacultyDao fDao = new FacultyDao();
 
-        setUserRole(request, user);
+        setUserRole(request, user, fDao.findAll());
         if(user.getRole().equals("ADMIN")) {
             return /*redirect:*/"/login/adminRes.jsp";
         } else {

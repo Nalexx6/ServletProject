@@ -17,6 +17,10 @@
 
 
     <div class="form-control">
+        <form method="post" action="${pageContext.request.contextPath}/servlet">
+            <input type="hidden" name="command" value="logout">
+            <input class="btn" style="background: red" type="submit" value="Logout">
+        </form>
         <input class="btn" type="button" value="Profile" onclick="showUserCredentials()">
         <input class="btn" type="button" value="Faculties" onclick="showFaculties()">
         <input class="btn" type="button" value="Users" onclick="showUsers()">

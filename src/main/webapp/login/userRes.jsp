@@ -15,10 +15,13 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/login/index.css">
 </head>
 <body>
-    <form class="container">
-
+    <div class="container">
 
         <div class="form-control">
+            <form method="post" action="${pageContext.request.contextPath}/servlet">
+                <input type="hidden" name="command" value="logout">
+                <input class="btn" style="background: red" type="submit" value="Logout">
+            </form>
             <input class="btn" type="button" value="Profile" onclick="showUserCredentials()">
             <input class="btn" type="button" value="Submissions" onclick="showSubmissions()">
             <h1 id="header" class="header">Your Submissions</h1>
@@ -39,7 +42,7 @@
             <p>You have no Submissions</p>
         </div>
 
-        <form id="create-submission" style="display: none" method="get" action="${pageContext.request.contextPath}/servlet">
+        <div id="create-submission" style="display: none" method="get" action="${pageContext.request.contextPath}/servlet">
 
             <form id="select-faculty" method="get" action="${pageContext.request.contextPath}/servlet">
                 <c:set var = "faculties" scope="session" value="${sessionScope.faculties}"/>
@@ -67,8 +70,8 @@
 
             <input class="btn" type="button" value="Submit">
 
-        </form>
-    </form>
+        </div>
+    </div>
 
 
 

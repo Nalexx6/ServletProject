@@ -1,12 +1,13 @@
 package com.example.ServletProject.controller;
 
 import com.example.ServletProject.controller.command.*;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletConfig;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -22,13 +23,14 @@ public class Servlet extends HttpServlet {
 
     public void init(){
 
-//        servletConfig.getServletContext()
-//                .setAttribute("loggedUsers", new HashSet<String>());
+        this.getServletContext().setAttribute("loggedUsers", new HashSet<String>());
 
         commands.put("login",
                 new LoginCommand());
         commands.put("signUp",
                 new SignUpCommand());
+        commands.put("logout",
+                new LogoutCommand());
         commands.put("createFaculty",
                 new CreateFacultyCommand());
         commands.put("deleteFaculty",
@@ -39,7 +41,7 @@ public class Servlet extends HttpServlet {
                 new BlockUserCommand());
         commands.put("unblockUser",
                 new UnblockUserCommand());
-//        commands.put("exception" , new ExceptionCommand());
+
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
