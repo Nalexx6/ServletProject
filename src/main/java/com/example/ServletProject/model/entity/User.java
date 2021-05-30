@@ -10,17 +10,14 @@ public class User extends com.example.ServletProject.model.entity.Entity {
 
     private String firstName;
     private String lastName;
-
     private String role;
     private String email;
-
     private String city;
     private String region;
     private String institution;
 
-    private Map<String, Integer> grades;
-    private List<Faculty> submissions;
-    private double secEducationAvg;
+    private List<Submission> submissions;
+
 
     public String getLogin() {
         return login;
@@ -94,11 +91,11 @@ public class User extends com.example.ServletProject.model.entity.Entity {
         this.institution = institution;
     }
 
-    public List<Faculty> getSubmissions() {
+    public List<Submission> getSubmissions() {
         return submissions;
     }
 
-    public void setSubmissions(List<Faculty> submissions) {
+    public void setSubmissions(List<Submission> submissions) {
         this.submissions = submissions;
     }
 

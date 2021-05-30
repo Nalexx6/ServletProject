@@ -27,9 +27,11 @@ public final class Fields {
     public static final String FACULTY__SUB1_ID = "subject1_id";
     public static final String FACULTY__SUB2_ID = "subject2_id";
     public static final String FACULTY__SUB3_ID= "subject3_id";
-    public static final String FACULTY__WEIGHT1 = "weight1";
-    public static final String FACULTY__WEIGHT2 = "weight2";
-    public static final String FACULTY__WEIGHT3 = "weight3";
+
+    //Submission fields
+    public static final String SUBMISSION__GRADE1 = "grade1";
+    public static final String SUBMISSION__GRADE2 = "grade2";
+    public static final String SUBMISSION__GRADE3 = "grade3";
 
 
     // beans

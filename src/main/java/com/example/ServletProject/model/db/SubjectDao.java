@@ -20,7 +20,7 @@ public class SubjectDao implements DaoFactory<Subject>{
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL.SQL__FIND_SUB_BY_ID);
+            pstmt = con.prepareStatement(SQL.SQL__FIND_SUBJECT_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             if (rs.next())
@@ -47,7 +47,7 @@ public class SubjectDao implements DaoFactory<Subject>{
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL.SQL__FIND_SUB_BY_NAME);
+            pstmt = con.prepareStatement(SQL.SQL__FIND_SUBJECT_BY_NAME);
             pstmt.setString(1, name);
             rs = pstmt.executeQuery();
             if (rs.next())

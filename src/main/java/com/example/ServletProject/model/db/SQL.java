@@ -48,17 +48,35 @@ public final class SQL {
 
     //////////////////////////////////////////////////////////
     //Subject queries
-    public static final String SQL__FIND_ALL_SUB =
+    public static final String SQL__FIND_ALL_SUBJECTS =
             "SELECT * FROM subjects";
 
-    public static final String SQL__FIND_SUB_BY_ID =
+    public static final String SQL__FIND_SUBJECT_BY_ID =
             "SELECT * FROM subjects WHERE id=?";
 
-    public static final String SQL__FIND_SUB_BY_NAME =
+    public static final String SQL__FIND_SUBJECT_BY_NAME =
             "SELECT * FROM subjects WHERE name=?";
 
-    public static final String SQL__INSERT_SUB =
+    public static final String SQL__INSERT_SUBJECT =
             "INSERT INTO subjects (name)" +
                     "VALUES (?)";
+
+    ////////////////////////////////////////////////////////
+    //Submission queries
+    public static final String SQL__FIND_ALL_SUBMISSIONS =
+            "SELECT * FROM submissions";
+
+    public static final String SQL__FIND_SUBMISSION_BY_ID =
+            "SELECT * FROM submissions WHERE id=?";
+
+    public static final String SQL__INSERT_SUBMISSION =
+            "INSERT INTO submissions (faculty_id, user_id, grade1, grade2, grade3, sec_education_avg, checked)" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    public static final String SQL__UPDATE_SUBMISSION =
+            "UPDATE submissions SET checked = ?" +
+                    "WHERE id=?";
+
+
 
 }
