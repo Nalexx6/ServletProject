@@ -41,6 +41,9 @@ public class Servlet extends HttpServlet {
                 new BlockUserCommand());
         commands.put("unblockUser",
                 new UnblockUserCommand());
+        commands.put("createSubmission",
+                new CreateSubmissionCommand());
+
 
     }
 
