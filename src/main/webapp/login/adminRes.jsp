@@ -298,7 +298,7 @@
 
     function blockUser(value){
 
-        if(document.getElementById('user-status-' + value).value === 'BLOCK') {
+        if(document.getElementById('user-status-' + value).value === 'Block') {
             document.getElementById('op-confirm').style.display = 'block';
             document.getElementById('users').style.display = 'none';
             document.getElementById('op-index').value = value;
