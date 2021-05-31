@@ -1,14 +1,10 @@
 package com.example.ServletProject.controller.command;
 
-import com.example.ServletProject.model.db.FacultyDao;
-import com.example.ServletProject.model.db.SubjectDao;
+import com.example.ServletProject.model.dao.impl.JDBCFacultyDao;
 import com.example.ServletProject.model.entity.Faculty;
-import com.example.ServletProject.model.entity.Fields;
-import com.example.ServletProject.model.entity.Subject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DeleteFacultyCommand implements Command {
@@ -22,7 +18,7 @@ public class DeleteFacultyCommand implements Command {
     public String execute(HttpServletRequest request) {
         int index = Integer.parseInt(request.getParameter("opIndex"));
 
-        FacultyDao fDao = new FacultyDao();
+        JDBCFacultyDao fDao = new JDBCFacultyDao();
         List<Faculty> faculties = fDao.findAll();
         Faculty faculty = faculties.get(index);
         fDao.delete(faculty.getId());

@@ -65,11 +65,10 @@ public class Servlet extends HttpServlet {
 
         System.out.println(command.getClass().getName());
         String page = command.execute(request);
-        //request.getRequestDispatcher(page).forward(request,response);
+
         System.out.println(page);
-        if(page == null){
-            //todo: create response in userLogin page
-        }else if(page.contains("redirect:")){
+
+        if(page.contains("redirect:")){
             response.sendRedirect(page.replace("redirect:", request.getContextPath()));
         }else {
             request.getRequestDispatcher(page).forward(request, response);

@@ -1,9 +1,9 @@
 package com.example.ServletProject.controller.command;
 
-import com.example.ServletProject.model.db.DaoFactory;
-import com.example.ServletProject.model.db.FacultyDao;
-import com.example.ServletProject.model.db.SubmissionDao;
-import com.example.ServletProject.model.db.UserDao;
+import com.example.ServletProject.model.dao.GenericDao;
+import com.example.ServletProject.model.dao.impl.JDBCFacultyDao;
+import com.example.ServletProject.model.dao.impl.JDBCSubmissionDao;
+import com.example.ServletProject.model.dao.impl.JDBCUserDao;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Submission;
@@ -54,11 +54,11 @@ public class LoginCommand implements Command{
         //System.out.println("Yes!");
         //todo: check user is already logged
 
-        UserDao uDao = new UserDao();
+        JDBCUserDao uDao = new JDBCUserDao();
         User user = uDao.findUserByLogin(login);
 
-        SubmissionDao sDao = new SubmissionDao();
-        DaoFactory<Faculty> fDao = new FacultyDao();
+        JDBCSubmissionDao sDao = new JDBCSubmissionDao();
+        GenericDao<Faculty> fDao = new JDBCFacultyDao();
 
         if(validateUserData(user, request)){
             System.out.println("User validated");
@@ -66,6 +66,7 @@ public class LoginCommand implements Command{
                 setUserRole(request, user, fDao.findAll(), uDao.findAll(), sDao.findAll());
                 return /*redirect:*/"/login/adminRes.jsp";
             } else if ((user.getRole().equals("BLOCKED")) ){
+                request.getSession().setAttribute("message", "This profile is BLOCKED, please contact support team");
                 return "redirect:/login/userLogin.jsp";
             } else {
                 user.setSubmissions(sDao.findAllForUser(user));
@@ -73,6 +74,7 @@ public class LoginCommand implements Command{
                 return /*redirect:*/"/login/userRes.jsp";
             }
         } else {
+            request.getSession().setAttribute("message", "Please enter valid login and password!");
             return "redirect:/login/userLogin.jsp";
         }
     }

@@ -1,8 +1,12 @@
-package com.example.ServletProject.model.db;
+package com.example.ServletProject.model.dao.impl;
 
+import com.example.ServletProject.model.dao.DBManager;
+import com.example.ServletProject.model.dao.GenericDao;
+import com.example.ServletProject.model.dao.SQL;
+import com.example.ServletProject.model.dao.SubjectDao;
+import com.example.ServletProject.model.dao.mapper.SubjectMapper;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Subject;
-import com.example.ServletProject.model.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SubjectDao implements DaoFactory<Subject>{
+public class JDBCSubjectDao implements SubjectDao {
 
     @Override
     public Subject findById(Long id) {
@@ -23,8 +27,9 @@ public class SubjectDao implements DaoFactory<Subject>{
             pstmt = con.prepareStatement(SQL.SQL__FIND_SUBJECT_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
+            SubjectMapper mapper = new SubjectMapper();
             if (rs.next())
-                subject = mapObject(rs);
+                subject = mapper.mapObject(rs);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
@@ -40,6 +45,7 @@ public class SubjectDao implements DaoFactory<Subject>{
         return subject;
     }
 
+    @Override
     public Subject findByName(String name){
         Subject subject = null;
         PreparedStatement pstmt = null;
@@ -50,8 +56,9 @@ public class SubjectDao implements DaoFactory<Subject>{
             pstmt = con.prepareStatement(SQL.SQL__FIND_SUBJECT_BY_NAME);
             pstmt.setString(1, name);
             rs = pstmt.executeQuery();
+            SubjectMapper mapper = new SubjectMapper();
             if (rs.next())
-                subject = mapObject(rs);
+                subject = mapper.mapObject(rs);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
@@ -87,17 +94,9 @@ public class SubjectDao implements DaoFactory<Subject>{
 
     }
 
-    @Override
-    public Subject mapObject(ResultSet rs){
-        try {
-            Subject subject = new Subject();
-            subject.setId(rs.getLong(Fields.ENTITY__ID));
-            subject.setName(rs.getString(Fields.SUBJECT__NAME));
 
-            return subject;
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
-        }
+    @Override
+    public void close() throws Exception {
 
     }
 }

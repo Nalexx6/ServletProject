@@ -1,7 +1,7 @@
 package com.example.ServletProject.controller.command;
 
-import com.example.ServletProject.model.db.FacultyDao;
-import com.example.ServletProject.model.db.SubjectDao;
+import com.example.ServletProject.model.dao.impl.JDBCFacultyDao;
+import com.example.ServletProject.model.dao.impl.JDBCSubjectDao;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Subject;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class CreateFacultyCommand implements Command{
 
@@ -23,7 +22,7 @@ public class CreateFacultyCommand implements Command{
     public String execute(HttpServletRequest request) {
         Faculty faculty = mapFaculty(request);
 
-        FacultyDao fDao = new FacultyDao();
+        JDBCFacultyDao fDao = new JDBCFacultyDao();
         if(!validateFaculty(faculty) || fDao.findByName(faculty.getName()) != null){
             System.out.println("faculty invalid or already exists");
             return "/login/adminRes.jsp";
@@ -43,7 +42,7 @@ public class CreateFacultyCommand implements Command{
         faculty.setStateFundedAmount(Integer.parseInt(request.getParameter(Fields.FACULTY__STATE_FUNDED_AMOUNT)));
 
         List<Subject> list = new ArrayList<>();
-        SubjectDao sDao = new SubjectDao();
+        JDBCSubjectDao sDao = new JDBCSubjectDao();
         list.add(sDao.findByName(request.getParameter(Fields.FACULTY__SUB1_ID)));
 
         list.add(sDao.findByName(request.getParameter(Fields.FACULTY__SUB2_ID)));

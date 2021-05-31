@@ -1,14 +1,16 @@
-package com.example.ServletProject.model.db;
+package com.example.ServletProject.model.dao.impl;
 
+import com.example.ServletProject.model.dao.DBManager;
+import com.example.ServletProject.model.dao.FacultyDao;
+import com.example.ServletProject.model.dao.SQL;
+import com.example.ServletProject.model.dao.mapper.FacultyMapper;
 import com.example.ServletProject.model.entity.Faculty;
-import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Subject;
-import com.example.ServletProject.model.entity.User;
 
 import java.sql.*;
 import java.util.*;
 
-public class FacultyDao implements DaoFactory<Faculty> {
+public class JDBCFacultyDao implements FacultyDao {
 
 
     @Override
@@ -22,8 +24,9 @@ public class FacultyDao implements DaoFactory<Faculty> {
             pstmt = con.prepareStatement(SQL.SQL__FIND_FAC_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
+            FacultyMapper mapper = new FacultyMapper();
             if (rs.next())
-                faculty = mapObject(rs);
+                faculty = mapper.mapObject(rs);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
@@ -57,8 +60,9 @@ public class FacultyDao implements DaoFactory<Faculty> {
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL.SQL__FIND_ALL_FAC);
 
+            FacultyMapper mapper = new FacultyMapper();
             while (rs.next()) {
-                res.add(mapObject(rs));
+                res.add(mapper.mapObject(rs));
             }
             System.out.println(res.size());
         } catch (SQLException ex) {
@@ -175,28 +179,7 @@ public class FacultyDao implements DaoFactory<Faculty> {
     }
 
     @Override
-    public Faculty mapObject(ResultSet rs) {
-        try {
-            Faculty faculty = new Faculty();
+    public void close() throws Exception {
 
-            faculty.setId(rs.getLong(Fields.ENTITY__ID));
-            faculty.setName(rs.getString(Fields.FACULTY__NAME));
-            faculty.setStudentsAmount(rs.getInt(Fields.FACULTY__STUDENT_AMOUNT));
-            faculty.setStateFundedAmount(rs.getInt(Fields.FACULTY__STATE_FUNDED_AMOUNT));
-
-            List<Subject> list = new ArrayList<>();
-            SubjectDao sDao = new SubjectDao();
-            list.add(sDao.findById(rs.getLong(Fields.FACULTY__SUB1_ID)));
-            list.add(sDao.findById(rs.getLong(Fields.FACULTY__SUB2_ID)));
-            list.add(sDao.findById(rs.getLong(Fields.FACULTY__SUB3_ID)));
-            faculty.setSubjects(list);
-            return faculty;
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        return null;
     }
-
-
 }

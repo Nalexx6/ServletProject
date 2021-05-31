@@ -1,6 +1,6 @@
 package com.example.ServletProject.controller.command;
 
-import com.example.ServletProject.model.db.UserDao;
+import com.example.ServletProject.model.dao.impl.JDBCUserDao;
 import com.example.ServletProject.model.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ public class UnblockUserCommand implements Command{
     public String execute(HttpServletRequest request) {
         int index = Integer.parseInt(request.getParameter("opIndex"));
 
-        UserDao sDao = new UserDao();
+        JDBCUserDao sDao = new JDBCUserDao();
         List<User> users = sDao.findAll();
         User user = users.get(index);
         user.setRole("USER");

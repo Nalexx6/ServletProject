@@ -1,17 +1,18 @@
-package com.example.ServletProject.model.db;
+package com.example.ServletProject.model.dao.impl;
 
-import com.example.ServletProject.model.entity.Fields;
+import com.example.ServletProject.model.dao.DBManager;
+import com.example.ServletProject.model.dao.GenericDao;
+import com.example.ServletProject.model.dao.SQL;
+import com.example.ServletProject.model.dao.UserDao;
+import com.example.ServletProject.model.dao.mapper.UserMapper;
 import com.example.ServletProject.model.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//import org.apache.log4j.Logger;
 
-
-public class UserDao implements DaoFactory<User> {
-//    private static final Logger log = Logger.getLogger(Servlet.class);
+public class JDBCUserDao implements UserDao {
 
     @Override
     public User findById(Long id){
@@ -24,8 +25,9 @@ public class UserDao implements DaoFactory<User> {
             pstmt = con.prepareStatement(SQL.SQL__FIND_USER_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
+            UserMapper mapper = new UserMapper();
             if (rs.next())
-                user = mapObject(rs);
+                user = mapper.mapObject(rs);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
@@ -55,8 +57,9 @@ public class UserDao implements DaoFactory<User> {
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL.SQL__FIND_ALL_USERS);
 
+            UserMapper mapper = new UserMapper();
             while (rs.next()) {
-                res.add(mapObject(rs));
+                res.add(mapper.mapObject(rs));
             }
         } catch (SQLException ex) {
             if(con != null){
@@ -82,8 +85,9 @@ public class UserDao implements DaoFactory<User> {
             pstmt = con.prepareStatement(SQL.SQL__FIND_USER_BY_LOGIN);
             pstmt.setString(1, login);
             rs = pstmt.executeQuery();
+            UserMapper mapper = new UserMapper();
             if (rs.next()) {
-                user = mapObject(rs);
+                user = mapper.mapObject(rs);
             }
             rs.close();
             pstmt.close();
@@ -179,24 +183,7 @@ public class UserDao implements DaoFactory<User> {
     }
 
     @Override
-    public User mapObject(ResultSet rs) {
-        try {
-            User user = new User();
-            user.setId(rs.getLong(Fields.ENTITY__ID));
-            user.setLogin(rs.getString(Fields.USER__LOGIN));
-            user.setPassword(rs.getString(Fields.USER__PASSWORD));
-            user.setFirstName(rs.getString(Fields.USER__FIRST_NAME));
-            user.setLastName(rs.getString(Fields.USER__LAST_NAME));
-            user.setEmail(rs.getString(Fields.USER__EMAIL));
-            user.setRole(rs.getString(Fields.USER__ROLE_ID));
-            user.setCity(rs.getString(Fields.USER__CITY));
-            user.setRegion(rs.getString(Fields.USER__REGION));
-            user.setInstitution(rs.getString(Fields.USER__INSTITUTION));
+    public void close() throws Exception {
 
-            return user;
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
-        }
     }
-
 }

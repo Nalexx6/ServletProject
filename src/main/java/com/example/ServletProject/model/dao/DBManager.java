@@ -1,4 +1,4 @@
-package com.example.ServletProject.model.db;
+package com.example.ServletProject.model.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -10,6 +10,7 @@ public class Faculty extends Entity{
     private int stateFundedAmount;
 
     private List<Subject> subjects;
+    private List<Submission> submissions;
 
     public Faculty(String name, int stateFundedAmount, int studentsAmount){
         this.name = name;
@@ -53,6 +54,14 @@ public class Faculty extends Entity{
         this.subjects = subjects;
     }
 
+    public List<Submission> getSubmissions() {
+        return submissions;
+    }
+
+    public void setSubmissions(List<Submission> submissions) {
+        this.submissions = submissions;
+    }
+
     @Override
     public boolean equals(Object o){
         if(o == this){
@@ -70,4 +79,5 @@ public class Faculty extends Entity{
                 subjects.get(0).equals(faculty.subjects.get(1)) &&
                 subjects.get(0).equals(faculty.subjects.get(2));
     }
+
 }

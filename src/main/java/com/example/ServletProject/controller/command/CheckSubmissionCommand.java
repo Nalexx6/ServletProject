@@ -1,8 +1,7 @@
 package com.example.ServletProject.controller.command;
 
-import com.example.ServletProject.model.db.SubmissionDao;
+import com.example.ServletProject.model.dao.impl.JDBCSubmissionDao;
 import com.example.ServletProject.model.entity.Submission;
-import com.example.ServletProject.model.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,7 +17,7 @@ public class CheckSubmissionCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
 
-        SubmissionDao sDao = new SubmissionDao();
+        JDBCSubmissionDao sDao = new JDBCSubmissionDao();
         Submission submission = sDao.findAll().get(Integer.parseInt(request.getParameter("opIndex")));
         submission.setChecked(true);
         sDao.update(submission);

@@ -1,4 +1,4 @@
-package com.example.ServletProject.model.db;
+package com.example.ServletProject.model.dao;
 
 public final class SQL {
 

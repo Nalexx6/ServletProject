@@ -1,13 +1,9 @@
 package com.example.ServletProject.controller.command;
 
-import com.example.ServletProject.model.db.FacultyDao;
-import com.example.ServletProject.model.db.SubjectDao;
+import com.example.ServletProject.model.dao.impl.JDBCFacultyDao;
 import com.example.ServletProject.model.entity.Faculty;
-import com.example.ServletProject.model.entity.Fields;
-import com.example.ServletProject.model.entity.Subject;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditFacultyCommand  implements Command{
@@ -16,7 +12,7 @@ public class EditFacultyCommand  implements Command{
         Faculty editedFaculty = CreateFacultyCommand.mapFaculty(request);
 
         int index = Integer.parseInt(request.getParameter("editedFacIndex"));
-        FacultyDao fDao = new FacultyDao();
+        JDBCFacultyDao fDao = new JDBCFacultyDao();
         List<Faculty> faculties = fDao.findAll();
         Faculty faculty = faculties.get(index);
         editedFaculty.setId(faculty.getId());

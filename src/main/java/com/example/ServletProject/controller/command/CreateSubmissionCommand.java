@@ -1,7 +1,7 @@
 package com.example.ServletProject.controller.command;
 
-import com.example.ServletProject.model.db.FacultyDao;
-import com.example.ServletProject.model.db.SubmissionDao;
+import com.example.ServletProject.model.dao.impl.JDBCFacultyDao;
+import com.example.ServletProject.model.dao.impl.JDBCSubmissionDao;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Submission;
@@ -23,7 +23,7 @@ public class CreateSubmissionCommand implements Command{
     public String execute(HttpServletRequest request) {
         Submission submission = mapSubmission(request);
 
-        SubmissionDao sDao = new SubmissionDao();
+        JDBCSubmissionDao sDao = new JDBCSubmissionDao();
         sDao.insert(submission);
 
         User user = (User) request.getSession().getAttribute("user");
@@ -41,7 +41,7 @@ public class CreateSubmissionCommand implements Command{
 
     private Submission mapSubmission(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");
-        FacultyDao fDao = new FacultyDao();
+        JDBCFacultyDao fDao = new JDBCFacultyDao();
         List<Faculty> faculties = fDao.findAll();
         Faculty faculty = faculties.get(Integer.parseInt(request.getParameter("facultyIndex")));
 

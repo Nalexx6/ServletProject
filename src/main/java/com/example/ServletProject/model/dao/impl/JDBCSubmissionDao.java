@@ -1,7 +1,11 @@
-package com.example.ServletProject.model.db;
+package com.example.ServletProject.model.dao.impl;
 
+import com.example.ServletProject.model.dao.DBManager;
+import com.example.ServletProject.model.dao.GenericDao;
+import com.example.ServletProject.model.dao.SQL;
+import com.example.ServletProject.model.dao.SubmissionDao;
+import com.example.ServletProject.model.dao.mapper.SubmissionMapper;
 import com.example.ServletProject.model.entity.Faculty;
-import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Submission;
 import com.example.ServletProject.model.entity.User;
 
@@ -9,7 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubmissionDao implements DaoFactory<Submission> {
+public class JDBCSubmissionDao implements SubmissionDao {
     @Override
     public Submission findById(Long id) {
         return null;
@@ -27,8 +31,9 @@ public class SubmissionDao implements DaoFactory<Submission> {
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL.SQL__FIND_ALL_SUBMISSIONS);
 
+            SubmissionMapper mapper = new SubmissionMapper();
             while (rs.next()) {
-                res.add(mapObject(rs));
+                res.add(mapper.mapObject(rs));
             }
             System.out.println(res.size());
         } catch (SQLException ex) {
@@ -45,6 +50,7 @@ public class SubmissionDao implements DaoFactory<Submission> {
         return res;
     }
 
+    @Override
     public List<Submission> findAllForUser(User user){
         List<Submission> res = new ArrayList<>();
 
@@ -58,8 +64,9 @@ public class SubmissionDao implements DaoFactory<Submission> {
             pstmt.setLong(1, user.getId());
             rs = pstmt.executeQuery();
 
+            SubmissionMapper mapper = new SubmissionMapper();
             while (rs.next()) {
-                res.add(mapObject(rs));
+                res.add(mapper.mapObject(rs));
             }
             System.out.println(res.size());
         } catch (SQLException ex) {
@@ -76,6 +83,7 @@ public class SubmissionDao implements DaoFactory<Submission> {
         return res;
     }
 
+    @Override
     public List<Submission> findAllForFaculty(Faculty faculty){
         List<Submission> res = new ArrayList<>();
 
@@ -89,37 +97,9 @@ public class SubmissionDao implements DaoFactory<Submission> {
             pstmt.setLong(1, faculty.getId());
             rs = pstmt.executeQuery();
 
+            SubmissionMapper mapper = new SubmissionMapper();
             while (rs.next()) {
-                res.add(mapObject(rs));
-            }
-            System.out.println(res.size());
-        } catch (SQLException ex) {
-            if(con != null){
-                DBManager.getInstance().rollbackAndClose(con);
-            }
-            ex.printStackTrace();
-        } finally {
-            if(con != null){
-                DBManager.getInstance().commitAndClose(con);
-            }
-        }
-
-        return res;
-    }
-
-    public List<Submission> findAllUnchecked(){
-        List<Submission> res = new ArrayList<>();
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection con = null;
-
-        try {
-            con = DBManager.getInstance().getConnection();
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL.SQL__FIND_SUBMISSIONS_UNCHECKED);
-
-            while (rs.next()) {
-                res.add(mapObject(rs));
+                res.add(mapper.mapObject(rs));
             }
             System.out.println(res.size());
         } catch (SQLException ex) {
@@ -209,29 +189,7 @@ public class SubmissionDao implements DaoFactory<Submission> {
     }
 
     @Override
-    public Submission mapObject(ResultSet rs) {
-        Submission submission = new Submission();
-        try {
-            submission.setId(rs.getLong(Fields.ENTITY__ID));
-            UserDao uDao = new UserDao();
-            submission.setUser(uDao.findById(rs.getLong(Fields.SUBMISSION__USER_ID)));
-            FacultyDao fDao = new FacultyDao();
-            submission.setFaculty(fDao.findById(rs.getLong(Fields.SUBMISSION__FACULTY_ID)));
+    public void close() throws Exception {
 
-            List<Integer> grades = new ArrayList<>();
-            grades.add(rs.getInt(Fields.SUBMISSION__GRADE1));
-            grades.add(rs.getInt(Fields.SUBMISSION__GRADE2));
-            grades.add(rs.getInt(Fields.SUBMISSION__GRADE3));
-            submission.setGrades(grades);
-
-            submission.setSecEducAvg(rs.getDouble(Fields.SUBMISSION__SEC_EDUC_AVG));
-            submission.setChecked(rs.getBoolean(Fields.SUBMISSION__CHECKED));
-            return submission;
-
-        } catch (SQLException e){
-            e.printStackTrace();;
-        }
-
-        return null;
     }
 }

@@ -1,9 +1,5 @@
 package com.example.ServletProject.model.entity;
 
-import com.example.ServletProject.model.db.DaoFactory;
-
-import java.util.List;
-
 public class Subject {
 
     private long id;
