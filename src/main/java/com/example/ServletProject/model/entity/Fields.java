@@ -29,9 +29,14 @@ public final class Fields {
     public static final String FACULTY__SUB3_ID= "subject3_id";
 
     //Submission fields
+    public static final String SUBMISSION__USER_ID = "user_id";
+    public static final String SUBMISSION__FACULTY_ID = "faculty_id";
     public static final String SUBMISSION__GRADE1 = "grade1";
     public static final String SUBMISSION__GRADE2 = "grade2";
     public static final String SUBMISSION__GRADE3 = "grade3";
+    public static final String SUBMISSION__SEC_EDUC_AVG = "sec_education_avg";
+    public static final String SUBMISSION__CHECKED = "checked";
+
 
 
     // beans

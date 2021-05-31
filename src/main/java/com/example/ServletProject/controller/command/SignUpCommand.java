@@ -1,6 +1,7 @@
 package com.example.ServletProject.controller.command;
 
 import com.example.ServletProject.model.db.FacultyDao;
+import com.example.ServletProject.model.db.SubmissionDao;
 import com.example.ServletProject.model.db.UserDao;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
@@ -36,7 +37,6 @@ public class SignUpCommand implements Command{
 
         dao.insert(user);
         FacultyDao fDao = new FacultyDao();
-
         setUserRole(request, user, fDao.findAll());
         if(user.getRole().equals("ADMIN")) {
             return /*redirect:*/"/login/adminRes.jsp";

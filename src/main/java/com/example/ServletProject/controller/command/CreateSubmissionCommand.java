@@ -14,10 +14,9 @@ import java.util.List;
 
 public class CreateSubmissionCommand implements Command{
 
-    static public void setSubmissions(HttpServletRequest request, User user, List<Submission> submissions){
+    static public void setSubmissions(HttpServletRequest request, User user){
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        session.setAttribute("submissions", submissions);
     }
 
     @Override
@@ -35,7 +34,7 @@ public class CreateSubmissionCommand implements Command{
         }
         submissions.add(submission);
         user.setSubmissions(submissions);
-        setSubmissions(request, user, submissions);
+        setSubmissions(request, user);
 
         return "/login/userRes.jsp";
     }
@@ -56,7 +55,7 @@ public class CreateSubmissionCommand implements Command{
         grades.add(Integer.parseInt(request.getParameter(Fields.SUBMISSION__GRADE3)));
 
         submission.setGrades(grades);
-        submission.setSecEducAvg(Double.parseDouble(request.getParameter("facultyIndex")));
+        submission.setSecEducAvg(Double.parseDouble(request.getParameter("sec-avg")));
         submission.setChecked(false);
 
         return submission;

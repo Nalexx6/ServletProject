@@ -24,7 +24,10 @@
         <input class="btn" type="button" value="Profile" onclick="showUserCredentials()">
         <input class="btn" type="button" value="Faculties" onclick="showFaculties()">
         <input class="btn" type="button" value="Users" onclick="showUsers()">
+        <input class="btn" type="button" value="Checked Submissions" onclick="showCheckedSubmissions()">
+        <input class="btn" type="button" value="Unchecked Submissions" onclick="showUncheckedSubmissions()">
         <input class="btn" type="button" value="Create new faculty" onclick="createFaculty()">
+
         <h1 id="header" class="header">Faculties List</h1>
     </div>
 
@@ -67,6 +70,42 @@
             <br>
         </c:forEach>
     </div>
+    
+    <div class="form-control" id="unchecked-submissions" style="display: none">
+            <input type="hidden" name="command" value="checkSubmission"/>
+            <input type="hidden" id="sub-index" name="subIndex" value="0"/>
+            <c:set var = "submissions" scope="session" value="${sessionScope.submissions}"/>
+            <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
+                <c:if test="${!submissions.get(s).checked}">
+                    <span id="submission-${s}">${submissions.get(s).user.firstName}</span>
+                    <span id="submission-${s}">${submissions.get(s).user.lastName}</span>
+                    <span id="submission-${s}">${submissions.get(s).faculty.name}</span>
+                    
+                    <input class="btn" type="button" style="background: blue" value="Check"
+                           onclick="confirmSubmissionCheck(${s})"/>
+                    <br>
+                </c:if>
+            </c:forEach>
+<%--        </form>--%>
+    </div>
+
+    <div class="form-control" id="submissions" style="display: none">
+        <form method="post" action="${pageContext.request.contextPath}/servlet">
+            <input type="hidden" name="command" value="checkSubmission"/>
+            <input type="hidden" id="sub-index" name="subIndex" value="0"/>
+            <c:set var = "submissions" scope="session" value="${sessionScope.submissions}"/>
+            <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
+            <c:if test="${submissions.get(s).checked}">
+            <span id="submission-${s}">${submissions.get(s).user.firstName}</span>
+            <span id="submission-${s}">${submissions.get(s).user.lastName}</span>
+            <span id="submission-${s}">${submissions.get(s).faculty.name}</span>
+
+            <input class="btn" type="button" style="background: green" value="Checked"/>
+            <br>
+            </c:if>
+            </c:forEach>
+            <%--        </form>--%>
+    </div>
 
     <div class="form-control" id="create-faculty" style="display: none">
 
@@ -101,7 +140,7 @@
 
     </div>
 
-    <div class="container message-box" id="delete-confirm" style="display: none; z-index: 999;">
+    <div class="container message-box" id="op-confirm" style="display: none; z-index: 999;">
         <form method="post" action="${pageContext.request.contextPath}/servlet">
             <input type="hidden" id="op-command" name="command" value="deleteFaculty">
             <input type="hidden" id="op-index" name="opIndex" value="">
@@ -124,7 +163,9 @@
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'none';
-        document.getElementById('delete-confirm').style.display = 'none';
+        document.getElementById('unchecked-submissions').style.display = 'none';
+        document.getElementById('submissions').style.display = 'none';
+        document.getElementById('op-confirm').style.display = 'none';
         document.getElementById('header').innerHTML = 'Your Profile';
 
         clearFields();
@@ -135,7 +176,9 @@
         document.getElementById('faculties').style.display = 'block';
         document.getElementById('users').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'none';
-        document.getElementById('delete-confirm').style.display = 'none';
+        document.getElementById('unchecked-submissions').style.display = 'none';
+        document.getElementById('submissions').style.display = 'none';
+        document.getElementById('op-confirm').style.display = 'none';
         document.getElementById('header').innerHTML = 'Faculties List';
 
         clearFields();
@@ -146,8 +189,36 @@
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'block';
         document.getElementById('create-faculty').style.display = 'none';
-        document.getElementById('delete-confirm').style.display = 'none';
+        document.getElementById('unchecked-submissions').style.display = 'none';
+        document.getElementById('submissions').style.display = 'none';
+        document.getElementById('op-confirm').style.display = 'none';
         document.getElementById('header').innerHTML = 'Users List';
+
+        clearFields();
+    }
+
+    function showCheckedSubmissions(){
+        document.getElementById('pers-inf').style.display = 'none';
+        document.getElementById('faculties').style.display = 'none';
+        document.getElementById('users').style.display = 'none';
+        document.getElementById('create-faculty').style.display = 'none';
+        document.getElementById('unchecked-submissions').style.display = 'none';
+        document.getElementById('submissions').style.display = 'block';
+        document.getElementById('op-confirm').style.display = 'none';
+        document.getElementById('header').innerHTML = 'Users List';
+
+        clearFields();
+    }
+
+    function showUncheckedSubmissions(){
+        document.getElementById('pers-inf').style.display = 'none';
+        document.getElementById('faculties').style.display = 'none';
+        document.getElementById('users').style.display = 'none';
+        document.getElementById('create-faculty').style.display = 'none';
+        document.getElementById('unchecked-submissions').style.display = 'block';
+        document.getElementById('submissions').style.display = 'none';
+        document.getElementById('op-confirm').style.display = 'none';
+        document.getElementById('header').innerHTML = 'Unchecked Submissions';
 
         clearFields();
     }
@@ -157,7 +228,9 @@
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'block';
-        document.getElementById('delete-confirm').style.display = 'none';
+        document.getElementById('unchecked-submissions').style.display = 'none';
+        document.getElementById('submissions').style.display = 'none';
+        document.getElementById('op-confirm').style.display = 'none';
         document.getElementById('header').innerHTML = 'Create Faculty';
         document.getElementById('fac-command').value = 'createFaculty';
 
@@ -165,7 +238,7 @@
     }
 
     function deleteConfirm(value){
-        document.getElementById('delete-confirm').style.display = 'block';
+        document.getElementById('op-confirm').style.display = 'block';
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('op-index').value = value;
         document.getElementById('op-command').value = 'deleteFaculty';
@@ -174,7 +247,7 @@
     }
 
     function deleteCancel(){
-        document.getElementById('delete-confirm').style.display = 'none';
+        document.getElementById('op-confirm').style.display = 'none';
         document.getElementById('faculties').style.display = 'block';
     }
 
@@ -218,32 +291,22 @@
         document.getElementById('edit-cancel').style.visibility = 'hidden';
     }
 
-    function blockUser(value){
-
-        document.getElementById('delete-confirm').style.display = 'block';
-        document.getElementById('users').style.display = 'none';
-        document.getElementById('op-index').value = value;
-        document.getElementById('message-head').innerHTML = "Are you sure, you want to block this user?";
-        document.getElementById('op-cancel').onclick = blockCancel;
-        document.getElementById('op-command').value = 'blockUser';
-    }
-    
     function blockCancel(){
-        document.getElementById('delete-confirm').style.display = 'none';
+        document.getElementById('op-confirm').style.display = 'none';
         document.getElementById('users').style.display = 'block';
     }
 
     function blockUser(value){
 
         if(document.getElementById('user-status-' + value).value === 'BLOCK') {
-            document.getElementById('delete-confirm').style.display = 'block';
+            document.getElementById('op-confirm').style.display = 'block';
             document.getElementById('users').style.display = 'none';
             document.getElementById('op-index').value = value;
             document.getElementById('message-head').innerHTML = "Are you sure, you want to block this user?";
             document.getElementById('op-cancel').onclick = blockCancel;
             document.getElementById('op-command').value = 'blockUser';
         } else {
-            document.getElementById('delete-confirm').style.display = 'block';
+            document.getElementById('op-confirm').style.display = 'block';
             document.getElementById('users').style.display = 'none';
             document.getElementById('op-index').value = value;
             document.getElementById('message-head').innerHTML = "Are you sure, you want to unblock this user?";
@@ -252,9 +315,18 @@
         }
     }
 
-    function blockCancel(){
-        document.getElementById('delete-confirm').style.display = 'none';
-        document.getElementById('users').style.display = 'block';
+    function confirmSubmissionCheck(value){
+        document.getElementById('op-confirm').style.display = 'block';
+        document.getElementById('unchecked-submissions').style.display = 'none';
+        document.getElementById('op-index').value = value;
+        document.getElementById('message-head').innerHTML = "Are you sure, you want to add this submission to certificate?";
+        document.getElementById('op-cancel').onclick = checkCancel;
+        document.getElementById('op-command').value = 'checkSubmission';
+    }
+
+    function checkCancel(){
+        document.getElementById('op-confirm').style.display = 'none';
+        document.getElementById('unchecked-submissions').style.display = 'block';
     }
 
 </script>

@@ -39,12 +39,13 @@
         </div>
 
         <div id="submissions" style="display: block">
-            <c:set var = "submissions" scope="session" value="${sessionScope.submissions}"/>
+            <c:set var = "submissions" scope="session" value="${sessionScope.user.submissions}"/>
             <c:forEach var="s" items="${submissions}">
                 <span>${s.faculty.name}</span>
                 <c:set var="color" value="${s.checked ? 'blue' : 'red'}"/>
                 <input class="btn" type="button"
-                       style="background: ${color}" value="${s.checked ? "Checked" : "Unchecked"}"
+                       style="background: ${color}" value="${s.checked ? "Checked" : "Unchecked"}"/>
+                <br>
             </c:forEach>
         </div>
 

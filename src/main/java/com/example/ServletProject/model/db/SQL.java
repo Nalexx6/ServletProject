@@ -66,15 +66,24 @@ public final class SQL {
     public static final String SQL__FIND_ALL_SUBMISSIONS =
             "SELECT * FROM submissions";
 
+    public static final String SQL__FIND_SUBMISSIONS_UNCHECKED =
+            "SELECT * FROM submissions WHERE checked=false";
+
     public static final String SQL__FIND_SUBMISSION_BY_ID =
             "SELECT * FROM submissions WHERE id=?";
+
+    public static final String SQL__FIND_ALL_SUBMISSIONS_FOR_USER =
+            "SELECT * FROM submissions WHERE user_id=?";
+
+    public static final String SQL__FIND_ALL_SUBMISSIONS_FOR_FACULTY =
+            "SELECT * FROM submissions WHERE faculty_id=?";
 
     public static final String SQL__INSERT_SUBMISSION =
             "INSERT INTO submissions (faculty_id, user_id, grade1, grade2, grade3, sec_education_avg, checked)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     public static final String SQL__UPDATE_SUBMISSION =
-            "UPDATE submissions SET checked = ?" +
+            "UPDATE submissions SET checked = ? " +
                     "WHERE id=?";
 
 

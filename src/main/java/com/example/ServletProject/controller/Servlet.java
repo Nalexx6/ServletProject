@@ -43,7 +43,8 @@ public class Servlet extends HttpServlet {
                 new UnblockUserCommand());
         commands.put("createSubmission",
                 new CreateSubmissionCommand());
-
+        commands.put("checkSubmission",
+                new CheckSubmissionCommand());
 
     }
 
