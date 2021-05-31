@@ -33,14 +33,13 @@ public class AuthFilter implements Filter {
         if(user == null && login != null ) {
             if (loggedUsers.contains(login)){
                 String message = "User is already logged";
-                servletRequest.setAttribute("error-message", message);
+                servletRequest.setAttribute("message", message);
                 servletRequest.getRequestDispatcher("/error-page.jsp")
                         .forward(servletRequest, servletResponse);
                 System.out.println("user " + req.getParameter("login") + " is  already logged");
             } else{
-                System.out.println("Logging in user");
-                loggedUsers.add(login);
-            }
+
+            } //todo: move this to login/signup Command
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

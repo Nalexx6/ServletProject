@@ -12,6 +12,7 @@ import com.example.ServletProject.model.entity.User;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.List;
 
 public class LoginCommand implements Command{
@@ -22,6 +23,8 @@ public class LoginCommand implements Command{
         ServletContext context = request.getServletContext();
         session.setAttribute("role", user.getRole());
         session.setAttribute("user", user);
+        HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
+        loggedUsers.add(user.getLogin());
         session.setAttribute("faculties", faculties);
         session.setAttribute("users", users);
         session.setAttribute("submissions", submissions);
@@ -31,6 +34,9 @@ public class LoginCommand implements Command{
                                     User user, List<Faculty> faculties) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
+        System.out.println("Logging in user");
+        HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
+        loggedUsers.add(user.getLogin());
         session.setAttribute("role", user.getRole());
         session.setAttribute("user", user);
         session.setAttribute("faculties", faculties);
@@ -57,16 +63,17 @@ public class LoginCommand implements Command{
         if(validateUserData(user, request)){
             System.out.println("User validated");
             if(user.getRole().equals("ADMIN")) {
-
                 setUserRole(request, user, fDao.findAll(), uDao.findAll(), sDao.findAll());
                 return /*redirect:*/"/login/adminRes.jsp";
+            } else if ((user.getRole().equals("BLOCKED")) ){
+                return "redirect:/login/userLogin.jsp";
             } else {
                 user.setSubmissions(sDao.findAllForUser(user));
                 setUserRole(request, user, fDao.findAll());
                 return /*redirect:*/"/login/userRes.jsp";
             }
         } else {
-            return "/login/userLogin.jsp";
+            return "redirect:/login/userLogin.jsp";
         }
     }
 

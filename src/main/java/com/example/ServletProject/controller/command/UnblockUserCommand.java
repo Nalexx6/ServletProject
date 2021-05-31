@@ -27,6 +27,6 @@ public class UnblockUserCommand implements Command{
         sDao.update(user);
         setUsers(request, sDao.findAll());
 
-        return "/login/adminRes.jsp";
+        return "redirect:/login/adminRes.jsp";
     }
 }

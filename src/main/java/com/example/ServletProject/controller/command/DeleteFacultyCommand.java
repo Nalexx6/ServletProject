@@ -28,7 +28,7 @@ public class DeleteFacultyCommand implements Command {
         fDao.delete(faculty.getId());
         setFaculties(request, fDao.findAll());
 
-        return "/login/adminRes.jsp";
+        return "redirect:/login/adminRes.jsp";
     }
 
 

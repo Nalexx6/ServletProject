@@ -24,6 +24,6 @@ public class CheckSubmissionCommand implements Command {
         sDao.update(submission);
 
         setSubmissions(request, sDao.findAll());
-        return "/login/adminRes.jsp";
+        return "redirect:/login/adminRes.jsp";
     }
 }

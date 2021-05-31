@@ -22,13 +22,13 @@ public class EditFacultyCommand  implements Command{
         editedFaculty.setId(faculty.getId());
         if(!validateEdition(editedFaculty, faculty) || fDao.findByName(editedFaculty.getName()) != null){
             System.out.println("Invalid parameters of edition");
-            return "/login/adminRes.jsp";
+            return "redirect:/login/adminRes.jsp";
         }
 
         fDao.update(editedFaculty);
         faculties = fDao.findAll();
         CreateFacultyCommand.setFaculties(request, faculties);
-        return "/login/adminRes.jsp";
+        return "redirect:/login/adminRes.jsp";
     }
 
     private boolean validateEdition(Faculty editedFaculty, Faculty faculty){

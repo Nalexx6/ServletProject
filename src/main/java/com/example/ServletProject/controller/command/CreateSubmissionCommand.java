@@ -36,7 +36,7 @@ public class CreateSubmissionCommand implements Command{
         user.setSubmissions(submissions);
         setSubmissions(request, user);
 
-        return "/login/userRes.jsp";
+        return "redirect:/login/userRes.jsp";
     }
 
     private Submission mapSubmission(HttpServletRequest request){

@@ -32,7 +32,7 @@ public class CreateFacultyCommand implements Command{
         fDao.insert(faculty);
         setFaculties(request, fDao.findAll());
 
-        return "/login/adminRes.jsp";
+        return "redirect:/login/adminRes.jsp";
     }
 
     public static Faculty mapFaculty(HttpServletRequest request) {

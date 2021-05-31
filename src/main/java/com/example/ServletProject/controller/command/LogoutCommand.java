@@ -13,13 +13,11 @@ public class LogoutCommand implements Command{
         HttpSession session = request.getSession(false);
 
         ServletContext context = request.getServletContext();
-        HashSet<User> loggedUsers = (HashSet<User>) context.getAttribute("loggedUsers");
-        loggedUsers.remove((User) session.getAttribute("user"));
+        HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
+        loggedUsers.remove(((User) session.getAttribute("user")).getLogin());
         context.setAttribute("loggedUsers", loggedUsers);
 
-        if(session != null){
-            session.invalidate();
-        }
+        session.invalidate();
 
         return "/index.jsp";
     }
