@@ -15,10 +15,9 @@
 <body>
     <form class="container " method="post" action="${pageContext.request.contextPath}/servlet">
         <input type="hidden" name="command" value="login"/>
-
-
         <div class="form-control">
             <h1 class="header">Log into system</h1>
+            <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
             <label>User</label>
             <input type="text" name="login" placeholder="Enter Login"><br/>
 
