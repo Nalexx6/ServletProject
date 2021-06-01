@@ -73,11 +73,11 @@ public class Faculty extends Entity{
 
         Faculty faculty = (Faculty) o;
         return name.equals(faculty.name) &&
-                studentsAmount == faculty.studentsAmount &&
+                studentsAmount == faculty.getStudentsAmount() &&
                 stateFundedAmount == faculty.getStateFundedAmount() &&
-                subjects.get(0).equals(faculty.subjects.get(0)) &&
-                subjects.get(0).equals(faculty.subjects.get(1)) &&
-                subjects.get(0).equals(faculty.subjects.get(2));
+                subjects.get(0).equals(faculty.getSubjects().get(0)) &&
+                subjects.get(1).equals(faculty.getSubjects().get(1)) &&
+                subjects.get(2).equals(faculty.getSubjects().get(2));
     }
 
 }

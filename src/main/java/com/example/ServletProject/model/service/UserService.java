@@ -73,7 +73,6 @@ public class UserService {
         try(FacultyDao facultyDao = daoFactory.createFacultyDao()){
             List<Faculty> res = facultyDao.findAll();
             for(Submission s: user.getSubmissions()){
-                System.out.println(s.getFaculty().getName());
                 res.remove(s.getFaculty());
             }
             return res;

@@ -31,6 +31,6 @@ public class Subject {
         }
 
         Subject subject = (Subject) o;
-        return name.equals(subject.name);
+        return name.equals(subject.getName());
     }
 }
