@@ -72,8 +72,6 @@
     </div>
     
     <div class="form-control" id="unchecked-submissions" style="display: none">
-            <input type="hidden" name="command" value="checkSubmission"/>
-            <input type="hidden" id="sub-index" name="subIndex" value="0"/>
             <c:set var = "submissions" scope="session" value="${sessionScope.submissions}"/>
             <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
                 <c:if test="${!submissions.get(s).checked}">
@@ -86,13 +84,9 @@
                     <br>
                 </c:if>
             </c:forEach>
-<%--        </form>--%>
     </div>
 
     <div class="form-control" id="submissions" style="display: none">
-        <form method="post" action="${pageContext.request.contextPath}/servlet">
-            <input type="hidden" name="command" value="checkSubmission"/>
-            <input type="hidden" id="sub-index" name="subIndex" value="0"/>
             <c:set var = "submissions" scope="session" value="${sessionScope.submissions}"/>
             <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
             <c:if test="${submissions.get(s).checked}">
@@ -104,7 +98,6 @@
             <br>
             </c:if>
             </c:forEach>
-            <%--        </form>--%>
     </div>
 
     <div class="form-control" id="create-faculty" style="display: none">
