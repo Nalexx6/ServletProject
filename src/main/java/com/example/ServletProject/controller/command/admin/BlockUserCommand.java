@@ -1,15 +1,14 @@
-package com.example.ServletProject.controller.command;
+package com.example.ServletProject.controller.command.admin;
 
-import com.example.ServletProject.model.dao.impl.JDBCUserDao;
+import com.example.ServletProject.controller.command.Command;
 import com.example.ServletProject.model.entity.User;
+import com.example.ServletProject.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class UnblockUserCommand implements Command{
-
-
+public class BlockUserCommand implements Command {
     static private  void setUsers(HttpServletRequest request, List<User> users){
         HttpSession session = request.getSession();
         session.setAttribute("users", users);
@@ -17,15 +16,10 @@ public class UnblockUserCommand implements Command{
 
     @Override
     public String execute(HttpServletRequest request) {
-        int index = Integer.parseInt(request.getParameter("opIndex"));
+        UserService userService = new UserService();
+        userService.blockUser(userService.getAllUsers().get(Integer.parseInt(request.getParameter("opIndex"))));
 
-        JDBCUserDao sDao = new JDBCUserDao();
-        List<User> users = sDao.findAll();
-        User user = users.get(index);
-        user.setRole("USER");
-
-        sDao.update(user);
-        setUsers(request, sDao.findAll());
+        setUsers(request, userService.getAllUsers());
 
         return "redirect:/login/adminRes.jsp";
     }

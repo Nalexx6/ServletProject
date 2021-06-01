@@ -1,6 +1,6 @@
 package dbTest;
 
-import com.example.ServletProject.model.db.DBManager;
+import com.example.ServletProject.model.dao.DBManager;
 import com.example.ServletProject.model.entity.Fields;
 import org.junit.jupiter.api.Test;
 import org.apache.ibatis.jdbc.*;

@@ -17,9 +17,7 @@ public final class SQL {
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     public static final String SQL__UPDATE_USER =
-            "UPDATE users SET login = ?,  password = ?, first_name = ?, last_name = ?, " +
-                    "email = ?, role = ?, city = ?, region = ?, institution = ? " +
-                    "WHERE id = ?";
+            "UPDATE users SET role = ? WHERE id = ?";
 
 
     //////////////////////////////////////////////////////////

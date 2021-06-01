@@ -42,6 +42,7 @@ public class JDBCFacultyDao implements FacultyDao {
         return faculty;
     }
 
+    @Override
     public Faculty findByName(String name) {
         return null;
     }

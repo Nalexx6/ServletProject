@@ -75,7 +75,8 @@ public class JDBCUserDao implements UserDao {
         return res;
     }
 
-    public User findUserByLogin(String login){
+    @Override
+    public User findByLogin(String login){
         User user = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -152,16 +153,8 @@ public class JDBCUserDao implements UserDao {
         try {
             con = DBManager.getInstance().getConnection();
             psmt = con.prepareStatement(SQL.SQL__UPDATE_USER);
-            psmt.setString(1, user.getLogin());
-            psmt.setString(2, user.getPassword());
-            psmt.setString(3, user.getFirstName());
-            psmt.setString(4, user.getLastName());
-            psmt.setString(5, user.getEmail());
-            psmt.setString(6, user.getRole());
-            psmt.setString(7, user.getCity());
-            psmt.setString(8, user.getRegion());
-            psmt.setString(9, user.getInstitution());
-            psmt.setLong(10, user.getId());
+            psmt.setString(1, user.getRole());
+            psmt.setLong(2, user.getId());
 
             psmt.executeUpdate();
             psmt.close();
