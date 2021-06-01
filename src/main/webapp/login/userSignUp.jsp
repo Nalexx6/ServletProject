@@ -19,6 +19,7 @@
 
     <div class="form-control">
         <h1 class="header">Sign up to system</h1>
+        <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
         <label>Login</label>
         <input type="text" name="login" placeholder="Enter Login"><br/>
 

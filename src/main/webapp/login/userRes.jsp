@@ -69,7 +69,7 @@
             <form method="post" action="${pageContext.request.contextPath}/servlet">
                 <input type="hidden" name="command" value="createSubmission">
                 <input type="hidden" id="sub-fac-index" name="facultyIndex" value="0">
-
+                <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
                 <label id="subject1_lbl" for="subject1">First Subject</label>
                 <input type="text" id="subject1" name="grade1" placeholder="Enter grade for first subject">
 

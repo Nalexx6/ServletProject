@@ -15,7 +15,6 @@
 <body>
 <div class="container">
 
-
     <div class="form-control">
         <form method="post" action="${pageContext.request.contextPath}/servlet">
             <input type="hidden" name="command" value="logout">
@@ -105,7 +104,7 @@
         <form method="post" action="${pageContext.request.contextPath}/servlet">
             <input type="hidden" id="fac-command" name="command" value="createFaculty"/>
             <input type="hidden" id="edit-fac-index" name="editedFacIndex" value=""/>
-
+            <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
             <label for="fac-name">Faculty Name</label>
             <input type="text" id="fac-name" name="name" placeholder="Enter name of new Faculty"><br/>
 
