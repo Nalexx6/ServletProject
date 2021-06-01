@@ -6,10 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%--<fmt:setLocale value="${sessionScope.locale}" />--%>
+<fmt:setBundle basename="resources_en" />
 <html>
 <head>
-    <title>Sign Up</title>
+    <title><fmt:message key="signUp.label"/></title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -18,34 +22,34 @@
 
 
     <div class="form-control">
-        <h1 class="header">Sign up to system</h1>
+        <h1 class="header"><fmt:message key="header.signUp"/></h1>
         <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
-        <label>Login</label>
-        <input type="text" name="login" placeholder="Enter Login"><br/>
+        <label><fmt:message key="user.label.login"/></label>
+        <input type="text" name="login" placeholder="<fmt:message key="signUp.placeholder.login"/>"><br/>
 
-        <label>Password</label>
-        <input type="text" name="password" placeholder="Enter Password"><br/>
+        <label><fmt:message key="user.label.password"/></label>
+        <input type="text" name="password" placeholder="<fmt:message key="signUp.placeholder.password"/>"><br/>
 
-        <label>First Name</label>
-        <input type="text" name="first_name" placeholder="Enter First Name"><br/>
+        <label><fmt:message key="user.label.firstName"/></label>
+        <input type="text" name="first_name" placeholder="<fmt:message key="signUp.placeholder.firstName"/>"><br/>
 
-        <label>Last Name</label>
-        <input type="text" name="last_name" placeholder="Enter Last Name"><br/>
+        <label><fmt:message key="user.label.lastName"/></label>
+        <input type="text" name="last_name" placeholder="<fmt:message key="signUp.placeholder.lastName"/>"><br/>
 
-        <label>Email</label>
-        <input type="email" name="email" placeholder="Enter Email"><br/>
+        <label><fmt:message key="user.label.email"/></label>
+        <input type="email" name="email" placeholder="<fmt:message key="signUp.placeholder.email"/>"><br/>
 
-        <label>City</label>
-        <input type="text" name="city" placeholder="Enter City"><br/>
+        <label><fmt:message key="user.label.city"/></label>
+        <input type="text" name="city" placeholder="<fmt:message key="signUp.placeholder.city"/>"><br/>
 
-        <label>Region</label>
-        <input type="text" name="region" placeholder="Enter Region"><br/>
+        <label><fmt:message key="user.label.region"/></label>
+        <input type="text" name="region" placeholder="<fmt:message key="signUp.placeholder.region"/>"><br/>
 
-        <label>Institution</label>
-        <input type="text" name="institution" placeholder="Enter Institution"><br/>
+        <label><fmt:message key="user.label.institution"/></label>
+        <input type="text" name="institution" placeholder="<fmt:message key="signUp.placeholder.institution"/>"><br/>
 
-        <input class="button btn" type="submit" value="Sign Up">
-        <a class="link" href="${pageContext.request.contextPath}/index.jsp">Back to main page</a>
+        <input class="button btn" type="submit" value="<fmt:message key="button.signUp"/>">
+        <a class="link" href="${pageContext.request.contextPath}/index.jsp"><fmt:message key="entry.backToMain"/></a>
     </div>
 </form>
 

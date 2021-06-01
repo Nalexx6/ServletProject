@@ -8,10 +8,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<%--<fmt:setLocale value="${sessionScope.locale}" />--%>
+<fmt:setBundle basename="resources_en" var="bundle" />
 <html>
 <head>
-    <title>Admission committee</title>
+    <title><fmt:message key="entry.name"/> </title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/login/index.css">
 </head>
 <body>
@@ -20,22 +23,22 @@
         <div class="form-control">
             <form method="post" action="${pageContext.request.contextPath}/servlet">
                 <input type="hidden" name="command" value="logout">
-                <input class="btn" style="background: red" type="submit" value="Logout">
+                <input class="btn" style="background: red" type="submit" value="<fmt:message key="button.logout"/>">
             </form>
-            <input class="btn" type="button" value="Profile" onclick="showUserCredentials()">
-            <input class="btn" type="button" value="Submissions" onclick="showSubmissions()">
-            <input class="btn" type="button" value="Create new submission" onclick="createSubmission()">
-            <h1 id="header" class="header">Your Submissions</h1>
+            <input class="btn" type="button" value="<fmt:message key="button.profile"/>" onclick="showUserCredentials()">
+            <input class="btn" type="button" value="<fmt:message key="button.submission"/>" onclick="showSubmissions()">
+            <input class="btn" type="button" value="<fmt:message key="button.submission.create"/>" onclick="createSubmission()">
+            <h1 id="header" class="header"><fmt:message key="header.submission"/></h1>
         </div>
 
         <div id="pers-inf" style="display: none">
             <c:set var="user" scope="session" value="${sessionScope.user}"/>
-            <p>First Name: <c:out value="${user.firstName}"/>
-            <p>Last Name: <c:out value="${user.lastName}"/>
-            <p>Email: <c:out value="${user.email}"/>
-            <p>City: <c:out value="${user.city}"/>
-            <p>Region: <c:out value="${user.region}"/>
-            <p>School: <c:out value="${user.institution}"/>
+            <p><fmt:message key="user.label.firstName"/>: <c:out value="${user.firstName}"/>
+            <p><fmt:message key="user.label.lastName"/>: <c:out value="${user.lastName}"/>
+            <p><fmt:message key="user.label.email"/>: <c:out value="${user.email}"/>
+            <p><fmt:message key="user.label.city"/>: <c:out value="${user.city}"/>
+            <p><fmt:message key="user.label.region"/>: <c:out value="${user.region}"/>
+            <p><fmt:message key="user.label.institution"/>: <c:out value="${user.institution}"/>
         </div>
 
         <div id="submissions" style="display: block">
@@ -58,7 +61,7 @@
                 <input type="hidden" id="fac-${f}-subject1" value="${faculties.get(f).subjects.get(0).name}"/>
                 <input type="hidden" id="fac-${f}-subject2" value="${faculties.get(f).subjects.get(1).name}"/>
                 <input type="hidden" id="fac-${f}-subject3" value="${faculties.get(f).subjects.get(2).name}"/>
-                <input class="btn" type="button" value="Order"
+                <input class="btn" type="button" value="<fmt:message key="submission.create.order"/>"
                        onclick="orderSubmission(${f})"/>
                 <br>
             </c:forEach>
@@ -70,19 +73,23 @@
                 <input type="hidden" name="command" value="createSubmission">
                 <input type="hidden" id="sub-fac-index" name="facultyIndex" value="0">
                 <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
-                <label id="subject1_lbl" for="subject1">First Subject</label>
-                <input type="text" id="subject1" name="grade1" placeholder="Enter grade for first subject">
+                <label id="subject1_lbl" for="subject1"></label>
+                <input type="text" id="subject1" name="grade1"
+                       placeholder="<fmt:message key="submission.placeholder.subject1"/>">
 
-                <label id="subject2_lbl" for="subject2">Second Subject</label>
-                <input type="text" id="subject2" name="grade2" placeholder="Enter grade for second subject">
+                <label id="subject2_lbl" for="subject2"></label>
+                <input type="text" id="subject2" name="grade2"
+                       placeholder="<fmt:message key="submission.placeholder.subject2"/>">
 
-                <label id="subject3_lbl" for="subject3">Third Subject</label>
-                <input type="text" id="subject3" name="grade3" placeholder="Enter grade for third subject">
+                <label id="subject3_lbl" for="subject3"></label>
+                <input type="text" id="subject3" name="grade3"
+                       placeholder="<fmt:message key="submission.placeholder.subject3"/>">
 
-                <label for="sec-avg">Secondary Education Average</label>
-                <input type="text" id="sec-avg" name="sec-avg" placeholder="Enter Secondary Education Average"><br/>
+                <label for="sec-avg"><fmt:message key="submission.label.sec_avg"/></label>
+                <input type="text" id="sec-avg" name="sec-avg"
+                       placeholder="<fmt:message key="submission.placeholder.sec_avg"/>"><br/>
 
-                <input class="btn" type="submit" value="Submit">
+                <input class="btn" type="submit" value="<fmt:message key="button.submit"/>">
             </form>
         </div>
     </div>
@@ -99,7 +106,7 @@
         document.getElementById('submissions').style.display = 'none';
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('create-submission').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Your Profile';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.profile"/>';
     }
 
     function showSubmissions(){
@@ -107,7 +114,7 @@
         document.getElementById('submissions').style.display = 'block';
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('create-submission').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Your Submissions';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.submission"/>';
     }
 
     function createSubmission(){
@@ -115,7 +122,7 @@
         document.getElementById('submissions').style.display = 'none';
         document.getElementById('faculties').style.display = 'block';
         document.getElementById('create-submission').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Select faculty where you want to submit';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.submission.create"/>';
     }
 
     function orderSubmission(index){
@@ -123,7 +130,7 @@
         document.getElementById('submissions').style.display = 'none';
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('create-submission').style.display = 'block';
-        document.getElementById('header').innerHTML = 'Create submission for ' +
+        document.getElementById('header').innerHTML = '<fmt:message key="header.submission.chosen"/>' + ' ' +
                         document.getElementById('fac-' + index + '-name').innerText;
 
         document.getElementById('sub-fac-index').value = index;

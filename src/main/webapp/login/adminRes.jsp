@@ -6,10 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%--<fmt:setLocale value="${sessionScope.locale}" />--%>
+<fmt:setBundle basename="resources_en" var="bundle" />
 <html>
 <head>
-    <title>Admission committee</title>
+    <title><fmt:message key="entry.name"/></title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/login/index.css">
 </head>
 <body>
@@ -18,26 +22,26 @@
     <div class="form-control">
         <form method="post" action="${pageContext.request.contextPath}/servlet">
             <input type="hidden" name="command" value="logout">
-            <input class="btn" style="background: red" type="submit" value="Logout">
+            <input class="btn" style="background: red" type="submit" value="<fmt:message key="button.logout"/>">
         </form>
-        <input class="btn" type="button" value="Profile" onclick="showUserCredentials()">
-        <input class="btn" type="button" value="Faculties" onclick="showFaculties()">
-        <input class="btn" type="button" value="Users" onclick="showUsers()">
-        <input class="btn" type="button" value="Checked Submissions" onclick="showCheckedSubmissions()">
-        <input class="btn" type="button" value="Unchecked Submissions" onclick="showUncheckedSubmissions()">
-        <input class="btn" type="button" value="Create new faculty" onclick="createFaculty()">
+        <input class="btn" type="button" value="<fmt:message key="button.profile"/>" onclick="showUserCredentials()">
+        <input class="btn" type="button" value="<fmt:message key="button.faculty"/>" onclick="showFaculties()">
+        <input class="btn" type="button" value="<fmt:message key="button.users"/>" onclick="showUsers()">
+        <input class="btn" type="button" value="<fmt:message key="button.checked_submissions"/>" onclick="showCheckedSubmissions()">
+        <input class="btn" type="button" value="<fmt:message key="button.unchecked_submissions"/>" onclick="showUncheckedSubmissions()">
+        <input class="btn" type="button" value="<fmt:message key="button.faculty.create"/>" onclick="createFaculty()">
 
-        <h1 id="header" class="header">Faculties List</h1>
+        <h1 id="header" class="header"><fmt:message key="header.faculty"/></h1>
     </div>
 
     <div id="pers-inf" style="display: none">
         <c:set var="user" scope="session" value="${sessionScope.user}"/>
-        <p>First Name: <c:out value="${user.firstName}"/>
-        <p>Last Name: <c:out value="${user.lastName}"/>
-        <p>Email: <c:out value="${user.email}"/>
-        <p>City: <c:out value="${user.city}"/>
-        <p>Region: <c:out value="${user.region}"/>
-        <p>School: <c:out value="${user.institution}"/>
+        <p><fmt:message key="user.label.firstName"/>: <c:out value="${user.firstName}"/>
+        <p><fmt:message key="user.label.lastName"/>: <c:out value="${user.lastName}"/>
+        <p><fmt:message key="user.label.email"/>: <c:out value="${user.email}"/>
+        <p><fmt:message key="user.label.city"/>: <c:out value="${user.city}"/>
+        <p><fmt:message key="user.label.region"/>: <c:out value="${user.region}"/>
+        <p><fmt:message key="user.label.institution"/>: <c:out value="${user.institution}"/>
     </div>
 
     <div id="faculties" style="display: block">
@@ -49,10 +53,10 @@
             <input type="hidden" id="fac-${f}-subject1" value="${faculties.get(f).subjects.get(0).name}"/>
             <input type="hidden" id="fac-${f}-subject2" value="${faculties.get(f).subjects.get(1).name}"/>
             <input type="hidden" id="fac-${f}-subject3" value="${faculties.get(f).subjects.get(2).name}"/>
-            <input class="btn" type="button" value="Edit"
+            <input class="btn" type="button" value="<fmt:message key="button.faculty.edit"/>"
                    onclick="editFaculty(${f});
                            <c:set var="editIndex" value="${f}"/> ">
-            <input class="btn" type="button" style="background: red" value="Delete" onclick="deleteConfirm(${f})">
+            <input class="btn" type="button" style="background: red" value="<fmt:message key="button.faculty.delete"/>" onclick="deleteConfirm(${f})">
             <br>
         </c:forEach>
 
@@ -78,7 +82,7 @@
                     <span id="submission-${s}">${submissions.get(s).user.lastName}</span>
                     <span id="submission-${s}">${submissions.get(s).faculty.name}</span>
                     
-                    <input class="btn" type="button" style="background: blue" value="Check"
+                    <input class="btn" type="button" style="background: blue" value="<fmt:message key="submission.check"/>"
                            onclick="confirmSubmissionCheck(${s})"/>
                     <br>
                 </c:if>
@@ -93,7 +97,7 @@
             <span id="submission-${s}">${submissions.get(s).user.lastName}</span>
             <span id="submission-${s}">${submissions.get(s).faculty.name}</span>
 
-            <input class="btn" type="button" style="background: green" value="Checked"/>
+            <input class="btn" type="button" style="background: green" value="<fmt:message key="submission.checked"/>"/>
             <br>
             </c:if>
             </c:forEach>
@@ -105,28 +109,32 @@
             <input type="hidden" id="fac-command" name="command" value="createFaculty"/>
             <input type="hidden" id="edit-fac-index" name="editedFacIndex" value=""/>
             <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
-            <label for="fac-name">Faculty Name</label>
-            <input type="text" id="fac-name" name="name" placeholder="Enter name of new Faculty"><br/>
+            <label for="fac-name"><fmt:message key="faculty.label.name"/></label>
+            <input type="text" id="fac-name" name="name"
+                   placeholder="<fmt:message key="faculty.placeholder.name"/>"><br/>
 
-            <label for="st-amount">Students amount</label>
+            <label for="st-amount"><fmt:message key="faculty.label.students_amount"/></label>
             <input type="text" id="st-amount" name="students_amount"
-                   placeholder="Enter overall amount of students on new faculty"><br/>
+                   placeholder="<fmt:message key="faculty.placeholder.students_amount"/>"><br/>
 
-            <label for="state-funded-amount">State funded amount</label>
+            <label for="state-funded-amount"><fmt:message key="faculty.label.state_funded_amount"/></label>
             <input type="text" id="state-funded-amount" name="state_funded_amount"
-                   placeholder="Enter state funded amount of students"><br/>
+                   placeholder="<fmt:message key="faculty.placeholder.state_funded_amount"/>"><br/>
 
-            <label for="subject1">First Subject</label>
-            <input type="text" id="subject1" name="subject1_id" placeholder="Enter name of first subject">
+            <label for="subject1"><fmt:message key="faculty.label.subject1"/></label>
+            <input type="text" id="subject1" name="subject1_id"
+                   placeholder="<fmt:message key="faculty.placeholder.subject1"/>">
 
-            <label for="subject2">Second Subject</label>
-            <input type="text" id="subject2" name="subject2_id" placeholder="Enter name of second subject">
+            <label for="subject2"><fmt:message key="faculty.label.subject2"/></label>
+            <input type="text" id="subject2" name="subject2_id"
+                   placeholder="<fmt:message key="faculty.placeholder.subject2"/>">
 
-            <label for="subject3">Third Subject</label>
-            <input type="text" id="subject3" name="subject3_id" placeholder="Enter name of third subject">
+            <label for="subject3"><fmt:message key="faculty.label.subject3"/></label>
+            <input type="text" id="subject3" name="subject3_id"
+                   placeholder="<fmt:message key="faculty.placeholder.subject3"/>">
 
-            <input class="button btn" type="submit" value="Submit">
-            <input class="btn" type="button" id="edit-cancel" style="background: blue; visibility: hidden" value="Cancel"
+            <input class="button btn" type="submit" value="<fmt:message key="button.submit"/>">
+            <input class="btn" type="button" id="edit-cancel" style="background: blue; visibility: hidden" value="<fmt:message key="button.cancel"/>"
                 onclick="editCancel()">
         </form>
 
@@ -137,9 +145,9 @@
             <input type="hidden" id="op-command" name="command" value="deleteFaculty">
             <input type="hidden" id="op-index" name="opIndex" value="">
 
-            <h1 id="message-head" class="header">Are you sure, you want to delete this faculty?</h1>
-            <input class="button btn" type="submit" style="background: red" value="Yes">
-            <input class="btn" id="op-cancel" type="button" value="Cancel" onclick="deleteCancel()">
+            <h1 id="message-head" class="header"><fmt:message key="header.faculty.delete"/></h1>
+            <input class="button btn" type="submit" style="background: red" value="<fmt:message key="button.confirm"/>">
+            <input class="btn" id="op-cancel" type="button" value="<fmt:message key="button.cancel"/>" onclick="deleteCancel()">
         </form>
     </div>
 
@@ -158,7 +166,7 @@
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'none';
         document.getElementById('op-confirm').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Your Profile';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.profile"/>';
 
         clearFields();
     }
@@ -171,7 +179,7 @@
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'none';
         document.getElementById('op-confirm').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Faculties List';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.faculty"/>';
 
         clearFields();
     }
@@ -184,7 +192,7 @@
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'none';
         document.getElementById('op-confirm').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Users List';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.users"/>';
 
         clearFields();
     }
@@ -197,7 +205,7 @@
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'block';
         document.getElementById('op-confirm').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Users List';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.checked_submissions"/>';
 
         clearFields();
     }
@@ -210,7 +218,7 @@
         document.getElementById('unchecked-submissions').style.display = 'block';
         document.getElementById('submissions').style.display = 'none';
         document.getElementById('op-confirm').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Unchecked Submissions';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.unchecked_submissions"/>';
 
         clearFields();
     }
@@ -223,7 +231,7 @@
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'none';
         document.getElementById('op-confirm').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Create Faculty';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.faculty.create"/>';
         document.getElementById('fac-command').value = 'createFaculty';
 
         clearFields();
@@ -234,7 +242,7 @@
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('op-index').value = value;
         document.getElementById('op-command').value = 'deleteFaculty';
-        document.getElementById('message-head').innerHTML = "Are you sure, you want to delete this faculty?";
+        document.getElementById('message-head').innerHTML = "<fmt:message key="header.faculty.delete"/>";
         document.getElementById('op-cancel').onclick = deleteCancel;
     }
 
@@ -246,7 +254,7 @@
     function editFaculty(index){
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'block';
-        document.getElementById('header').innerHTML = 'Edit Faculty';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.faculty.edit"/>';
         document.getElementById('fac-command').value = 'editFaculty';
 
         document.getElementById('edit-fac-index').value = index;
@@ -265,7 +273,7 @@
     function editCancel(){
         document.getElementById('faculties').style.display = 'block';
         document.getElementById('create-faculty').style.display = 'none';
-        document.getElementById('header').innerHTML = 'Edit Faculty';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.faculty"/>';
         document.getElementById('fac-command').value = 'editFaculty';
 
         clearFields();
@@ -294,14 +302,14 @@
             document.getElementById('op-confirm').style.display = 'block';
             document.getElementById('users').style.display = 'none';
             document.getElementById('op-index').value = value;
-            document.getElementById('message-head').innerHTML = "Are you sure, you want to block this user?";
+            document.getElementById('message-head').innerHTML = "<fmt:message key="header.user.block"/>";
             document.getElementById('op-cancel').onclick = blockCancel;
             document.getElementById('op-command').value = 'blockUser';
         } else {
             document.getElementById('op-confirm').style.display = 'block';
             document.getElementById('users').style.display = 'none';
             document.getElementById('op-index').value = value;
-            document.getElementById('message-head').innerHTML = "Are you sure, you want to unblock this user?";
+            document.getElementById('message-head').innerHTML = "<fmt:message key="header.user.unblock"/>";
             document.getElementById('op-cancel').onclick = blockCancel;
             document.getElementById('op-command').value = 'unblockUser';
         }
@@ -311,7 +319,7 @@
         document.getElementById('op-confirm').style.display = 'block';
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('op-index').value = value;
-        document.getElementById('message-head').innerHTML = "Are you sure, you want to add this submission to certificate?";
+        document.getElementById('message-head').innerHTML = "<fmt:message key="header.submission.check"/>";
         document.getElementById('op-cancel').onclick = checkCancel;
         document.getElementById('op-command').value = 'checkSubmission';
     }
