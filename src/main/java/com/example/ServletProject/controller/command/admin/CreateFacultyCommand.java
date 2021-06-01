@@ -3,14 +3,17 @@ package com.example.ServletProject.controller.command.admin;
 import com.example.ServletProject.controller.command.Command;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
+import com.example.ServletProject.model.validator.Regex;
 import com.example.ServletProject.model.entity.Subject;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubjectService;
+import com.example.ServletProject.model.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class CreateFacultyCommand implements Command {
     static public void setFaculties(HttpServletRequest request, List<Faculty> faculties){
@@ -23,9 +26,9 @@ public class CreateFacultyCommand implements Command {
         Faculty faculty = mapFaculty(request);
 
         FacultyService service = new FacultyService();
-        if(!validateFaculty(faculty) || service.getFacultyByName(faculty.getName()) != null){
-            System.out.println("faculty invalid or already exists");
-            return "/login/adminRes.jsp";
+        if(!Validator.validateFacultyFields(faculty) || service.getFacultyByName(faculty.getName()) != null){
+            request.getSession().setAttribute("message", "Please enter valid faculty parameters");
+            return "redirect:/login/adminRes.jsp";
         }
 
         service.addFaculty(faculty);
@@ -38,8 +41,13 @@ public class CreateFacultyCommand implements Command {
         Faculty faculty = new Faculty();
 
         faculty.setName(request.getParameter(Fields.FACULTY__NAME));
-        faculty.setStudentsAmount(Integer.parseInt(request.getParameter(Fields.FACULTY__STUDENT_AMOUNT)));
-        faculty.setStateFundedAmount(Integer.parseInt(request.getParameter(Fields.FACULTY__STATE_FUNDED_AMOUNT)));
+        try {
+            faculty.setStudentsAmount(Integer.parseInt(request.getParameter(Fields.FACULTY__STUDENT_AMOUNT)));
+            faculty.setStateFundedAmount(Integer.parseInt(request.getParameter(Fields.FACULTY__STATE_FUNDED_AMOUNT)));
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+            //todo: log exception
+        }
 
         List<Subject> list = new ArrayList<>();
         SubjectService service = new SubjectService();
@@ -52,12 +60,4 @@ public class CreateFacultyCommand implements Command {
 
     }
 
-    public static boolean validateFaculty(Faculty faculty){
-        return faculty != null &&
-                faculty.getName().length() > 0 &&
-                faculty.getStudentsAmount() > faculty.getStateFundedAmount() &&
-                faculty.getSubjects().get(0) != null &&
-                faculty.getSubjects().get(1) != null &&
-                faculty.getSubjects().get(2) != null;
-    }
 }

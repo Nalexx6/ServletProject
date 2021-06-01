@@ -1,12 +1,12 @@
 package com.example.ServletProject.controller.command;
 
-import com.example.ServletProject.model.dao.impl.JDBCFacultyDao;
-import com.example.ServletProject.model.dao.impl.JDBCUserDao;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
+import com.example.ServletProject.model.validator.Regex;
 import com.example.ServletProject.model.entity.User;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.UserService;
+import com.example.ServletProject.model.validator.Validator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -34,9 +34,9 @@ public class SignUpCommand implements Command{
         User user = mapUser(request);
 //        String pass = request.getParameter();
         UserService userService = new UserService();
-        if(!validateUserData(user) || userService.findUserByLogin(user.getLogin()) != null){
-            System.out.println("kfdkfld");
-            return null;
+        if(!Validator.validateUserFields(user) || userService.findUserByLogin(user.getLogin()) != null){
+            request.getSession().setAttribute("message", "Please enter valid user parameters");
+            return "redirect:/login/userSignUp.jsp";
         }
 
         userService.addUser(user);
@@ -64,13 +64,5 @@ public class SignUpCommand implements Command{
 
         return user;
     }
-
-    private boolean validateUserData(User user){
-        return Pattern.compile("^[A-Z][a-z]+$").matcher(user.getFirstName()).find() &&
-                Pattern.compile("^[A-Z][a-z]+$").matcher(user.getLastName()).find() &&
-                Pattern.compile("^[A-Z][a-z]+$").matcher(user.getCity()).find();
-        //todo: improve validation
-    }
-
 
 }

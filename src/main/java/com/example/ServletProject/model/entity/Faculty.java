@@ -6,8 +6,8 @@ import java.util.Map;
 public class Faculty extends Entity{
 
     private String name;
-    private int studentsAmount;
-    private int stateFundedAmount;
+    private Integer studentsAmount;
+    private Integer stateFundedAmount;
 
     private List<Subject> subjects;
     private List<Submission> submissions;
@@ -22,19 +22,19 @@ public class Faculty extends Entity{
 
     }
 
-    public int getStudentsAmount() {
+    public Integer getStudentsAmount() {
         return studentsAmount;
     }
 
-    public void setStudentsAmount(int studentsAmount) {
+    public void setStudentsAmount(Integer studentsAmount) {
         this.studentsAmount = studentsAmount;
     }
 
-    public int getStateFundedAmount() {
+    public Integer getStateFundedAmount() {
         return stateFundedAmount;
     }
 
-    public void setStateFundedAmount(int stateFundedAmount) {
+    public void setStateFundedAmount(Integer stateFundedAmount) {
         this.stateFundedAmount = stateFundedAmount;
     }
 

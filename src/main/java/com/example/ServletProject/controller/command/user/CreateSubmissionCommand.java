@@ -1,18 +1,18 @@
 package com.example.ServletProject.controller.command.user;
 
 import com.example.ServletProject.controller.command.Command;
-import com.example.ServletProject.model.entity.Faculty;
-import com.example.ServletProject.model.entity.Fields;
-import com.example.ServletProject.model.entity.Submission;
-import com.example.ServletProject.model.entity.User;
+import com.example.ServletProject.model.entity.*;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubmissionService;
 import com.example.ServletProject.model.service.UserService;
+import com.example.ServletProject.model.validator.Regex;
+import com.example.ServletProject.model.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class CreateSubmissionCommand implements Command {
 
@@ -24,13 +24,20 @@ public class CreateSubmissionCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        SubmissionService service = new SubmissionService();
-        service.addSubmission(mapSubmission(request));
+        Submission submission = mapSubmission(request);
 
-        UserService userService = new UserService();
-        User user = (User) request.getSession().getAttribute("user");
-        user.setSubmissions(userService.findAllSubmissionsForUser(user));
-        setSubmissions(request, user, userService.getAllUnsubmittedFaculties(user));
+        if(Validator.validateSubmissionFields(submission)) {
+            SubmissionService service = new SubmissionService();
+            service.addSubmission(submission);
+
+            UserService userService = new UserService();
+            User user = (User) request.getSession().getAttribute("user");
+            user.setSubmissions(userService.findAllSubmissionsForUser(user));
+            setSubmissions(request, user, userService.getAllUnsubmittedFaculties(user));
+        } else {
+            // TODO: create response in user front
+            request.getSession().setAttribute("message", "Please enter valid submission parameters");
+        }
 
         return "redirect:/login/userRes.jsp";
     }
@@ -44,9 +51,14 @@ public class CreateSubmissionCommand implements Command {
         submission.setFaculty(service.getAllFaculties().get(Integer.parseInt(request.getParameter("facultyIndex"))));;
 
         List<Integer> grades = new ArrayList<>();
-        grades.add(Integer.parseInt(request.getParameter(Fields.SUBMISSION__GRADE1)));
-        grades.add(Integer.parseInt(request.getParameter(Fields.SUBMISSION__GRADE2)));
-        grades.add(Integer.parseInt(request.getParameter(Fields.SUBMISSION__GRADE3)));
+        try {
+            grades.add(Integer.parseInt(request.getParameter(Fields.SUBMISSION__GRADE1)));
+            grades.add(Integer.parseInt(request.getParameter(Fields.SUBMISSION__GRADE2)));
+            grades.add(Integer.parseInt(request.getParameter(Fields.SUBMISSION__GRADE3)));
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+            //todo: log exception
+        }
         submission.setGrades(grades);
 
         submission.setSecEducAvg(Double.parseDouble(request.getParameter("sec-avg")));
@@ -54,4 +66,6 @@ public class CreateSubmissionCommand implements Command {
 
         return submission;
     }
+
+
 }
