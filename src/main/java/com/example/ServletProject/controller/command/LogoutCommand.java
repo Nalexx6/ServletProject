@@ -19,6 +19,6 @@ public class LogoutCommand implements Command{
 
         session.invalidate();
 
-        return "/index.jsp";
+        return "redirect:/index.jsp";
     }
 }
