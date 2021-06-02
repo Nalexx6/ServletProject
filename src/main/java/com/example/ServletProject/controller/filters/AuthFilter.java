@@ -37,9 +37,11 @@ public class AuthFilter implements Filter {
                 servletRequest.getRequestDispatcher("/error-page.jsp")
                         .forward(servletRequest, servletResponse);
                 System.out.println("user " + req.getParameter("login") + " is  already logged");
-            } else{
+            }
+        }
 
-            } //todo: move this to login/signup Command
+        if(req.getSession().getAttribute("locale") == null){
+            req.getSession().setAttribute("locale", "EN");
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

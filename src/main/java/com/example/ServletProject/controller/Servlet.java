@@ -45,6 +45,8 @@ public class Servlet extends HttpServlet {
                 new CreateSubmissionCommand());
         commands.put("checkSubmission",
                 new CheckSubmissionCommand());
+        commands.put("changeLocale",
+                new ChangeLocaleCommand());
 
     }
 
@@ -67,7 +69,6 @@ public class Servlet extends HttpServlet {
         String page = command.execute(request);
 
         System.out.println(page);
-
         if(page.contains("redirect:")){
             response.sendRedirect(page.replace("redirect:", request.getContextPath()));
         }else {

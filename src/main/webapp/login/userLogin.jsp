@@ -9,14 +9,32 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%--<fmt:setLocale value="${sessionScope.locale}" />--%>
-<fmt:setBundle basename="resources_en" />
-<html>
+
+
+<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setBundle basename="resources" var="bundle" />
+
+<!DOCTYPE html>
+<html lang="${sessionScope.locale}">
 <head>
     <title><fmt:message key="login.label"/></title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
+
+    <div id="locale-changer" class="form-control" style="margin: 0">
+        <form method="post" action="${pageContext.request.contextPath}/servlet">
+            <input type="hidden" name="command" value="changeLocale">
+            <input type="hidden" name="page-path" value="/login/userLogin.jsp">
+            <input class="btn" style="background: lightgray; width: 50px" type="submit" name="locale" value="UA">
+        </form>
+        <form method="post" action="${pageContext.request.contextPath}/servlet">
+            <input type="hidden" name="command" value="changeLocale">
+            <input type="hidden" name="page-path" value="/login/userLogin.jsp">
+            <input class="btn" style="background: lightgray; width: 50px;" type="submit" name="locale" value="EN">
+        </form>
+    </div>
+
     <form class="container " method="post" action="${pageContext.request.contextPath}/servlet">
         <input type="hidden" name="command" value="login"/>
         <div class="form-control">
