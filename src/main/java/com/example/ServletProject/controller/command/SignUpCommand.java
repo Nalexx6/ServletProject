@@ -1,5 +1,6 @@
 package com.example.ServletProject.controller.command;
 
+import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.validator.Regex;
@@ -43,9 +44,9 @@ public class SignUpCommand implements Command{
         FacultyService facultyService = new FacultyService();
         setUserRole(request, user, facultyService.getAllFaculties());
         if(user.getRole().equals("ADMIN")) {
-            return /*redirect:*/"/login/adminRes.jsp";
+            return /*redirect:*/Paths.ADMIN_PAGE;
         } else {
-            return /*redirect:*/"/login/userRes.jsp";
+            return /*redirect:*/Paths.USER_PAGE;
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.ServletProject.controller.command.admin;
 
+import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.controller.command.Command;
 import com.example.ServletProject.controller.command.admin.CreateFacultyCommand;
 import com.example.ServletProject.model.dao.impl.JDBCFacultyDao;
@@ -21,12 +22,12 @@ public class EditFacultyCommand  implements Command {
         if(!Validator.validateEditedFaculty(editedFaculty, faculty)
                 || service.getFacultyByName(editedFaculty.getName()) != null){
             request.getSession().setAttribute("message", "Please enter valid faculty parameters");
-            return "redirect:/login/adminRes.jsp";
+            return "redirect:" + Paths.ADMIN_PAGE;
         }
 
         service.editFaculty(editedFaculty);
         CreateFacultyCommand.setFaculties(request, service.getAllFaculties());
-        return "redirect:/login/adminRes.jsp";
+        return "redirect:" + Paths.ADMIN_PAGE;
     }
 
 }

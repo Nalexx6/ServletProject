@@ -1,5 +1,6 @@
 package com.example.ServletProject.controller.command.admin;
 
+import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.controller.command.Command;
 import com.example.ServletProject.model.entity.Submission;
 import com.example.ServletProject.model.service.SubmissionService;
@@ -20,6 +21,6 @@ public class CheckSubmissionCommand implements Command {
         service.checkSubmission(service.getAllSubmissions().get(Integer.parseInt(request.getParameter("opIndex"))));
 
         setSubmissions(request, service.getAllSubmissions());
-        return "redirect:/login/adminRes.jsp";
+        return "redirect:" + Paths.ADMIN_PAGE;
     }
 }

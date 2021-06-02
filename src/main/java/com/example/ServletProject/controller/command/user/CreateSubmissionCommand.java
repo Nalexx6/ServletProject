@@ -1,5 +1,6 @@
 package com.example.ServletProject.controller.command.user;
 
+import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.controller.command.Command;
 import com.example.ServletProject.model.entity.*;
 import com.example.ServletProject.model.service.FacultyService;
@@ -39,7 +40,7 @@ public class CreateSubmissionCommand implements Command {
             request.getSession().setAttribute("message", "Please enter valid submission parameters");
         }
 
-        return "redirect:/login/userRes.jsp";
+        return "redirect:" + Paths.USER_PAGE;
     }
 
     private Submission mapSubmission(HttpServletRequest request){

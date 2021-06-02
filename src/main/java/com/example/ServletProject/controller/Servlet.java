@@ -63,7 +63,7 @@ public class Servlet extends HttpServlet {
             throws ServletException, IOException {
 
         String commandName = request.getParameter("command");
-        Command command = commands.getOrDefault(commandName, (r)->"/index.jsp");
+        Command command = commands.getOrDefault(commandName, (r)->Paths.MAIN_PAGE);
 
         System.out.println(command.getClass().getName());
         String page = command.execute(request);

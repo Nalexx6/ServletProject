@@ -1,5 +1,6 @@
 package com.example.ServletProject.controller.command;
 
+import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.model.dao.GenericDao;
 import com.example.ServletProject.model.dao.impl.JDBCFacultyDao;
 import com.example.ServletProject.model.dao.impl.JDBCSubmissionDao;
@@ -67,14 +68,14 @@ public class LoginCommand implements Command{
                 FacultyService facultyService = new FacultyService();
                 setUserRole(request, user, facultyService.getAllFaculties(),
                         userService.getAllUsers(), submissionService.getAllSubmissions());
-                return /*redirect:*/"/login/adminRes.jsp";
+                return Paths.ADMIN_PAGE;
             } else if ((user.getRole().equals("BLOCKED")) ){
                 request.getSession().setAttribute("message", "This profile is BLOCKED, please contact support team");
-                return "redirect:/login/userLogin.jsp";
+                return "redirect:" + Paths.LOGIN_PAGE;
             } else {
                 user.setSubmissions(userService.findAllSubmissionsForUser(user));
                 setUserRole(request, user, userService.getAllUnsubmittedFaculties(user));
-                return /*redirect:*/"/login/userRes.jsp";
+                return Paths.USER_PAGE;
             }
         } else {
             request.getSession().setAttribute("message", "Please enter valid login and password!");
