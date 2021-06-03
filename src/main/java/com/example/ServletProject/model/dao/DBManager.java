@@ -33,8 +33,6 @@ public class DBManager {
     public Connection getConnection() throws SQLException {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("resources");
         String con_url = resourceBundle.getString("connection_url");
-//        String user = resourceBundle.getString("user");
-//        String password = resourceBundle.getString("password");
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -74,7 +72,7 @@ public class DBManager {
      * Rollbacks and close the given connection.
      *
      * @param con
-     *            Connection to be rollbacked and closed.
+     *            Connection to be rollback and closed.
      */
     public void rollbackAndClose(Connection con) {
         try {

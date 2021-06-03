@@ -7,7 +7,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <fmt:setLocale value="${sessionScope.locale}" />
 <fmt:setBundle basename="resources" var="bundle" />
@@ -91,31 +91,35 @@
     
     <div class="form-control" id="unchecked-submissions" style="display: none">
             <c:set var = "submissions" scope="session" value="${sessionScope.submissions}"/>
-            <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
-                <c:if test="${!submissions.get(s).checked}">
-                    <span id="submission-${s}">${submissions.get(s).user.firstName}</span>
-                    <span id="submission-${s}">${submissions.get(s).user.lastName}</span>
-                    <span id="submission-${s}">${submissions.get(s).faculty.name}</span>
-                    
-                    <input class="btn" type="button" style="background: blue" value="<fmt:message key="submission.check"/>"
-                           onclick="confirmSubmissionCheck(${s})"/>
-                    <br>
-                </c:if>
-            </c:forEach>
+            <c:if test="${submissions.size() != 0}">
+                <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
+                    <c:if test="${!submissions.get(s).checked}">
+                        <span id="submission-${s}">${submissions.get(s).user.firstName}</span>
+                        <span id="submission-${s}">${submissions.get(s).user.lastName}</span>
+                        <span id="submission-${s}">${submissions.get(s).faculty.name}</span>
+
+                        <input class="btn" type="button" style="background: blue" value="<fmt:message key="submission.check"/>"
+                               onclick="confirmSubmissionCheck(${s})"/>
+                        <br>
+                    </c:if>
+                </c:forEach>
+            </c:if>
     </div>
 
     <div class="form-control" id="submissions" style="display: none">
             <c:set var = "submissions" scope="session" value="${sessionScope.submissions}"/>
-            <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
-            <c:if test="${submissions.get(s).checked}">
-            <span id="submission-${s}">${submissions.get(s).user.firstName}</span>
-            <span id="submission-${s}">${submissions.get(s).user.lastName}</span>
-            <span id="submission-${s}">${submissions.get(s).faculty.name}</span>
+            <c:if test="${submissions.size() != 0}">
+                <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
+                    <c:if test="${submissions.get(s).checked}">
+                    <span id="submission-${s}">${submissions.get(s).user.firstName}</span>
+                    <span id="submission-${s}">${submissions.get(s).user.lastName}</span>
+                    <span id="submission-${s}">${submissions.get(s).faculty.name}</span>
 
-            <input class="btn" type="button" style="background: green" value="<fmt:message key="submission.checked"/>"/>
-            <br>
+                    <input class="btn" type="button" style="background: green" value="<fmt:message key="submission.checked"/>"/>
+                    <br>
+                    </c:if>
+                </c:forEach>
             </c:if>
-            </c:forEach>
     </div>
 
     <div class="form-control" id="create-faculty" style="display: none">

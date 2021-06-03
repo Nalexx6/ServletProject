@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashSet;
 
-@WebFilter("/*")
+@WebFilter(filterName = "auth")
 public class AuthFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -22,7 +22,7 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
                                                                             throws IOException, ServletException {
 
-        System.out.println("Filter is processing");
+        System.out.println("AuthFilter is processing");
 
         final HttpServletRequest req = (HttpServletRequest) servletRequest;
         final User user = (User) req.getSession().getAttribute("user");

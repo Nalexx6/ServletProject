@@ -29,7 +29,7 @@
             <input class="btn" style="background: lightgray; width: 50px" type="submit" name="locale" value="EN">
         </form>
     </div>
-
+    <c:out value="${requestScope.message}"/>
     <h2>
         <fmt:message key="entry.name"/> <br/>
     </h2>

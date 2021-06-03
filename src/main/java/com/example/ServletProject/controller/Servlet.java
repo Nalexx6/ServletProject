@@ -3,24 +3,26 @@ package com.example.ServletProject.controller;
 import com.example.ServletProject.controller.command.*;
 import com.example.ServletProject.controller.command.admin.*;
 import com.example.ServletProject.controller.command.user.CreateSubmissionCommand;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import javax.servlet.ServletException;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 
 @WebServlet(name = "servlet", value = "/servlet")
 public class Servlet extends HttpServlet {
 
     private Map<String, Command> commands = new HashMap<>();
+    private static final Logger log = LogManager.getLogger(Servlet.class);
 
-    public Servlet(){
-
-    }
-
+    @Override
     public void init(){
 
         this.getServletContext().setAttribute("loggedUsers", new HashSet<String>());
@@ -62,16 +64,25 @@ public class Servlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String commandName = request.getParameter("command");
-        Command command = commands.getOrDefault(commandName, (r)->Paths.MAIN_PAGE);
+        log.debug("Controller starts");
 
-        System.out.println(command.getClass().getName());
+        String commandName = request.getParameter("command");
+        log.trace("Request parameter: command --> " + commandName);
+
+
+        Command command = commands.getOrDefault(commandName, (r)->Paths.MAIN_PAGE);
+        log.trace("Obtained command --> " + command);
+        System.out.println(command);
+
         String page = command.execute(request);
 
-        System.out.println(page);
         if(page.contains("redirect:")){
+            log.trace("Redirect address --> " + page);
+            log.debug("Controller finished, now go to address --> " + page);
             response.sendRedirect(page.replace("redirect:", request.getContextPath()));
         }else {
+            log.trace("Forward address --> " + page);
+            log.debug("Controller finished, now go to forward address --> " + page);
             request.getRequestDispatcher(page).forward(request, response);
         }
     }
