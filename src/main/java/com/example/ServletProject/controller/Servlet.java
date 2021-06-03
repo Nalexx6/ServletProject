@@ -75,6 +75,7 @@ public class Servlet extends HttpServlet {
         System.out.println(command);
 
         String page = command.execute(request);
+        request.getSession().setAttribute("message-displayed", false);
 
         if(page.contains("redirect:")){
             log.trace("Redirect address --> " + page);

@@ -30,6 +30,14 @@ public class AuthFilter implements Filter {
         ServletContext context = servletRequest.getServletContext();
         HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
 
+        //Prevent error message from after page refreshing
+        if(req.getSession().getAttribute("message-displayed") != null &&
+                (boolean) req.getSession().getAttribute("message-displayed")) {
+            req.getSession().removeAttribute("message");
+        } else {
+            req.getSession().setAttribute("message-displayed", true);
+        }
+
         if(user == null && login != null ) {
             if (loggedUsers.contains(login)){
                 String message = "User is already logged";

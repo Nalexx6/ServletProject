@@ -33,10 +33,15 @@ public class SignUpCommand implements Command{
     @Override
     public String execute(HttpServletRequest request) {
         User user = mapUser(request);
-//        String pass = request.getParameter();
+
         UserService userService = new UserService();
-        if(!Validator.validateUserFields(user) || userService.findUserByLogin(user.getLogin()) != null){
+        if(!Validator.validateUserFields(user)){
             request.getSession().setAttribute("message", "Please enter valid user parameters");
+            return "redirect:/login/userSignUp.jsp";
+        }
+
+        if(userService.findUserByLogin(user.getLogin()) != null){
+            request.getSession().setAttribute("message", "User with this login already exists");
             return "redirect:/login/userSignUp.jsp";
         }
 

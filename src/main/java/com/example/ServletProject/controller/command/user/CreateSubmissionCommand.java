@@ -36,8 +36,8 @@ public class CreateSubmissionCommand implements Command {
             user.setSubmissions(userService.findAllSubmissionsForUser(user));
             setSubmissions(request, user, userService.getAllUnsubmittedFaculties(user));
         } else {
-            // TODO: create response in user front
             request.getSession().setAttribute("message", "Please enter valid submission parameters");
+            request.getSession().setAttribute("facIndex", submission.getFaculty().getId());
         }
 
         return "redirect:" + Paths.USER_PAGE;
@@ -49,7 +49,7 @@ public class CreateSubmissionCommand implements Command {
         submission.setUser((User) request.getSession().getAttribute("user"));
 
         FacultyService service = new FacultyService();
-        submission.setFaculty(service.getAllFaculties().get(Integer.parseInt(request.getParameter("facultyIndex"))));;
+        submission.setFaculty(service.getFacultyById((Long.parseLong(request.getParameter("facultyIndex")))));
 
         List<Integer> grades = new ArrayList<>();
         try {

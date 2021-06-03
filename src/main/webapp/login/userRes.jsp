@@ -71,14 +71,19 @@
         <div id="faculties" style="display: none">
             <c:set var = "faculties" scope="session" value="${sessionScope.faculties}"/>
             <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
-                <span id="fac-${f}-name">${faculties.get(f).name}</span>
-                <input type="hidden" id="fac-${f}-st-amount" value="${faculties.get(f).studentsAmount}"/>
-                <input type="hidden" id="fac-${f}-st-funded-amount" value="${faculties.get(f).stateFundedAmount}"/>
-                <input type="hidden" id="fac-${f}-subject1" value="${faculties.get(f).subjects.get(0).name}"/>
-                <input type="hidden" id="fac-${f}-subject2" value="${faculties.get(f).subjects.get(1).name}"/>
-                <input type="hidden" id="fac-${f}-subject3" value="${faculties.get(f).subjects.get(2).name}"/>
+                <span id="fac-${faculties.get(f).id}-name">${faculties.get(f).name}</span>
+                <input type="hidden" id="fac-${faculties.get(f).id}-st-amount"
+                       value="${faculties.get(f).studentsAmount}"/>
+                <input type="hidden" id="fac-${faculties.get(f).id}-st-funded-amount"
+                       value="${faculties.get(f).stateFundedAmount}"/>
+                <input type="hidden" id="fac-${faculties.get(f).id}-subject1"
+                       value="${faculties.get(f).subjects.get(0).name}"/>
+                <input type="hidden" id="fac-${faculties.get(f).id}-subject2"
+                       value="${faculties.get(f).subjects.get(1).name}"/>
+                <input type="hidden" id="fac-${faculties.get(f).id}-subject3"
+                       value="${faculties.get(f).subjects.get(2).name}"/>
                 <input class="btn" type="button" value="<fmt:message key="submission.create.order"/>"
-                       onclick="orderSubmission(${f})"/>
+                       onclick="orderSubmission(${faculties.get(f).id})"/>
                 <br>
             </c:forEach>
 
@@ -88,7 +93,8 @@
             <form method="post" action="${pageContext.request.contextPath}/servlet">
                 <input type="hidden" name="command" value="createSubmission">
                 <input type="hidden" id="sub-fac-index" name="facultyIndex" value="0">
-                <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
+                <h2 id="error-message" style="color: red; text-align: center">${sessionScope.message}</h2>
+                <input type="hidden" id="fac-error-index" value="${sessionScope.facIndex}">
                 <label id="subject1_lbl" for="subject1"></label>
                 <input type="text" id="subject1" name="grade1"
                        placeholder="<fmt:message key="submission.placeholder.subject1"/>">
@@ -116,6 +122,17 @@
 </html>
 
 <script>
+
+    window.onload = init;
+
+    function init(){
+        createSubmission();
+        if(document.getElementById("error-message").innerText !== ""){
+            orderSubmission(document.getElementById("fac-error-index").value);
+        } else {
+            showSubmissions();
+        }
+    }
 
     function showUserCredentials(){
         document.getElementById('pers-inf').style.display = 'block';

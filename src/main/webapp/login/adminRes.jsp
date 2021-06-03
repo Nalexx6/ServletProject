@@ -62,16 +62,22 @@
     <div id="faculties" style="display: block">
         <c:set var = "faculties" scope="session" value="${sessionScope.faculties}"/>
         <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
-            <span id="fac-${f}-name">${faculties.get(f).name}</span>
-            <input type="hidden" id="fac-${f}-st-amount" value="${faculties.get(f).studentsAmount}"/>
-            <input type="hidden" id="fac-${f}-st-funded-amount" value="${faculties.get(f).stateFundedAmount}"/>
-            <input type="hidden" id="fac-${f}-subject1" value="${faculties.get(f).subjects.get(0).name}"/>
-            <input type="hidden" id="fac-${f}-subject2" value="${faculties.get(f).subjects.get(1).name}"/>
-            <input type="hidden" id="fac-${f}-subject3" value="${faculties.get(f).subjects.get(2).name}"/>
+            <span id="fac-${faculties.get(f).id}-name">${faculties.get(f).name}</span>
+            <input type="hidden" id="fac-${faculties.get(f).id}-st-amount"
+                   value="${faculties.get(f).studentsAmount}"/>
+            <input type="hidden" id="fac-${faculties.get(f).id}-st-funded-amount"
+                   value="${faculties.get(f).stateFundedAmount}"/>
+            <input type="hidden" id="fac-${faculties.get(f).id}-subject1"
+                   value="${faculties.get(f).subjects.get(0).name}"/>
+            <input type="hidden" id="fac-${faculties.get(f).id}-subject2"
+                   value="${faculties.get(f).subjects.get(1).name}"/>
+            <input type="hidden" id="fac-${faculties.get(f).id}-subject3"
+                   value="${faculties.get(f).subjects.get(2).name}"/>
             <input class="btn" type="button" value="<fmt:message key="button.faculty.edit"/>"
-                   onclick="editFaculty(${f});
-                           <c:set var="editIndex" value="${f}"/> ">
-            <input class="btn" type="button" style="background: red" value="<fmt:message key="button.faculty.delete"/>" onclick="deleteConfirm(${f})">
+                   onclick="editFaculty(${faculties.get(f).id});
+                           <c:set var="editIndex" value="${faculties.get(f).id}"/> ">
+            <input class="btn" type="button" style="background: red" value="<fmt:message key="button.faculty.delete"/>"
+                   onclick="deleteConfirm(${faculties.get(f).id})">
             <br>
         </c:forEach>
 
@@ -127,7 +133,8 @@
         <form method="post" action="${pageContext.request.contextPath}/servlet">
             <input type="hidden" id="fac-command" name="command" value="createFaculty"/>
             <input type="hidden" id="edit-fac-index" name="editedFacIndex" value=""/>
-            <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
+            <h2 id="error-message" style="color: red; text-align: center">${sessionScope.message}</h2>
+            <input type="hidden" id="fac-error-index" value="${sessionScope.facIndex}">
             <label for="fac-name"><fmt:message key="faculty.label.name"/></label>
             <input type="text" id="fac-name" name="name"
                    placeholder="<fmt:message key="faculty.placeholder.name"/>"><br/>
@@ -176,6 +183,20 @@
 </html>
 
 <script>
+
+    window.onload = init;
+
+    function init(){
+        if(document.getElementById("error-message").innerText !== ""){
+            if(document.getElementById("fac-error-index").value === "") {
+                createFaculty();
+            } else {
+                editFaculty(document.getElementById("fac-error-index").value);
+            }
+        } else {
+            showFaculties();
+        }
+    }
 
     function showUserCredentials(){
         document.getElementById('pers-inf').style.display = 'block';
