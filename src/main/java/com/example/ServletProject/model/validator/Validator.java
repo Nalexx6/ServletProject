@@ -1,10 +1,10 @@
 package com.example.ServletProject.model.validator;
 
-import com.example.ServletProject.controller.command.admin.CreateFacultyCommand;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Submission;
 import com.example.ServletProject.model.entity.User;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -23,7 +23,7 @@ public class Validator {
     public static boolean validateFacultyFields(Faculty faculty){
         return faculty != null &&
                 faculty.getName().length() > 0 &&
-                Pattern.compile(Regex.FACULTY__NAME).matcher(faculty.getName()).find() &&
+                validateFacultyName(faculty.getName()) &&
                 faculty.getStudentsAmount() != null &&
                 Pattern.compile(Regex.FACULTY_ST_AMOUNT).matcher(faculty.getStudentsAmount().toString()).find() &&
                 faculty.getStateFundedAmount() != null &&
@@ -32,6 +32,18 @@ public class Validator {
                 faculty.getSubjects().get(0) != null &&
                 faculty.getSubjects().get(1) != null &&
                 faculty.getSubjects().get(2) != null;
+    }
+
+    private static boolean validateFacultyName(String name){
+        Matcher matcher = Pattern.compile(Regex.FACULTY__NAME).matcher(name);
+
+        StringBuilder builder = new StringBuilder();
+        while(matcher.find()){
+            builder.append(" ").append(matcher.group());
+        }
+        builder.deleteCharAt(0);
+        System.out.println(builder);
+        return name.equals(builder.toString());
     }
 
     public static boolean validateEditedFaculty(Faculty editedFaculty, Faculty faculty){
