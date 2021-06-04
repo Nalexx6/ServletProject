@@ -44,7 +44,31 @@ public class JDBCFacultyDao implements FacultyDao {
 
     @Override
     public Faculty findByName(String name) {
-        return null;
+        Faculty faculty = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL.SQL__FIND_FAC_BY_NAME);
+            pstmt.setString(1, name);
+            rs = pstmt.executeQuery();
+            FacultyMapper mapper = new FacultyMapper();
+            if (rs.next())
+                faculty = mapper.mapObject(rs);
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
+            ex.printStackTrace();
+        } finally {
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
+        }
+        return faculty;
     }
 
     @Override

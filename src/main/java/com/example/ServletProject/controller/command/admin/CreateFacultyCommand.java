@@ -27,9 +27,16 @@ public class CreateFacultyCommand implements Command {
         Faculty faculty = mapFaculty(request);
 
         FacultyService service = new FacultyService();
-        if(!Validator.validateFacultyFields(faculty) || service.getFacultyByName(faculty.getName()) != null){
-            request.getSession().setAttribute("message", "Please enter valid faculty parameters");
-            return "redirect:/login/adminRes.jsp";
+        if(!Validator.validateFacultyFields(faculty)){
+            request.getSession().setAttribute("message", "Parameters of new faculty must be valid");
+            request.getSession().removeAttribute("facIndex");
+            return "redirect:" + Paths.ADMIN_PAGE;
+        }
+
+        if(service.getFacultyByName(faculty.getName()) != null){
+            request.getSession().setAttribute("message", "Faculty with such name already exists");
+            request.getSession().removeAttribute("facIndex");
+            return "redirect:" + Paths.ADMIN_PAGE;
         }
 
         service.addFaculty(faculty);

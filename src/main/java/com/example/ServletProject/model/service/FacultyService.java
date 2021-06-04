@@ -3,8 +3,6 @@ package com.example.ServletProject.model.service;
 import com.example.ServletProject.model.dao.DaoFactory;
 import com.example.ServletProject.model.dao.FacultyDao;
 import com.example.ServletProject.model.entity.Faculty;
-import com.example.ServletProject.model.entity.Submission;
-import com.example.ServletProject.model.entity.User;
 
 import java.util.List;
 
@@ -25,6 +23,16 @@ public class FacultyService {
     public Faculty getFacultyByName(String name) {
         try(FacultyDao facultyDao = daoFactory.createFacultyDao()){
             return facultyDao.findByName(name);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public Faculty getFacultyById(Long id) {
+        try(FacultyDao facultyDao = daoFactory.createFacultyDao()){
+            return facultyDao.findById(id);
         } catch (Exception e){
             e.printStackTrace();
         }

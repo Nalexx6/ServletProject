@@ -43,12 +43,11 @@ public class Validator {
         }
         builder.deleteCharAt(0);
         System.out.println(builder);
-        return name.equals(builder.toString());
+        return name.length() == builder.length();
     }
 
     public static boolean validateEditedFaculty(Faculty editedFaculty, Faculty faculty){
-        return !editedFaculty.equals(faculty) &&
-                validateFacultyFields(editedFaculty);
+        return validateFacultyFields(editedFaculty) && !faculty.equals(editedFaculty);
     }
 
     public static boolean validateSubmissionFields(Submission submission){

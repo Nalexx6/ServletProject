@@ -1,7 +1,6 @@
 package com.example.ServletProject.model.entity;
 
 import java.util.List;
-import java.util.Map;
 
 public class Faculty extends Entity{
 
@@ -73,8 +72,8 @@ public class Faculty extends Entity{
 
         Faculty faculty = (Faculty) o;
         return name.equals(faculty.name) &&
-                studentsAmount == faculty.getStudentsAmount() &&
-                stateFundedAmount == faculty.getStateFundedAmount() &&
+                studentsAmount.equals(faculty.getStudentsAmount()) &&
+                stateFundedAmount.equals(faculty.getStateFundedAmount()) &&
                 subjects.get(0).equals(faculty.getSubjects().get(0)) &&
                 subjects.get(1).equals(faculty.getSubjects().get(1)) &&
                 subjects.get(2).equals(faculty.getSubjects().get(2));
