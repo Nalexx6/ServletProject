@@ -18,6 +18,84 @@
 <head>
     <title><fmt:message key="signUp.label"/></title>
     <link rel="stylesheet" href="index.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+
+        }
+
+        table tr th {
+            border-bottom: 2px solid black;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .container {
+            min-width: 500px;
+            margin: 30px auto;
+            overflow: auto;
+            min-height: 300px;
+            border: 1px solid steelblue;
+            padding: 30px;
+            border-radius: 5px;
+            font-size: 17px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #000;
+            max-width: 220px;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .form-control {
+            margin: 20px 0;
+        }
+
+        .form-control label {
+            display: block;
+        }
+
+        .form-control input {
+            width: 100%;
+            height: 40px;
+            margin: 5px;
+            padding: 3px 7px;
+            font-size: 17px;
+        }
+    </style>
 </head>
 <body>
 

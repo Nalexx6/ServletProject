@@ -19,6 +19,84 @@
 <head>
     <title><fmt:message key="entry.name"/> </title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/login/index.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+
+        }
+
+        table tr th {
+            border-bottom: 2px solid black;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .container {
+            min-width: 500px;
+            margin: 30px auto;
+            overflow: auto;
+            min-height: 300px;
+            border: 1px solid steelblue;
+            padding: 30px;
+            border-radius: 5px;
+            font-size: 17px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #000;
+            max-width: 220px;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .form-control {
+            margin: 20px 0;
+        }
+
+        .form-control label {
+            display: block;
+        }
+
+        .form-control input {
+            width: 100%;
+            height: 40px;
+            margin: 5px;
+            padding: 3px 7px;
+            font-size: 17px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -59,34 +137,58 @@
 
         <div id="submissions" style="display: block">
             <c:set var = "submissions" scope="session" value="${sessionScope.user.submissions}"/>
-            <c:forEach var="s" items="${submissions}">
-                <span>${s.faculty.name}</span>
-                <c:set var="color" value="${s.checked ? 'blue' : 'red'}"/>
-                <input class="btn" type="button"
-                       style="background: ${color}" value="${s.checked ? "Checked" : "Unchecked"}"/>
-                <br>
-            </c:forEach>
+            <table>
+                <tr>
+                    <th><fmt:message key="faculty.label.name"/></th>
+                    <th><fmt:message key="faculty.label.subject1"/></th>
+                    <th><fmt:message key="submission.label.grade"/></th>
+                    <th><fmt:message key="faculty.label.subject2"/></th>
+                    <th><fmt:message key="submission.label.grade"/></th>
+                    <th><fmt:message key="faculty.label.subject3"/></th>
+                    <th><fmt:message key="submission.label.grade"/></th>
+                </tr>
+                <c:forEach var="s" items="${submissions}">
+                    <tr>
+                        <th><span>${s.faculty.name}</span></th>
+                        <th><span>${s.faculty.subjects.get(0).name}</span></th>
+                        <th><span>${s.grades.get(0)}</span></th>
+                        <th><span>${s.faculty.subjects.get(1).name}</span></th>
+                        <th><span>${s.grades.get(1)}</span></th>
+                        <th><span>${s.faculty.subjects.get(2).name}</span></th>
+                        <th><span>${s.grades.get(2)}</span></th>
+                    <c:set var="color" value="${s.checked ? 'blue' : 'red'}"/>
+                        <th style="border-bottom: 0"><input class="btn" type="button"
+                                   style="background: ${color}" value="${s.checked ? "Checked" : "Unchecked"}"/></th>
+                    </tr>
+                </c:forEach>
+            </table>
         </div>
 
         <div id="faculties" style="display: none">
             <c:set var = "faculties" scope="session" value="${sessionScope.faculties}"/>
-            <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
-                <span id="fac-${faculties.get(f).id}-name">${faculties.get(f).name}</span>
-                <input type="hidden" id="fac-${faculties.get(f).id}-st-amount"
-                       value="${faculties.get(f).studentsAmount}"/>
-                <input type="hidden" id="fac-${faculties.get(f).id}-st-funded-amount"
-                       value="${faculties.get(f).stateFundedAmount}"/>
-                <input type="hidden" id="fac-${faculties.get(f).id}-subject1"
-                       value="${faculties.get(f).subjects.get(0).name}"/>
-                <input type="hidden" id="fac-${faculties.get(f).id}-subject2"
-                       value="${faculties.get(f).subjects.get(1).name}"/>
-                <input type="hidden" id="fac-${faculties.get(f).id}-subject3"
-                       value="${faculties.get(f).subjects.get(2).name}"/>
-                <input class="btn" type="button" value="<fmt:message key="submission.create.order"/>"
-                       onclick="orderSubmission(${faculties.get(f).id})"/>
-                <br>
-            </c:forEach>
+            <table>
+                <tr>
+                    <th><fmt:message key="faculty.label.name"/></th>
+                    <th><fmt:message key="faculty.label.students_amount"/></th>
+                    <th><fmt:message key="faculty.label.state_funded_amount"/></th>
+                    <th><fmt:message key="faculty.label.subject1"/></th>
+                    <th><fmt:message key="faculty.label.subject2"/></th>
+                    <th><fmt:message key="faculty.label.subject3"/></th>
+                </tr>
+                <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
+                    <tr>
+                        <th><span id="fac-${faculties.get(f).id}-name">${faculties.get(f).name}</span></th>
+                        <th><span id="fac-${faculties.get(f).id}-st-amount">${faculties.get(f).studentsAmount}</span></th>
+                        <th><span id="fac-${faculties.get(f).id}-st-funded-amount">${faculties.get(f).stateFundedAmount}</span></th>
+                        <th><span id="fac-${faculties.get(f).id}-subject1">${faculties.get(f).subjects.get(0).name}</span></th>
+                        <th><span id="fac-${faculties.get(f).id}-subject2">${faculties.get(f).subjects.get(1).name}</span></th>
+                        <th><span id="fac-${faculties.get(f).id}-subject3">${faculties.get(f).subjects.get(2).name}</span></th>
+                        <th style="border-bottom: 0;"><input class="btn" type="button"
+                             value="<fmt:message key="submission.create.order"/>"onclick="orderSubmission(${faculties.get(f).id})"/></th>
+                    </tr>
+                </c:forEach>
 
+            </table>
         </div>
 
         <div class="form-control" id="create-submission" style="display: none" >
