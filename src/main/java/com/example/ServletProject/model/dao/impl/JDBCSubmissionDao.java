@@ -184,6 +184,30 @@ public class JDBCSubmissionDao implements SubmissionDao {
     }
 
     @Override
+    public void deleteAllForFaculty(Faculty faculty) {
+        Connection con = null;
+        PreparedStatement psmt = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            psmt = con.prepareStatement(SQL.SQL__DELETE_SUB_FOR_FACULTY);
+            psmt.setLong(1, faculty.getId());
+            psmt.executeUpdate();
+            psmt.close();
+        } catch (SQLException ex) {
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
+            ex.printStackTrace();
+        } finally {
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
+        }
+    }
+
+
+    @Override
     public void delete(Long id) {
 
     }

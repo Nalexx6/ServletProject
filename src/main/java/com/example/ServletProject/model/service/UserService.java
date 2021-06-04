@@ -34,39 +34,33 @@ public class UserService {
         return null;
     }
 
-    public boolean addUser(User user){
+    public void addUser(User user){
         try(UserDao userDao = daoFactory.createUserDao()){
             userDao.insert(user);
-            return true;
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        return false;
     }
 
-    public boolean blockUser(User user) {
+    public void blockUser(User user) {
         try(UserDao userDao = daoFactory.createUserDao()){
             user.setRole("BLOCKED");
             userDao.update(user);
-            return true;
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        return false;
     }
 
-    public boolean unblockUser(User user) {
+    public void unblockUser(User user) {
         try(UserDao userDao = daoFactory.createUserDao()){
             user.setRole("USER");
             userDao.update(user);
-            return true;
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        return false;
     }
 
     public List<Faculty> getAllUnsubmittedFaculties(User user) {

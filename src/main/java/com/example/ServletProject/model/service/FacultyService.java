@@ -2,6 +2,7 @@ package com.example.ServletProject.model.service;
 
 import com.example.ServletProject.model.dao.DaoFactory;
 import com.example.ServletProject.model.dao.FacultyDao;
+import com.example.ServletProject.model.dao.SubmissionDao;
 import com.example.ServletProject.model.entity.Faculty;
 
 import java.util.List;
@@ -40,37 +41,37 @@ public class FacultyService {
         return null;
     }
 
-    public boolean addFaculty(Faculty faculty){
+    public void addFaculty(Faculty faculty){
         try(FacultyDao facultyDao = daoFactory.createFacultyDao()){
             facultyDao.insert(faculty);
-            return true;
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        return false;
     }
 
-    public boolean editFaculty(Faculty faculty){
+    public void editFaculty(Faculty faculty){
         try(FacultyDao facultyDao = daoFactory.createFacultyDao()){
             facultyDao.update(faculty);
-            return true;
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        return false;
     }
 
-    public boolean deleteFaculty(Faculty faculty){
+    public void deleteFaculty(Faculty faculty){
         try(FacultyDao facultyDao = daoFactory.createFacultyDao()){
             facultyDao.delete(faculty.getId());
-            return true;
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        return false;
+        try (SubmissionDao submissionDao = daoFactory.createSubmissionDao()){
+            submissionDao.deleteAllForFaculty(faculty);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -84,6 +84,8 @@ public final class SQL {
             "UPDATE submissions SET checked = ? " +
                     "WHERE id=?";
 
+    public static final String SQL__DELETE_SUB_FOR_FACULTY =
+            "DELETE FROM submissions WHERE faculty_id=?";
 
 
 }

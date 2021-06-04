@@ -20,27 +20,23 @@ public class SubmissionService {
         return null;
     }
 
-    public boolean addSubmission(Submission submission){
+    public void addSubmission(Submission submission){
         try(SubmissionDao submissionDao = daoFactory.createSubmissionDao()){
             submissionDao.insert(submission);
-            return true;
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        return false;
     }
 
-    public boolean checkSubmission(Submission submission){
+    public void checkSubmission(Submission submission){
         try(SubmissionDao submissionDao = daoFactory.createSubmissionDao()){
             submission.setChecked(true);
             submissionDao.update(submission);
-            return true;
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        return false;
     }
 
 }
