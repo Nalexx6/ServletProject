@@ -29,7 +29,7 @@ public class CommandAccessFilter implements Filter {
 
         accessMap.put("USER", Collections.singletonList("createSubmission"));
 
-        commons = Arrays.asList("login", "signUp", "logout", "changeLocale");
+        commons = Arrays.asList("login", "signUp", "logout", "changeLocale", "sortFaculties");
     }
 
     @Override

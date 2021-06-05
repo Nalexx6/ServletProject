@@ -49,6 +49,8 @@ public class Servlet extends HttpServlet {
                 new CheckSubmissionCommand());
         commands.put("changeLocale",
                 new ChangeLocaleCommand());
+        commands.put("sortFaculties",
+                new SortFacultiesCommand());
 
     }
 
