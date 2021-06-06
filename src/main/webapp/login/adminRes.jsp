@@ -99,6 +99,7 @@
 <body>
 <div class="container">
 
+
     <div id="locale-changer" class="form-control" style="margin: 0">
         <form method="post" action="${pageContext.request.contextPath}/servlet">
             <input type="hidden" name="command" value="changeLocale">
@@ -117,6 +118,8 @@
             <input type="hidden" name="command" value="logout">
             <input class="btn" style="background: red" type="submit" value="<fmt:message key="button.logout"/>">
         </form>
+        <input class="btn" style="background: blue" type="button" value="<fmt:message key="button.finalize"/>"
+                onclick="confirmFinalization()">
         <input class="btn" type="button" value="<fmt:message key="button.profile"/>" onclick="showUserCredentials()">
         <input class="btn" type="button" value="<fmt:message key="button.faculty"/>" onclick="showFaculties()">
         <input class="btn" type="button" value="<fmt:message key="button.users"/>" onclick="showUsers()">
@@ -177,12 +180,14 @@
                 <th><span id="fac-${faculties.get(f).id}-subject1">${faculties.get(f).subjects.get(0).name}</span></th>
                 <th><span id="fac-${faculties.get(f).id}-subject2">${faculties.get(f).subjects.get(1).name}</span></th>
                 <th><span id="fac-${faculties.get(f).id}-subject3">${faculties.get(f).subjects.get(2).name}</span></th>
-                <th style="border-bottom: 0;"><input class="btn" type="button" value="<fmt:message key="button.faculty.edit"/>"
-                        onclick="editFaculty(${faculties.get(f).id});
-                           <c:set var="editIndex" value="${faculties.get(f).id}"/> "></th>
-                <th style="border-bottom: 0;"><input class="btn" type="button" style="background: red;"
-                        value="<fmt:message key="button.faculty.delete"/>"
-                        onclick="deleteConfirm(${faculties.get(f).id})"></th>
+                <c:if test="${applicationScope.finalized}">
+                    <th style="border-bottom: 0;"><input class="btn" type="button" value="<fmt:message key="button.faculty.edit"/>"
+                            onclick="editFaculty(${faculties.get(f).id});
+                               <c:set var="editIndex" value="${faculties.get(f).id}"/> "></th>
+                    <th style="border-bottom: 0;"><input class="btn" type="button" style="background: red;"
+                            value="<fmt:message key="button.faculty.delete"/>"
+                            onclick="deleteConfirm(${faculties.get(f).id})"></th>
+                </c:if>
                 </tr>
             </c:forEach>
 
@@ -200,18 +205,33 @@
                 <th><fmt:message key="user.label.email"/></th>
             </tr>
         <c:forEach var="u" begin="0" end="${users.size() - 1}">
-            <tr>
-                <th><span id="user-${u}">${users.get(u).login}</span></th>
-                <th><span id="user-${u}">${users.get(u).firstName}</span></th>
-                <th><span id="user-${u}">${users.get(u).lastName}</span></th>
-                <th><span id="user-${u}">${users.get(u).email}</span></th>
+            <c:if test="${users.get(u).role != 'ADMIN'}">
+                <tr>
+                    <th><span id="user-${u}">${users.get(u).login}</span></th>
+                    <th><span id="user-${u}">${users.get(u).firstName}</span></th>
+                    <th><span id="user-${u}">${users.get(u).lastName}</span></th>
+                    <th><span id="user-${u}">${users.get(u).email}</span></th>
 
-                <c:set var="color" value="${!users.get(u).role.equals('BLOCKED') ? 'red' : 'blue'}"/>
-                <th style="border-bottom: 0;"><input class="btn" id="user-status-${u}" type="button"
-                   style="background: ${color}" value="${!users.get(u).role.equals("BLOCKED") ? "Block" : "Unblock"}"
-                    onclick="blockUser(${u})">
-                </th>
-            </tr>
+                    <c:if test="${!applicationScope.finalized}">
+                        <c:choose>
+                            <c:when test="${users.get(u).role == 'BLOCKED'}">
+                                <c:set var="color" value="blue"/>
+                                <fmt:message key="user.unblock" var="status"/>
+                            </c:when>
+                            <c:when test="${users.get(u).role != 'BLOCKED'}">
+                                <c:set var="color" value="red"/>
+                                <fmt:message key="user.block" var="status"/>
+                            </c:when>
+                        </c:choose>
+                        <th style="border-bottom: 0;"><input class="btn" id="user-status-${u}" type="button"
+                             style="background: ${color}" value="${status}"
+                                 onclick="blockUser(${u})">
+                        </th>
+                    </c:if>
+
+
+                </tr>
+            </c:if>
         </c:forEach>
         </table>
     </div>
@@ -350,6 +370,12 @@
     window.onload = init;
 
     function init(){
+
+        if(document.getElementById("finalized").value === "true"){
+            document.getElementById("create-btn").disabled = true;
+            document.getElementById("create-btn").style.visibility = 'hidden';
+
+        }
 
         if(document.getElementById("error-message").innerText !== ""){
             if(document.getElementById("fac-error-index").value === "") {
@@ -531,6 +557,19 @@
     function checkCancel(){
         document.getElementById('op-confirm').style.display = 'none';
         document.getElementById('unchecked-submissions').style.display = 'block';
+    }
+
+    function confirmFinalization(){
+        showFaculties();
+        document.getElementById('op-confirm').style.display = 'block';
+        document.getElementById('faculties').style.display = 'none';
+        document.getElementById('message-head').innerHTML = "<fmt:message key="header.finalize"/>";
+        document.getElementById('op-cancel').onclick = finalizationCancel;
+        document.getElementById('op-command').value = 'finalizeCertificate';
+    }
+
+    function finalizationCancel(){
+        showFaculties();
     }
 
 </script>

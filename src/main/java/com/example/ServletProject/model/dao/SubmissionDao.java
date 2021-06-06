@@ -11,4 +11,5 @@ public interface SubmissionDao extends GenericDao<Submission> {
     List<Submission> findAllForUser(User user);
     List<Submission> findAllForFaculty(Faculty faculty);
     void deleteAllForFaculty(Faculty faculty);
+
 }

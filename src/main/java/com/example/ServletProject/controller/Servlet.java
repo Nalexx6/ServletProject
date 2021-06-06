@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,6 +27,8 @@ public class Servlet extends HttpServlet {
     public void init(){
 
         this.getServletContext().setAttribute("loggedUsers", new HashSet<String>());
+
+        this.getServletContext().setAttribute("finalized", false);
 
         commands.put("login",
                 new LoginCommand());
@@ -51,6 +54,8 @@ public class Servlet extends HttpServlet {
                 new ChangeLocaleCommand());
         commands.put("sortFaculties",
                 new SortFacultiesCommand());
+        commands.put("finalizeCertificate",
+                new FinalizeCertificateCommand());
 
     }
 

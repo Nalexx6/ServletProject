@@ -4,11 +4,16 @@ import java.util.List;
 
 public class Submission extends Entity {
 
-    Faculty faculty;
-    User user;
-    List<Integer> grades;
-    Double secEducAvg;
-    boolean checked;
+    private Faculty faculty;
+    private User user;
+    private List<Integer> grades;
+    private Double secEducAvg;
+    private boolean checked;
+    private Integer finalizationStatus;
+
+    public Submission(){
+        finalizationStatus = -1;
+    }
 
     public Faculty getFaculty() {
         return faculty;
@@ -48,5 +53,13 @@ public class Submission extends Entity {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public Integer getFinalizationStatus() {
+        return finalizationStatus;
+    }
+
+    public void setFinalizationStatus(Integer finalizationStatus) {
+        this.finalizationStatus = finalizationStatus;
     }
 }

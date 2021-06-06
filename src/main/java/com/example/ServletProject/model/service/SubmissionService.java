@@ -39,4 +39,15 @@ public class SubmissionService {
 
     }
 
+    public void finalizeSubmission(Submission submission, int status){
+        try(SubmissionDao submissionDao = daoFactory.createSubmissionDao()){
+            submission.setChecked(true);
+            submission.setFinalizationStatus(status);
+            submissionDao.update(submission);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 }

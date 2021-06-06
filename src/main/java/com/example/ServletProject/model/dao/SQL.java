@@ -77,11 +77,12 @@ public final class SQL {
             "SELECT * FROM submissions WHERE faculty_id=?";
 
     public static final String SQL__INSERT_SUBMISSION =
-            "INSERT INTO submissions (faculty_id, user_id, grade1, grade2, grade3, sec_education_avg, checked)" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO submissions (faculty_id, user_id, grade1, grade2, grade3, sec_education_avg," +
+                    "checked, finalization_status)" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     public static final String SQL__UPDATE_SUBMISSION =
-            "UPDATE submissions SET checked = ? " +
+            "UPDATE submissions SET checked = ?,  finalization_status = ? " +
                     "WHERE id=?";
 
     public static final String SQL__DELETE_SUB_FOR_FACULTY =

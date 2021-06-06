@@ -35,6 +35,7 @@ public final class Fields {
     public static final String SUBMISSION__GRADE3 = "grade3";
     public static final String SUBMISSION__SEC_EDUC_AVG = "sec_education_avg";
     public static final String SUBMISSION__CHECKED = "checked";
+    public static final String SUBMISSION__FIN_STATUS = "finalization_status";
 
 }
 

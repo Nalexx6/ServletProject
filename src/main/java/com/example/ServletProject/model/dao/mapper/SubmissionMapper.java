@@ -30,7 +30,10 @@ public class SubmissionMapper implements ObjectMapper<Submission> {
 
             submission.setSecEducAvg(rs.getDouble(Fields.SUBMISSION__SEC_EDUC_AVG));
             submission.setChecked(rs.getBoolean(Fields.SUBMISSION__CHECKED));
+            submission.setFinalizationStatus(rs.getInt(Fields.SUBMISSION__FIN_STATUS));
             return submission;
+
+
 
         } catch (SQLException e){
             e.printStackTrace();

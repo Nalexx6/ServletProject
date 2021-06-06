@@ -101,6 +101,8 @@
 <body>
     <div class="container">
 
+        <input type="hidden" id="finalized" value="${applicationScope.finalized}">
+
         <div id="locale-changer" class="form-control" style="margin: 0">
             <form method="post" action="${pageContext.request.contextPath}/servlet">
                 <input type="hidden" name="command" value="changeLocale">
@@ -121,7 +123,8 @@
             </form>
             <input class="btn" type="button" value="<fmt:message key="button.profile"/>" onclick="showUserCredentials()">
             <input class="btn" type="button" value="<fmt:message key="button.submission"/>" onclick="showSubmissions()">
-            <input class="btn" type="button" value="<fmt:message key="button.submission.create"/>" onclick="createSubmission()">
+            <input class="btn" id="create-btn" type="button" value="<fmt:message key="button.submission.create"/>"
+                   onclick="createSubmission()">
             <h1 id="header" class="header"><fmt:message key="header.submission"/></h1>
         </div>
 
@@ -148,7 +151,6 @@
                     <th><fmt:message key="submission.label.grade"/></th>
                 </tr>
                 <c:forEach var="s" items="${submissions}">
-                    <tr>
                         <th><span>${s.faculty.name}</span></th>
                         <th><span>${s.faculty.subjects.get(0).name}</span></th>
                         <th><span>${s.grades.get(0)}</span></th>
@@ -156,9 +158,38 @@
                         <th><span>${s.grades.get(1)}</span></th>
                         <th><span>${s.faculty.subjects.get(2).name}</span></th>
                         <th><span>${s.grades.get(2)}</span></th>
-                    <c:set var="color" value="${s.checked ? 'blue' : 'red'}"/>
+                        <c:choose>
+                            <c:when test="${applicationScope.finalized}">
+                                <c:choose>
+                                    <c:when test="${s.finalizationStatus == 0}">
+                                        <c:set var="color" value="red"/>
+                                        <fmt:message key="submission.failed" var="status"/>
+                                    </c:when>
+                                    <c:when test="${s.finalizationStatus == 1}">
+                                        <c:set var="color" value="blue"/>
+                                        <fmt:message key="submission.feePayed" var="status"/>
+                                    </c:when>
+                                    <c:when test="${s.finalizationStatus == 2}">
+                                        <c:set var="color" value="green"/>
+                                        <fmt:message key="submission.stateFunded" var="status"/>
+                                    </c:when>
+                                </c:choose>
+                            </c:when>
+                            <c:when test="${!applicationScope.finalized}">
+                                <c:choose>
+                                    <c:when test="${s.checked}">
+                                        <c:set var="color" value="blue"/>
+                                        <fmt:message key="submission.checked" var="status"/>
+                                    </c:when>
+                                    <c:when test="${!s.checked}">
+                                        <c:set var="color" value="red"/>
+                                        <fmt:message key="submission.unchecked" var="status"/>
+                                    </c:when>
+                                </c:choose>
+                            </c:when>
+                        </c:choose>
                         <th style="border-bottom: 0"><input class="btn" type="button"
-                                   style="background: ${color}" value="${s.checked ? "Checked" : "Unchecked"}"/></th>
+                                style="background: ${color}" value="${status}"/></th>
                     </tr>
                 </c:forEach>
             </table>
@@ -250,6 +281,12 @@
     window.onload = init;
 
     function init(){
+        if(document.getElementById("finalized").value === "true"){
+            document.getElementById("create-btn").disabled = true;
+            document.getElementById("create-btn").style.visibility = 'hidden';
+
+        }
+
         if(document.getElementById("error-message").innerText !== ""){
             orderSubmission(document.getElementById("fac-error-index").value);
         } else if(document.getElementById("show-sort").value === "1"){
@@ -293,9 +330,9 @@
 
         document.getElementById('sub-fac-index').value = index;
 
-        document.getElementById("subject1_lbl").innerHTML = document.getElementById("fac-"+ index +"-subject1").value;
-        document.getElementById("subject2_lbl").innerHTML = document.getElementById("fac-"+ index +"-subject2").value;
-        document.getElementById("subject3_lbl").innerHTML = document.getElementById("fac-"+ index +"-subject3").value;
+        document.getElementById("subject1_lbl").innerHTML = document.getElementById("fac-"+ index +"-subject1").innerText;
+        document.getElementById("subject2_lbl").innerHTML = document.getElementById("fac-"+ index +"-subject2").innerText;
+        document.getElementById("subject3_lbl").innerHTML = document.getElementById("fac-"+ index +"-subject3").innerText;
 
         document.getElementById("subject1").value = "";
         document.getElementById("subject2").value = "";

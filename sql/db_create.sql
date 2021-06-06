@@ -1,5 +1,5 @@
 
-# DROP TABLE subjects;
+DROP TABLE subjects;
 CREATE TABLE IF NOT EXISTS subjects (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(20) UNIQUE
@@ -10,6 +10,9 @@ INSERT INTO subjects (name) VALUES ('English');
 INSERT INTO subjects (name) VALUES ('Physics');
 INSERT INTO subjects (name) VALUES ('Ukrainian Language');
 INSERT INTO subjects (name) VALUES ('History');
+INSERT INTO subjects (name) VALUES ('Biology');
+INSERT INTO subjects (name) VALUES ('Geography');
+INSERT INTO subjects (name) VALUES ('Chemistry');
 
 # DROP TABLE faculties;
 CREATE TABLE IF NOT EXISTS faculties (
@@ -57,7 +60,8 @@ CREATE TABLE IF NOT EXISTS submissions (
     grade2      INT,
     grade3      INT,
     sec_education_avg DOUBLE,
-    checked BOOLEAN
+    checked BOOLEAN,
+    finalization_status INT
 
 );
 

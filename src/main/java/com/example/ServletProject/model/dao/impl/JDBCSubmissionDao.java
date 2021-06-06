@@ -87,8 +87,8 @@ public class JDBCSubmissionDao implements SubmissionDao {
     public List<Submission> findAllForFaculty(Faculty faculty){
         List<Submission> res = new ArrayList<>();
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement pstmt;
+        ResultSet rs;
         Connection con = null;
 
         try {
@@ -167,6 +167,7 @@ public class JDBCSubmissionDao implements SubmissionDao {
             con = DBManager.getInstance().getConnection();
             psmt = con.prepareStatement(SQL.SQL__UPDATE_SUBMISSION);
             psmt.setBoolean(k++, submission.isChecked());
+            psmt.setInt(k++, submission.getFinalizationStatus());
             psmt.setLong(k, submission.getId());
 
             psmt.executeUpdate();
@@ -182,6 +183,8 @@ public class JDBCSubmissionDao implements SubmissionDao {
             }
         }
     }
+
+
 
     @Override
     public void deleteAllForFaculty(Faculty faculty) {
@@ -205,7 +208,6 @@ public class JDBCSubmissionDao implements SubmissionDao {
             }
         }
     }
-
 
     @Override
     public void delete(Long id) {

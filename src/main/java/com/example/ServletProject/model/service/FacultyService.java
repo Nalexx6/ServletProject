@@ -4,6 +4,7 @@ import com.example.ServletProject.model.dao.DaoFactory;
 import com.example.ServletProject.model.dao.FacultyDao;
 import com.example.ServletProject.model.dao.SubmissionDao;
 import com.example.ServletProject.model.entity.Faculty;
+import com.example.ServletProject.model.entity.Submission;
 
 import java.util.List;
 
@@ -73,5 +74,16 @@ public class FacultyService {
         }
 
     }
+
+    public List<Submission> findAllSubmissionsForFaculty(Faculty faculty){
+        try(SubmissionDao submissionDao = daoFactory.createSubmissionDao()){
+            return submissionDao.findAllForFaculty(faculty);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
 }

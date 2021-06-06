@@ -19,17 +19,21 @@ public class CommandAccessFilter implements Filter {
     // commands access
     private static final Map<String, List<String>> accessMap = new HashMap<>();
     private static List<String> commons = new ArrayList<>();
+    private static List<String> unableAfterFinalization = new ArrayList<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Filter.super.init(filterConfig);
 
         accessMap.put("ADMIN", Arrays.asList("createFaculty", "editFaculty", "deleteFaculty",
-                "blockUser", "unblockUser", "checkSubmission"));
+                "blockUser", "unblockUser", "checkSubmission", "finaliseCertificate"));
 
         accessMap.put("USER", Collections.singletonList("createSubmission"));
 
         commons = Arrays.asList("login", "signUp", "logout", "changeLocale", "sortFaculties");
+
+        unableAfterFinalization = Arrays.asList("signUp", "checkSubmission", "createFaculty", "editFaculty", "deleteFaculty",
+                "blockUser", "unblockUser", "checkSubmission", "createSubmission", "finaliseCertificate");
     }
 
     @Override
@@ -41,10 +45,10 @@ public class CommandAccessFilter implements Filter {
             log.debug("Filter finished");
             chain.doFilter(request, response);
         } else {
-            String errorMessasge = "You do not have permission to access the requested resource";
+            String errorMessage = "You do not have permission to access the requested resource";
 
-            request.setAttribute("message", errorMessasge);
-            log.trace("Set the request attribute: message --> " + errorMessasge);
+            request.setAttribute("message", errorMessage);
+            log.trace("Set the request attribute: message --> " + errorMessage);
 
             request.getRequestDispatcher(Paths.MAIN_PAGE)
                     .forward(request, response);
@@ -62,6 +66,11 @@ public class CommandAccessFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
         if (session == null)
             return false;
+
+        if((boolean) session.getServletContext().getAttribute("finalized") &&
+                unableAfterFinalization.contains(commandName)){
+            return false;
+        }
 
         String userRole = (String) session.getAttribute("userRole");
         if (userRole == null)
