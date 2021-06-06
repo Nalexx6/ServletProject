@@ -18,5 +18,5 @@ public final class Regex {
 
     //Faculty parameters
     public static final String FACULTY__NAME = "[A-zЄІЇА-яёєії]+";
-    public static final String FACULTY_ST_AMOUNT = "^[0-9]{1,2}$";
+    public static final String FACULTY_ST_AMOUNT = "^[0-9]{1,3}$";
 }

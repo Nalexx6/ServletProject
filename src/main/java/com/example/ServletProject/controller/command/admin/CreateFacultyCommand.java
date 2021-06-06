@@ -54,7 +54,6 @@ public class CreateFacultyCommand implements Command {
             faculty.setStateFundedAmount(Integer.parseInt(request.getParameter(Fields.FACULTY__STATE_FUNDED_AMOUNT)));
         } catch (NumberFormatException e){
             e.printStackTrace();
-            //todo: log exception
         }
 
         List<Subject> list = new ArrayList<>();
