@@ -12,10 +12,24 @@ import com.example.ServletProject.model.service.UserService;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
 public class LoginCommand implements Command{
+
+    private static final Comparator<Submission> gradesComparator = ((submission1, submission2) -> {
+        if((submission2.getGrades().get(0) + submission2.getGrades().get(1) + submission2.getGrades().get(2)) >
+                (submission1.getGrades().get(0) + submission1.getGrades().get(1) + submission1.getGrades().get(2))) {
+            return 1;
+        } else if ((submission2.getGrades().get(0) + submission2.getGrades().get(1) + submission2.getGrades().get(2)) <
+                (submission1.getGrades().get(0) + submission1.getGrades().get(1) + submission1.getGrades().get(2))){
+            return -1;
+        } else {
+            return submission2.getId().compareTo(submission1.getId());
+        }
+
+    });
 
     static private void setUserRole(HttpServletRequest request,
                                     User user, List<Faculty> faculties, List<User> users, List<Submission> submissions) {
@@ -64,7 +78,9 @@ public class LoginCommand implements Command{
                 FacultyService facultyService = new FacultyService();
                 List<Faculty> faculties = facultyService.getAllFaculties();
                 for(Faculty f: faculties){
-                    f.setSubmissions(facultyService.findAllSubmissionsForFaculty(f));
+                    List<Submission> submissions = facultyService.findAllSubmissionsForFaculty(f);
+                    submissions.sort(gradesComparator);
+                    f.setSubmissions(submissions);
                 }
                 setUserRole(request, user, faculties,
                         userService.getAllUsers(), submissionService.getAllSubmissions());

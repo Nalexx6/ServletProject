@@ -193,11 +193,74 @@
                             value="<fmt:message key="button.faculty.delete"/>"
                             onclick="deleteConfirm(${faculties.get(f).id})"></th>
                 </c:if>
+                    <th style="border-bottom: 0;"><input class="btn" type="button" style="background: blue;"
+                                                         value="<fmt:message key="button.faculty.submissions"/>"
+                                                         onclick="showSubmissionsForFaculty(${faculties.get(f).id})"></th>
                 </tr>
             </c:forEach>
 
         </table>
     </div>
+
+    <c:if test="${applicationScope.finalized}">
+        <c:forEach var="f" items="${faculties}">
+            <div id="faculty-${f.id}-submissions" style="display: none">
+                    <table>
+                        <tr>
+                            <th><fmt:message key="faculty.label.name"/></th>
+                            <th><fmt:message key="faculty.label.subject1"/></th>
+                            <th><fmt:message key="submission.label.grade"/></th>
+                            <th><fmt:message key="faculty.label.subject2"/></th>
+                            <th><fmt:message key="submission.label.grade"/></th>
+                            <th><fmt:message key="faculty.label.subject3"/></th>
+                            <th><fmt:message key="submission.label.grade"/></th>
+                        </tr>
+                        <c:forEach var="s" items="${f.submissions}">
+                            <th><span>${s.faculty.name}</span></th>
+                            <th><span>${s.faculty.subjects.get(0).name}</span></th>
+                            <th><span>${s.grades.get(0)}</span></th>
+                            <th><span>${s.faculty.subjects.get(1).name}</span></th>
+                            <th><span>${s.grades.get(1)}</span></th>
+                            <th><span>${s.faculty.subjects.get(2).name}</span></th>
+                            <th><span>${s.grades.get(2)}</span></th>
+                            <c:choose>
+                                <c:when test="${applicationScope.finalized}">
+                                    <c:choose>
+                                        <c:when test="${s.finalizationStatus == 0}">
+                                            <c:set var="color" value="red"/>
+                                            <fmt:message key="submission.failed" var="status"/>
+                                        </c:when>
+                                        <c:when test="${s.finalizationStatus == 1}">
+                                            <c:set var="color" value="blue"/>
+                                            <fmt:message key="submission.feePayed" var="status"/>
+                                        </c:when>
+                                        <c:when test="${s.finalizationStatus == 2}">
+                                            <c:set var="color" value="green"/>
+                                            <fmt:message key="submission.stateFunded" var="status"/>
+                                        </c:when>
+                                    </c:choose>
+                                </c:when>
+                                <c:when test="${!applicationScope.finalized}">
+                                    <c:choose>
+                                        <c:when test="${s.checked}">
+                                            <c:set var="color" value="blue"/>
+                                            <fmt:message key="submission.checked" var="status"/>
+                                        </c:when>
+                                        <c:when test="${!s.checked}">
+                                            <c:set var="color" value="red"/>
+                                            <fmt:message key="submission.unchecked" var="status"/>
+                                        </c:when>
+                                    </c:choose>
+                                </c:when>
+                            </c:choose>
+                            <th style="border-bottom: 0"><input class="btn" type="button"
+                                                                style="background: ${color}" value="${status}"/></th>
+                            </tr>
+                        </c:forEach>
+                    </table>
+            </div>
+        </c:forEach>
+    </c:if>
 
 
     <div id="users" style="display: none">
@@ -512,6 +575,14 @@
         document.getElementById('fac-command').value = 'editFaculty';
 
         clearFields();
+    }
+
+    function showSubmissionsForFaculty(index){
+        document.getElementById('faculties').style.display = 'none';
+        document.getElementById("faculty-" + index + "-submissions").style.display = 'block';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.faculty.submissions"/>' + ' '
+            document.getElementById('fac-' + index + '-name').innerText;
+
     }
 
     function clearFields(){
