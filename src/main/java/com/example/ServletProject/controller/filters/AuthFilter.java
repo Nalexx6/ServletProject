@@ -38,6 +38,13 @@ public class AuthFilter implements Filter {
             req.getSession().setAttribute("message-displayed", true);
         }
 
+        if(req.getSession().getAttribute("sortDisplayed") != null &&
+                (int) req.getSession().getAttribute("sortDisplayed") == 0) {
+            req.getSession().setAttribute("sortDisplayed", 1);
+        } else {
+            req.getSession().setAttribute("sortDisplayed", 2);
+        }
+
         if(user == null && login != null ) {
             if (loggedUsers.contains(login)){
                 String message = "User is already logged";
@@ -48,8 +55,16 @@ public class AuthFilter implements Filter {
             }
         }
 
+        //Set default locale if user has not been on site yet
         if(req.getSession().getAttribute("locale") == null){
             req.getSession().setAttribute("locale", "EN");
+        }
+
+        //Set default sort parameters if user has not been on site yet
+        if(req.getSession().getAttribute("alphabetSort") == null){
+            req.getSession().setAttribute("alphabetSort", 1);
+            req.getSession().setAttribute("studentSort", 3);
+            req.getSession().setAttribute("stateFundedSort", 5);
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

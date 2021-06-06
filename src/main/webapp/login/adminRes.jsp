@@ -144,7 +144,7 @@
                 <th>
                     <form method="post" action="${pageContext.request.contextPath}/servlet">
                         <input type="hidden" name="command" value="sortFaculties"/>
-                        <input type="hidden" id="alphabetic-sort" name="sortType" value="2">
+                        <input type="hidden" name="sortType" value="${sessionScope.alphabetSort}">
                         <input type="hidden" name="page-path" value="/login/adminRes.jsp">
                         <input class="btn" type="submit" value="<fmt:message key="faculty.label.name"/>"/>
                     </form>
@@ -152,7 +152,7 @@
                 <th>
                     <form method="post" action="${pageContext.request.contextPath}/servlet">
                         <input type="hidden" name="command" value="sortFaculties"/>
-                        <input type="hidden" name="sortType" value="3">
+                        <input type="hidden" name="sortType" value="${sessionScope.studentSort}">
                         <input type="hidden" name="page-path" value="/login/adminRes.jsp">
                         <input class="btn" type="submit" value="<fmt:message key="faculty.label.students_amount"/>"/>
                     </form>
@@ -160,7 +160,7 @@
                 <th>
                     <form method="post" action="${pageContext.request.contextPath}/servlet">
                         <input type="hidden" name="command" value="sortFaculties"/>
-                        <input type="hidden" name="sortType" value="4">
+                        <input type="hidden" name="sortType" value="${sessionScope.stateFundedSort}">
                         <input type="hidden" name="page-path" value="/login/adminRes.jsp">
                         <input class="btn" type="submit" value="<fmt:message key="faculty.label.state_funded_amount"/>"/>
                     </form>
@@ -350,13 +350,6 @@
     window.onload = init;
 
     function init(){
-
-        if(document.getElementById("alphabetic-sort").value === "1"){
-            document.getElementById("alphabetic-sort").value = "2";
-        } else {
-            document.getElementById("alphabetic-sort").value = "1";
-        }
-
 
         if(document.getElementById("error-message").innerText !== ""){
             if(document.getElementById("fac-error-index").value === "") {

@@ -135,7 +135,7 @@
             <p><fmt:message key="user.label.institution"/>: <c:out value="${user.institution}"/>
         </div>
 
-        <div id="submissions" style="display: block">
+        <div id="submissions" style="display: none">
             <c:set var = "submissions" scope="session" value="${sessionScope.user.submissions}"/>
             <table>
                 <tr>
@@ -164,13 +164,35 @@
             </table>
         </div>
 
-        <div id="faculties" style="display: none">
+        <div id="faculties" style="display: block">
             <c:set var = "faculties" scope="session" value="${sessionScope.faculties}"/>
             <table>
+                <input id="show-sort" type="hidden" value="${sessionScope.sortDisplayed}">
                 <tr>
-                    <th><fmt:message key="faculty.label.name"/></th>
-                    <th><fmt:message key="faculty.label.students_amount"/></th>
-                    <th><fmt:message key="faculty.label.state_funded_amount"/></th>
+                    <th>
+                        <form method="post" action="${pageContext.request.contextPath}/servlet">
+                            <input type="hidden" name="command" value="sortFaculties"/>
+                            <input type="hidden" name="sortType" value="${sessionScope.alphabetSort}">
+                            <input type="hidden" name="page-path" value="/login/userRes.jsp">
+                            <input class="btn" type="submit" value="<fmt:message key="faculty.label.name"/>"/>
+                        </form>
+                    </th>
+                    <th>
+                        <form method="post" action="${pageContext.request.contextPath}/servlet">
+                            <input type="hidden" name="command" value="sortFaculties"/>
+                            <input type="hidden" name="sortType" value="${sessionScope.studentSort}">
+                            <input type="hidden" name="page-path" value="/login/userRes.jsp">
+                            <input class="btn" type="submit" value="<fmt:message key="faculty.label.students_amount"/>"/>
+                        </form>
+                    </th>
+                    <th>
+                        <form method="post" action="${pageContext.request.contextPath}/servlet">
+                            <input type="hidden" name="command" value="sortFaculties"/>
+                            <input type="hidden" name="sortType" value="${sessionScope.stateFundedSort}">
+                            <input type="hidden" name="page-path" value="/login/userRes.jsp">
+                            <input class="btn" type="submit" value="<fmt:message key="faculty.label.state_funded_amount"/>"/>
+                        </form>
+                    </th>
                     <th><fmt:message key="faculty.label.subject1"/></th>
                     <th><fmt:message key="faculty.label.subject2"/></th>
                     <th><fmt:message key="faculty.label.subject3"/></th>
@@ -228,9 +250,10 @@
     window.onload = init;
 
     function init(){
-        createSubmission();
         if(document.getElementById("error-message").innerText !== ""){
             orderSubmission(document.getElementById("fac-error-index").value);
+        } else if(document.getElementById("show-sort").value === "1"){
+            createSubmission();
         } else {
             showSubmissions();
         }
