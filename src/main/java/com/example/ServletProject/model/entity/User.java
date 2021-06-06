@@ -1,7 +1,6 @@
 package com.example.ServletProject.model.entity;
 
 import java.util.List;
-import java.util.Map;
 
 public class User extends com.example.ServletProject.model.entity.Entity {
 

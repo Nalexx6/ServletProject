@@ -1,6 +1,5 @@
 package com.example.ServletProject.model.dao;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public interface GenericDao<T> extends AutoCloseable {

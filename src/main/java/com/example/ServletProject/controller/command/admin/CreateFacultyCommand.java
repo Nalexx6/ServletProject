@@ -4,7 +4,6 @@ import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.controller.command.Command;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
-import com.example.ServletProject.model.validator.Regex;
 import com.example.ServletProject.model.entity.Subject;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubjectService;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class CreateFacultyCommand implements Command {
     static public void setFaculties(HttpServletRequest request, List<Faculty> faculties){

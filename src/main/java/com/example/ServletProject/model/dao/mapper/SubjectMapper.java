@@ -1,6 +1,5 @@
 package com.example.ServletProject.model.dao.mapper;
 
-import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Subject;
 

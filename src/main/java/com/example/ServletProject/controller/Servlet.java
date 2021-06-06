@@ -19,7 +19,7 @@ import java.util.Map;
 @WebServlet(name = "servlet", value = "/servlet")
 public class Servlet extends HttpServlet {
 
-    private Map<String, Command> commands = new HashMap<>();
+    private static final Map<String, Command> commands = new HashMap<>();
     private static final Logger log = LogManager.getLogger(Servlet.class);
 
     @Override

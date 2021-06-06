@@ -3,7 +3,6 @@ package com.example.ServletProject.controller.command;
 import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
-import com.example.ServletProject.model.validator.Regex;
 import com.example.ServletProject.model.entity.User;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.UserService;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class SignUpCommand implements Command{
 
@@ -37,12 +35,12 @@ public class SignUpCommand implements Command{
         UserService userService = new UserService();
         if(!Validator.validateUserFields(user)){
             request.getSession().setAttribute("message", "Please enter valid user parameters");
-            return "redirect:/login/userSignUp.jsp";
+            return "redirect:" + Paths.SIGN_UP_PAGE;
         }
 
         if(userService.findUserByLogin(user.getLogin()) != null){
             request.getSession().setAttribute("message", "User with this login already exists");
-            return "redirect:/login/userSignUp.jsp";
+            return "redirect:" + Paths.SIGN_UP_PAGE;
         }
 
         userService.addUser(user);

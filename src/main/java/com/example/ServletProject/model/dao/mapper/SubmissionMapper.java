@@ -33,7 +33,7 @@ public class SubmissionMapper implements ObjectMapper<Submission> {
             return submission;
 
         } catch (SQLException e){
-            e.printStackTrace();;
+            e.printStackTrace();
         }
 
         return null;

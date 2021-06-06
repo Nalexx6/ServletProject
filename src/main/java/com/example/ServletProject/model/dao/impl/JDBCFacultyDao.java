@@ -16,8 +16,8 @@ public class JDBCFacultyDao implements FacultyDao {
     @Override
     public Faculty findById(Long id) {
         Faculty faculty = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement pstmt;
+        ResultSet rs;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
@@ -45,8 +45,8 @@ public class JDBCFacultyDao implements FacultyDao {
     @Override
     public Faculty findByName(String name) {
         Faculty faculty = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement pstmt;
+        ResultSet rs;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
@@ -75,10 +75,9 @@ public class JDBCFacultyDao implements FacultyDao {
     public List<Faculty> findAll() {
         List<Faculty> res = new ArrayList<>();
 
-        Statement stmt = null;
-        ResultSet rs = null;
+        Statement stmt;
+        ResultSet rs;
         Connection con = null;
-
 
         try {
             con = DBManager.getInstance().getConnection();
@@ -107,23 +106,19 @@ public class JDBCFacultyDao implements FacultyDao {
     @Override
     public void insert(Faculty faculty) {
         Connection con = null;
-        PreparedStatement psmt = null;
-        ResultSet rs = null;
+        PreparedStatement psmt;
+        ResultSet rs;
         int k = 1;
 
         try {
             con = DBManager.getInstance().getConnection();
             psmt = con.prepareStatement(SQL.SQL__INSERT_FAC, Statement.RETURN_GENERATED_KEYS);
-            psmt.setString(k, faculty.getName());
-            k++;
-            psmt.setInt(k, faculty.getStudentsAmount());
-            k++;
-            psmt.setInt(k, faculty.getStateFundedAmount());
-            k++;
+            psmt.setString(k++, faculty.getName());
+            psmt.setInt(k++, faculty.getStudentsAmount());
+            psmt.setInt(k++, faculty.getStateFundedAmount());
 
             for (Subject s : faculty.getSubjects()) {
-                psmt.setInt(k, (int) s.getId());
-                k++;
+                psmt.setInt(k++, (int) s.getId());
             }
 
             if(psmt.executeUpdate() > 0) {
@@ -149,8 +144,7 @@ public class JDBCFacultyDao implements FacultyDao {
     @Override
     public void update(Faculty faculty) {
         Connection con = null;
-        PreparedStatement psmt = null;
-        ResultSet rs = null;
+        PreparedStatement psmt;
         int k = 1;
         try {
             con = DBManager.getInstance().getConnection();
@@ -160,11 +154,10 @@ public class JDBCFacultyDao implements FacultyDao {
             psmt.setLong(k++, faculty.getStateFundedAmount());
 
             for (Subject s: faculty.getSubjects()) {
-                psmt.setLong(k, s.getId());
-                k++;
+                psmt.setLong(k++, s.getId());
             }
 
-            psmt.setLong(k++, faculty.getId());
+            psmt.setLong(k, faculty.getId());
             System.out.println(psmt);
             psmt.executeUpdate();
             psmt.close();
@@ -183,7 +176,7 @@ public class JDBCFacultyDao implements FacultyDao {
     @Override
     public void delete(Long id) {
         Connection con = null;
-        PreparedStatement psmt = null;
+        PreparedStatement psmt;
 
         try {
             con = DBManager.getInstance().getConnection();

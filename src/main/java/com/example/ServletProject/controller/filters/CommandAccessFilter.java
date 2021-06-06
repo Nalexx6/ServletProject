@@ -17,7 +17,7 @@ public class CommandAccessFilter implements Filter {
     private static final Logger log = LogManager.getLogger(CommandAccessFilter.class);
 
     // commands access
-    private static Map<String, List<String>> accessMap = new HashMap<>();
+    private static final Map<String, List<String>> accessMap = new HashMap<>();
     private static List<String> commons = new ArrayList<>();
 
     @Override

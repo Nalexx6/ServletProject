@@ -1,7 +1,6 @@
 package com.example.ServletProject.model.dao.impl;
 
 import com.example.ServletProject.model.dao.DBManager;
-import com.example.ServletProject.model.dao.GenericDao;
 import com.example.ServletProject.model.dao.SQL;
 import com.example.ServletProject.model.dao.UserDao;
 import com.example.ServletProject.model.dao.mapper.UserMapper;
@@ -17,8 +16,8 @@ public class JDBCUserDao implements UserDao {
     @Override
     public User findById(Long id){
         User user = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement pstmt;
+        ResultSet rs;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
@@ -47,8 +46,8 @@ public class JDBCUserDao implements UserDao {
     public List<User> findAll() {
         List<User> res = new ArrayList<>();
 
-        Statement stmt = null;
-        ResultSet rs = null;
+        Statement stmt;
+        ResultSet rs;
         Connection con = null;
 
 
@@ -78,8 +77,8 @@ public class JDBCUserDao implements UserDao {
     @Override
     public User findByLogin(String login){
         User user = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement pstmt;
+        ResultSet rs;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
@@ -108,8 +107,8 @@ public class JDBCUserDao implements UserDao {
     @Override
     public void insert(User user) {
         Connection con = null;
-        PreparedStatement psmt = null;
-        ResultSet rs = null;
+        PreparedStatement psmt;
+        ResultSet rs;
 
         try {
             con = DBManager.getInstance().getConnection();
@@ -147,8 +146,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public void update(User user) {
         Connection con = null;
-        PreparedStatement psmt = null;
-        ResultSet rs = null;
+        PreparedStatement psmt;
 
         try {
             con = DBManager.getInstance().getConnection();

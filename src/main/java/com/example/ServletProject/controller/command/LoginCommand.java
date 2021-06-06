@@ -1,10 +1,6 @@
 package com.example.ServletProject.controller.command;
 
 import com.example.ServletProject.controller.Paths;
-import com.example.ServletProject.model.dao.GenericDao;
-import com.example.ServletProject.model.dao.impl.JDBCFacultyDao;
-import com.example.ServletProject.model.dao.impl.JDBCSubmissionDao;
-import com.example.ServletProject.model.dao.impl.JDBCUserDao;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Submission;
@@ -79,7 +75,7 @@ public class LoginCommand implements Command{
             }
         } else {
             request.getSession().setAttribute("message", "Please enter valid login and password!");
-            return "redirect:/login/userLogin.jsp";
+            return "redirect:" + Paths.LOGIN_PAGE;
         }
     }
 

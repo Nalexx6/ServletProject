@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @WebFilter(filterName = "encoding")
@@ -15,7 +14,7 @@ public class EncodingFilter implements Filter {
     private String encoding;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         encoding = filterConfig.getInitParameter("requestEncoding");
         if (encoding == null) encoding = "UTF-8";
     }
@@ -25,9 +24,6 @@ public class EncodingFilter implements Filter {
         log.debug("Filter starts");
 
         System.out.println("EncodingFilter is processing");
-
-//        HttpServletRequest httpRequest = (HttpServletRequest)servletRequest;
-//        log.trace("Request uri --> " + httpRequest.getRequestURI());
 
         if (null == servletRequest.getCharacterEncoding()) {
             servletRequest.setCharacterEncoding(encoding);

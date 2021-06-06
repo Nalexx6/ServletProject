@@ -6,14 +6,12 @@ import com.example.ServletProject.model.entity.*;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubmissionService;
 import com.example.ServletProject.model.service.UserService;
-import com.example.ServletProject.model.validator.Regex;
 import com.example.ServletProject.model.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class CreateSubmissionCommand implements Command {
 

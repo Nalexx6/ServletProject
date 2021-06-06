@@ -1,11 +1,9 @@
 package com.example.ServletProject.model.dao.impl;
 
 import com.example.ServletProject.model.dao.DBManager;
-import com.example.ServletProject.model.dao.GenericDao;
 import com.example.ServletProject.model.dao.SQL;
 import com.example.ServletProject.model.dao.SubjectDao;
 import com.example.ServletProject.model.dao.mapper.SubjectMapper;
-import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Subject;
 
 import java.sql.Connection;
@@ -19,8 +17,8 @@ public class JDBCSubjectDao implements SubjectDao {
     @Override
     public Subject findById(Long id) {
         Subject subject = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement pstmt;
+        ResultSet rs;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
@@ -48,8 +46,8 @@ public class JDBCSubjectDao implements SubjectDao {
     @Override
     public Subject findByName(String name){
         Subject subject = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement pstmt;
+        ResultSet rs;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();

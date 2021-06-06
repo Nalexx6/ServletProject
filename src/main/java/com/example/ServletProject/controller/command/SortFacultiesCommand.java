@@ -7,10 +7,8 @@ import com.example.ServletProject.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.TreeSet;
 
 public class SortFacultiesCommand implements Command{
 
@@ -39,7 +37,7 @@ public class SortFacultiesCommand implements Command{
 
         int type = Integer.parseInt(request.getParameter("sortType"));
 
-        List<Faculty> faculties = null;
+        List<Faculty> faculties;
         if("ADMIN".equals(request.getSession().getAttribute("role"))) {
             FacultyService service = new FacultyService();
             faculties = service.getAllFaculties();

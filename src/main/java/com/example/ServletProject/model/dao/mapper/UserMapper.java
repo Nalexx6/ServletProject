@@ -24,7 +24,9 @@ public class UserMapper implements ObjectMapper<User> {
 
             return user;
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            e.printStackTrace();
         }
+
+        return null;
     }
 }

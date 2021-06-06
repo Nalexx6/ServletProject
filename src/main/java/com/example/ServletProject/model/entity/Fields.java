@@ -10,7 +10,6 @@ public final class Fields {
     public static final String USER__PASSWORD = "password";
     public static final String USER__FIRST_NAME = "first_name";
     public static final String USER__LAST_NAME = "last_name";
-    public static final String USER__LOCALE_NAME = "locale_name";
     public static final String USER__ROLE_ID = "role";
     public static final String USER__EMAIL = "email";
     public static final String USER__CITY = "city";
