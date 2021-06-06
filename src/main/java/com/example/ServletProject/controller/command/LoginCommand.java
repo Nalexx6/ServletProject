@@ -62,7 +62,11 @@ public class LoginCommand implements Command{
             if(user.getRole().equals("ADMIN")) {
                 SubmissionService submissionService = new SubmissionService();
                 FacultyService facultyService = new FacultyService();
-                setUserRole(request, user, facultyService.getAllFaculties(),
+                List<Faculty> faculties = facultyService.getAllFaculties();
+                for(Faculty f: faculties){
+                    f.setSubmissions(facultyService.findAllSubmissionsForFaculty(f));
+                }
+                setUserRole(request, user, faculties,
                         userService.getAllUsers(), submissionService.getAllSubmissions());
                 return Paths.ADMIN_PAGE;
             } else if ((user.getRole().equals("BLOCKED")) ){

@@ -123,8 +123,10 @@
             </form>
             <input class="btn" type="button" value="<fmt:message key="button.profile"/>" onclick="showUserCredentials()">
             <input class="btn" type="button" value="<fmt:message key="button.submission"/>" onclick="showSubmissions()">
-            <input class="btn" id="create-btn" type="button" value="<fmt:message key="button.submission.create"/>"
-                   onclick="createSubmission()">
+            <c:if test="${!applicationScope.finalized}">
+                <input class="btn" id="create-btn" type="button" value="<fmt:message key="button.submission.create"/>"
+                       onclick="createSubmission()">
+            </c:if>
             <h1 id="header" class="header"><fmt:message key="header.submission"/></h1>
         </div>
 
@@ -281,11 +283,11 @@
     window.onload = init;
 
     function init(){
-        if(document.getElementById("finalized").value === "true"){
-            document.getElementById("create-btn").disabled = true;
-            document.getElementById("create-btn").style.visibility = 'hidden';
-
-        }
+        // if(document.getElementById("finalized").value === "true"){
+        //     document.getElementById("create-btn").disabled = true;
+        //     document.getElementById("create-btn").style.visibility = 'hidden';
+        //
+        // }
 
         if(document.getElementById("error-message").innerText !== ""){
             orderSubmission(document.getElementById("fac-error-index").value);

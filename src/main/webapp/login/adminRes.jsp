@@ -112,21 +112,26 @@
             <input class="btn" style="background: lightgray; width: 50px" type="submit" name="locale" value="EN">
         </form>
     </div>
-
+    <c:if test="${applicationScope.finalized}">
+        <h1 class="header"><fmt:message key="header.finalized"/></h1>
+    </c:if>
     <div class="form-control">
         <form method="post" action="${pageContext.request.contextPath}/servlet">
             <input type="hidden" name="command" value="logout">
             <input class="btn" style="background: red" type="submit" value="<fmt:message key="button.logout"/>">
         </form>
-        <input class="btn" style="background: blue" type="button" value="<fmt:message key="button.finalize"/>"
-                onclick="confirmFinalization()">
         <input class="btn" type="button" value="<fmt:message key="button.profile"/>" onclick="showUserCredentials()">
         <input class="btn" type="button" value="<fmt:message key="button.faculty"/>" onclick="showFaculties()">
         <input class="btn" type="button" value="<fmt:message key="button.users"/>" onclick="showUsers()">
-        <input class="btn" type="button" value="<fmt:message key="button.checked_submissions"/>" onclick="showCheckedSubmissions()">
-        <input class="btn" type="button" value="<fmt:message key="button.unchecked_submissions"/>" onclick="showUncheckedSubmissions()">
-        <input class="btn" type="button" value="<fmt:message key="button.faculty.create"/>" onclick="createFaculty()">
-
+        <input class="btn" type="button" value="<fmt:message key="button.checked_submissions"/>"
+               onclick="showCheckedSubmissions()">
+        <c:if test="${!applicationScope.finalized}">
+            <input class="btn" type="button" value="<fmt:message key="button.unchecked_submissions"/>"
+                   onclick="showUncheckedSubmissions()">
+            <input class="btn" type="button" value="<fmt:message key="button.faculty.create"/>" onclick="createFaculty()">
+            <input class="btn" style="background: blue" type="button" value="<fmt:message key="button.finalize"/>"
+                   onclick="confirmFinalization()">
+        </c:if>
         <h1 id="header" class="header"><fmt:message key="header.faculty"/></h1>
     </div>
 
@@ -180,7 +185,7 @@
                 <th><span id="fac-${faculties.get(f).id}-subject1">${faculties.get(f).subjects.get(0).name}</span></th>
                 <th><span id="fac-${faculties.get(f).id}-subject2">${faculties.get(f).subjects.get(1).name}</span></th>
                 <th><span id="fac-${faculties.get(f).id}-subject3">${faculties.get(f).subjects.get(2).name}</span></th>
-                <c:if test="${applicationScope.finalized}">
+                <c:if test="${!applicationScope.finalized}">
                     <th style="border-bottom: 0;"><input class="btn" type="button" value="<fmt:message key="button.faculty.edit"/>"
                             onclick="editFaculty(${faculties.get(f).id});
                                <c:set var="editIndex" value="${faculties.get(f).id}"/> "></th>
@@ -192,8 +197,8 @@
             </c:forEach>
 
         </table>
-
     </div>
+
 
     <div id="users" style="display: none">
         <c:set var = "users" scope="session" value="${sessionScope.users}"/>

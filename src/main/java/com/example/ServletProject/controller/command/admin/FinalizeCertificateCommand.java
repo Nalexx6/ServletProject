@@ -27,9 +27,10 @@ public class FinalizeCertificateCommand implements Command {
 
     });
 
-    private void setFinalization(HttpServletRequest request, List<Faculty> faculties){
+    private void setFinalization(HttpServletRequest request, List<Faculty> faculties, List<Submission> submissions){
         HttpSession session = request.getSession();
         session.setAttribute("faculties", faculties);
+        session.setAttribute("submissions", submissions);
         session.getServletContext().setAttribute("finalized", true);
     }
 
@@ -37,7 +38,6 @@ public class FinalizeCertificateCommand implements Command {
     public String execute(HttpServletRequest request) {
 
         FacultyService service = new FacultyService();
-
         List<Faculty> faculties = service.getAllFaculties();
 
         for(Faculty f: faculties){
@@ -45,7 +45,8 @@ public class FinalizeCertificateCommand implements Command {
             finalise(f);
         }
 
-        setFinalization(request, faculties);
+        SubmissionService submissionService = new SubmissionService();
+        setFinalization(request, faculties, submissionService.getAllSubmissions());
         return "redirect:" + Paths.ADMIN_PAGE;
     }
 
