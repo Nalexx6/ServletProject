@@ -134,8 +134,8 @@ public class JDBCSubmissionDao implements SubmissionDao {
             }
 
             psmt.setDouble(k++, submission.getSecEducAvg());
-            psmt.setBoolean(k, submission.isChecked());
-
+            psmt.setBoolean(k++, submission.isChecked());
+            psmt.setInt(k, submission.getFinalizationStatus());
 
             if(psmt.executeUpdate() > 0) {
                 rs = psmt.getGeneratedKeys();
