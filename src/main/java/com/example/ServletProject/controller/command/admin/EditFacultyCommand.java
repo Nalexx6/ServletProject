@@ -24,7 +24,7 @@ public class EditFacultyCommand  implements Command {
             return "redirect:" + Paths.ADMIN_PAGE;
         }
 
-        if(service.getFacultyByName(editedFaculty.getName()) != null){
+        if(service.getFacultyByName(editedFaculty.getName()) != null && !editedFaculty.getName().equals(faculty.getName())){
             request.getSession().setAttribute("message", "Faculty with such name already exists");
             request.getSession().setAttribute("facIndex", editedFaculty.getId());
             return "redirect:" + Paths.ADMIN_PAGE;
