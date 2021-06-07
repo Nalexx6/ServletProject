@@ -67,7 +67,7 @@ public class LoginCommand implements Command{
         System.out.println(login + " ");
 
         UserService userService = new UserService();
-        User user = userService.findUserByLogin(login);
+        User user = userService.getUserByLogin(login);
 
 
 

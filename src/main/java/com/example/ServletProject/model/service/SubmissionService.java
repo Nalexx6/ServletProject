@@ -20,6 +20,16 @@ public class SubmissionService {
         return null;
     }
 
+    public Submission getSubmissionById(Long id){
+        try(SubmissionDao submissionDao = daoFactory.createSubmissionDao()){
+            return submissionDao.findById(id);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public void addSubmission(Submission submission){
         try(SubmissionDao submissionDao = daoFactory.createSubmissionDao()){
             submissionDao.insert(submission);

@@ -18,7 +18,7 @@ public class UnblockUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         UserService userService = new UserService();
-        userService.unblockUser(userService.getAllUsers().get(Integer.parseInt(request.getParameter("opIndex"))));
+        userService.unblockUser(userService.getUserById(Long.parseLong(request.getParameter("opIndex"))));
 
         setUsers(request, userService.getAllUsers());
 

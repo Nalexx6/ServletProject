@@ -24,7 +24,17 @@ public class UserService {
         return null;
     }
 
-    public User findUserByLogin(String login) {
+    public User getUserById(Long id){
+        try(UserDao userDao = daoFactory.createUserDao()){
+            return userDao.findById(id);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public User getUserByLogin(String login) {
         try(UserDao userDao = daoFactory.createUserDao()){
             return userDao.findByLogin(login);
         } catch (Exception e){

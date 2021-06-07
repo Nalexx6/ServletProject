@@ -18,7 +18,7 @@ public class BlockUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         UserService userService = new UserService();
-        userService.blockUser(userService.getAllUsers().get(Integer.parseInt(request.getParameter("opIndex"))));
+        userService.blockUser(userService.getUserById(Long.parseLong(request.getParameter("opIndex"))));
 
         setUsers(request, userService.getAllUsers());
 

@@ -18,7 +18,7 @@ public class CheckSubmissionCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         SubmissionService service = new SubmissionService();
-        service.checkSubmission(service.getAllSubmissions().get(Integer.parseInt(request.getParameter("opIndex"))));
+        service.checkSubmission(service.getSubmissionById(Long.parseLong(request.getParameter("opIndex"))));
 
         setSubmissions(request, service.getAllSubmissions());
         return "redirect:" + Paths.ADMIN_PAGE;

@@ -2,6 +2,7 @@ package com.example.ServletProject.model.dao;
 
 public final class SQL {
 
+    //////////////////////////////////////////////////////////
     //User queries
     public static final String SQL__FIND_ALL_USERS =
             "SELECT * FROM users";
@@ -46,26 +47,17 @@ public final class SQL {
 
     //////////////////////////////////////////////////////////
     //Subject queries
-    public static final String SQL__FIND_ALL_SUBJECTS =
-            "SELECT * FROM subjects";
-
     public static final String SQL__FIND_SUBJECT_BY_ID =
             "SELECT * FROM subjects WHERE id=?";
 
     public static final String SQL__FIND_SUBJECT_BY_NAME =
             "SELECT * FROM subjects WHERE name=?";
 
-    public static final String SQL__INSERT_SUBJECT =
-            "INSERT INTO subjects (name)" +
-                    "VALUES (?)";
 
     ////////////////////////////////////////////////////////
     //Submission queries
     public static final String SQL__FIND_ALL_SUBMISSIONS =
             "SELECT * FROM submissions";
-
-    public static final String SQL__FIND_SUBMISSIONS_UNCHECKED =
-            "SELECT * FROM submissions WHERE checked=false";
 
     public static final String SQL__FIND_SUBMISSION_BY_ID =
             "SELECT * FROM submissions WHERE id=?";

@@ -1,7 +1,6 @@
 package com.example.ServletProject.model.dao.impl;
 
 import com.example.ServletProject.model.dao.DBManager;
-import com.example.ServletProject.model.dao.GenericDao;
 import com.example.ServletProject.model.dao.SQL;
 import com.example.ServletProject.model.dao.SubmissionDao;
 import com.example.ServletProject.model.dao.mapper.SubmissionMapper;
@@ -16,14 +15,42 @@ import java.util.List;
 public class JDBCSubmissionDao implements SubmissionDao {
     @Override
     public Submission findById(Long id) {
-        return null;
+        Submission res = new Submission();
+
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL.SQL__FIND_SUBMISSION_BY_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+
+            SubmissionMapper mapper = new SubmissionMapper();
+            if (rs.next()) {
+                res = mapper.mapObject(rs);
+            }
+        } catch (SQLException ex) {
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
+            ex.printStackTrace();
+        } finally {
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
+        }
+
+        return res;
+
     }
 
     @Override
     public List<Submission> findAll() {
         List<Submission> res = new ArrayList<>();
-        Statement stmt = null;
-        ResultSet rs = null;
+        Statement stmt;
+        ResultSet rs;
         Connection con = null;
 
         try {
@@ -35,7 +62,6 @@ public class JDBCSubmissionDao implements SubmissionDao {
             while (rs.next()) {
                 res.add(mapper.mapObject(rs));
             }
-            System.out.println(res.size());
         } catch (SQLException ex) {
             if(con != null){
                 DBManager.getInstance().rollbackAndClose(con);
@@ -54,8 +80,8 @@ public class JDBCSubmissionDao implements SubmissionDao {
     public List<Submission> findAllForUser(User user){
         List<Submission> res = new ArrayList<>();
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement pstmt;
+        ResultSet rs;
         Connection con = null;
 
         try {
@@ -119,8 +145,8 @@ public class JDBCSubmissionDao implements SubmissionDao {
     @Override
     public void insert(Submission submission) {
         Connection con = null;
-        PreparedStatement psmt = null;
-        ResultSet rs = null;
+        PreparedStatement psmt;
+        ResultSet rs;
         int k = 1;
 
         try {
@@ -160,7 +186,7 @@ public class JDBCSubmissionDao implements SubmissionDao {
     @Override
     public void update(Submission submission) {
         Connection con = null;
-        PreparedStatement psmt = null;
+        PreparedStatement psmt;
         int k = 1;
 
         try {
@@ -189,7 +215,7 @@ public class JDBCSubmissionDao implements SubmissionDao {
     @Override
     public void deleteAllForFaculty(Faculty faculty) {
         Connection con = null;
-        PreparedStatement psmt = null;
+        PreparedStatement psmt;
 
         try {
             con = DBManager.getInstance().getConnection();

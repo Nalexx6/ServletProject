@@ -38,7 +38,7 @@ public class SignUpCommand implements Command{
             return "redirect:" + Paths.SIGN_UP_PAGE;
         }
 
-        if(userService.findUserByLogin(user.getLogin()) != null){
+        if(userService.getUserByLogin(user.getLogin()) != null){
             request.getSession().setAttribute("message", "User with this login already exists");
             return "redirect:" + Paths.SIGN_UP_PAGE;
         }
