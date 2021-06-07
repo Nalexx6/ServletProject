@@ -14,7 +14,7 @@ public final class Regex {
 
     //Submission Grades
     public static final String SUBMISSION_GRADE = "^[0-9]{1,2}$";
-    public static final String SUBMISSION_SEC_EDUC_AVG = "^[0-9]{1,2}\\.?[1-9]?$";
+    public static final String SUBMISSION_SEC_EDUC_AVG = "^[0-9]{1,2}\\.?[0-9]?$";
 
     //Faculty parameters
     public static final String FACULTY__NAME = "[A-zЄІЇА-яёєії]+";
