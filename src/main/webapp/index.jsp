@@ -93,32 +93,35 @@
 </head>
 <body>
 
+    <div class="container">
+        <div id="locale-changer" class="form-control" style="margin: 0">
+            <form method="post" action="${pageContext.request.contextPath}/servlet">
+                <input type="hidden" name="command" value="changeLocale">
+                <input type="hidden" name="page-path" value="/index.jsp">
+                <input class="btn" style="background: lightgray; width: 50px" type="submit" name="locale" value="UA">
+            </form>
+            <form method="post" action="${pageContext.request.contextPath}/servlet">
+                <input type="hidden" name="command" value="changeLocale">
+                <input type="hidden" name="page-path" value="/index.jsp">
+                <input class="btn" style="background: lightgray; width: 50px" type="submit" name="locale" value="EN">
+            </form>
+        </div>
+        <c:out value="${requestScope.message}"/>
+        <h2 class="header">
+            <fmt:message key="entry.name"/> <br/>
+        </h2>
 
-    <div id="locale-changer" class="form-control" style="margin: 0">
-        <form method="post" action="${pageContext.request.contextPath}/servlet">
-            <input type="hidden" name="command" value="changeLocale">
-            <input type="hidden" name="page-path" value="/index.jsp">
-            <input class="btn" style="background: lightgray; width: 50px" type="submit" name="locale" value="UA">
-        </form>
-        <form method="post" action="${pageContext.request.contextPath}/servlet">
-            <input type="hidden" name="command" value="changeLocale">
-            <input type="hidden" name="page-path" value="/index.jsp">
-            <input class="btn" style="background: lightgray; width: 50px" type="submit" name="locale" value="EN">
-        </form>
+        <br/>
+        <a href="${pageContext.request.contextPath}/login/userLogin.jsp" style="font-size: 2.0em">
+            <fmt:message key="login.label"/>
+        </a>
+        <c:if test="${!applicationScope.finalized}">
+        <br>
+        <a href="${pageContext.request.contextPath}/login/userSignUp.jsp" style="font-size: 2.0em">
+            <fmt:message key="signUp.label"/>
+        </a>
+        <br>
+        </c:if>
     </div>
-    <c:out value="${requestScope.message}"/>
-    <h2>
-        <fmt:message key="entry.name"/> <br/>
-    </h2>
-
-    <br/>
-    <a href="${pageContext.request.contextPath}/login/userLogin.jsp" style="font-size: 2.0em">
-        <fmt:message key="login.label"/>
-    </a>
-    <br>
-    <a href="${pageContext.request.contextPath}/login/userSignUp.jsp" style="font-size: 2.0em">
-        <fmt:message key="signUp.label"/>
-    </a>
-    <br>
 </body>
 </html>

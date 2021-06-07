@@ -177,25 +177,23 @@
                 <th><fmt:message key="faculty.label.subject2"/></th>
                 <th><fmt:message key="faculty.label.subject3"/></th>
             </tr>
-            <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
+            <c:forEach var="f" items="${faculties}" >
                 <tr>
-                <th><span id="fac-${faculties.get(f).id}-name">${faculties.get(f).name}</span></th>
-                <th><span id="fac-${faculties.get(f).id}-st-amount">${faculties.get(f).studentsAmount}</span></th>
-                <th><span id="fac-${faculties.get(f).id}-st-funded-amount">${faculties.get(f).stateFundedAmount}</span></th>
-                <th><span id="fac-${faculties.get(f).id}-subject1">${faculties.get(f).subjects.get(0).name}</span></th>
-                <th><span id="fac-${faculties.get(f).id}-subject2">${faculties.get(f).subjects.get(1).name}</span></th>
-                <th><span id="fac-${faculties.get(f).id}-subject3">${faculties.get(f).subjects.get(2).name}</span></th>
+                <th><span id="fac-${f.id}-name">${f.name}</span></th>
+                <th><span id="fac-${f.id}-st-amount">${f.studentsAmount}</span></th>
+                <th><span id="fac-${f.id}-st-funded-amount">${f.stateFundedAmount}</span></th>
+                <th><span id="fac-${f.id}-subject1">${f.subjects.get(0).name}</span></th>
+                <th><span id="fac-${f.id}-subject2">${f.subjects.get(1).name}</span></th>
+                <th><span id="fac-${f.id}-subject3">${f.subjects.get(2).name}</span></th>
                 <c:if test="${!applicationScope.finalized}">
-                    <th style="border-bottom: 0;"><input class="btn" type="button" value="<fmt:message key="button.faculty.edit"/>"
-                            onclick="editFaculty(${faculties.get(f).id});
-                               <c:set var="editIndex" value="${faculties.get(f).id}"/> "></th>
+                    <th style="border-bottom: 0;"><input class="btn" type="button"
+                             value="<fmt:message key="button.faculty.edit"/>" onclick="editFaculty(${f.id})"/></th>
                     <th style="border-bottom: 0;"><input class="btn" type="button" style="background: red;"
-                            value="<fmt:message key="button.faculty.delete"/>"
-                            onclick="deleteConfirm(${faculties.get(f).id})"></th>
+                            value="<fmt:message key="button.faculty.delete"/>" onclick="deleteConfirm(${f.id})"></th>
                 </c:if>
                     <th style="border-bottom: 0;"><input class="btn" type="button" style="background: blue;"
-                                                         value="<fmt:message key="button.faculty.submissions"/>"
-                                                         onclick="showSubmissionsForFaculty(${faculties.get(f).id})"></th>
+                            value="<fmt:message key="button.faculty.submissions"/>"
+                            onclick="showSubmissionsForFaculty(${f.id})"></th>
                 </tr>
             </c:forEach>
 
@@ -207,19 +205,20 @@
             <fmt:message key="button.close" var="closeButton"/>
             <input class="btn" type="button" value="${closeButton}"
                     onclick="closeSubmissionsForFaculty(${f.id})"/>
-                <table>
+            <table>
+                <tr>
+                    <th><fmt:message key="user.label.firstName"/></th>
+                    <th><fmt:message key="user.label.lastName"/></th>
+                    <th><fmt:message key="faculty.label.name"/></th>
+                    <th><fmt:message key="faculty.label.subject1"/></th>
+                    <th><fmt:message key="submission.label.grade"/></th>
+                    <th><fmt:message key="faculty.label.subject2"/></th>
+                    <th><fmt:message key="submission.label.grade"/></th>
+                    <th><fmt:message key="faculty.label.subject3"/></th>
+                    <th><fmt:message key="submission.label.grade"/></th>
+                </tr>
+                <c:forEach var="s" items="${f.submissions}">
                     <tr>
-                        <th><fmt:message key="user.label.firstName"/></th>
-                        <th><fmt:message key="user.label.lastName"/></th>
-                        <th><fmt:message key="faculty.label.name"/></th>
-                        <th><fmt:message key="faculty.label.subject1"/></th>
-                        <th><fmt:message key="submission.label.grade"/></th>
-                        <th><fmt:message key="faculty.label.subject2"/></th>
-                        <th><fmt:message key="submission.label.grade"/></th>
-                        <th><fmt:message key="faculty.label.subject3"/></th>
-                        <th><fmt:message key="submission.label.grade"/></th>
-                    </tr>
-                    <c:forEach var="s" items="${f.submissions}">
                         <th><span>${s.user.firstName}</span></th>
                         <th><span>${s.user.lastName}</span></th>
                         <th><span>${s.faculty.name}</span></th>
@@ -261,9 +260,9 @@
                         </c:choose>
                         <th style="border-bottom: 0"><input class="btn" type="button"
                                                             style="background: ${color}" value="${status}"/></th>
-                        </tr>
-                    </c:forEach>
-                </table>
+                    </tr>
+                </c:forEach>
+            </table>
         </div>
     </c:forEach>
 
@@ -276,32 +275,30 @@
                 <th><fmt:message key="user.label.lastName"/></th>
                 <th><fmt:message key="user.label.email"/></th>
             </tr>
-        <c:forEach var="u" begin="0" end="${users.size() - 1}">
-            <c:if test="${users.get(u).role != 'ADMIN'}">
+        <c:forEach var="u" items="${users}">
+            <c:if test="${u.role != 'ADMIN'}">
                 <tr>
-                    <th><span id="user-${u}">${users.get(u).login}</span></th>
-                    <th><span id="user-${u}">${users.get(u).firstName}</span></th>
-                    <th><span id="user-${u}">${users.get(u).lastName}</span></th>
-                    <th><span id="user-${u}">${users.get(u).email}</span></th>
+                    <th><span id="user-${u.id}">${u.login}</span></th>
+                    <th><span id="user-${u.id}">${u.firstName}</span></th>
+                    <th><span id="user-${u.id}">${u.lastName}</span></th>
+                    <th><span id="user-${u.id}">${u.email}</span></th>
 
                     <c:if test="${!applicationScope.finalized}">
                         <c:choose>
-                            <c:when test="${users.get(u).role == 'BLOCKED'}">
+                            <c:when test="${u.role == 'BLOCKED'}">
                                 <c:set var="color" value="blue"/>
                                 <fmt:message key="user.unblock" var="status"/>
                             </c:when>
-                            <c:when test="${users.get(u).role != 'BLOCKED'}">
+                            <c:when test="${u.role != 'BLOCKED'}">
                                 <c:set var="color" value="red"/>
                                 <fmt:message key="user.block" var="status"/>
                             </c:when>
                         </c:choose>
-                        <th style="border-bottom: 0;"><input class="btn" id="user-status-${u}" type="button"
+                        <th style="border-bottom: 0;"><input class="btn" id="user-status-${u.id}" type="button"
                              style="background: ${color}" value="${status}"
-                                 onclick="blockUser(${u})">
+                                 onclick="blockUser(${u.id})">
                         </th>
                     </c:if>
-
-
                 </tr>
             </c:if>
         </c:forEach>
@@ -323,21 +320,22 @@
                     <th><fmt:message key="faculty.label.subject3"/></th>
                     <th><fmt:message key="submission.label.grade"/></th>
                 </tr>
-                <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
-                    <c:if test="${!submissions.get(s).checked}">
+                <c:forEach var="s" items="${submissions}">
+                    <c:if test="${!s.checked}">
                         <tr>
-                            <th><span id="submission-${s}">${submissions.get(s).user.firstName}</span></th>
-                            <th><span id="submission-${s}">${submissions.get(s).user.lastName}</span></th>
-                            <th><span id="submission-${s}">${submissions.get(s).faculty.name}</span></th>
-                            <th><span>${submissions.get(s).faculty.subjects.get(0).name}</span></th>
-                            <th><span>${submissions.get(s).grades.get(0)}</span></th>
-                            <th><span>${submissions.get(s).faculty.subjects.get(1).name}</span></th>
-                            <th><span>${submissions.get(s).grades.get(1)}</span></th>
-                            <th><span>${submissions.get(s).faculty.subjects.get(2).name}</span></th>
-                            <th><span>${submissions.get(s).grades.get(2)}</span></th>
+                            <th><span id="submission-${s.id}">${s.user.firstName}</span></th>
+                            <th><span id="submission-${s.id}">${s.user.lastName}</span></th>
+                            <th><span id="submission-${s.id}">${s.faculty.name}</span></th>
+                            <th><span>${s.faculty.subjects.get(0).name}</span></th>
+                            <th><span>${s.grades.get(0)}</span></th>
+                            <th><span>${s.faculty.subjects.get(1).name}</span></th>
+                            <th><span>${s.grades.get(1)}</span></th>
+                            <th><span>${s.faculty.subjects.get(2).name}</span></th>
+                            <th><span>${s.grades.get(2)}</span></th>
 
-                            <th style="border-bottom: 0;"><input class="btn" type="button" style="background: blue" value="<fmt:message key="submission.check"/>"
-                                       onclick="confirmSubmissionCheck(${s})"/></th>
+                            <th style="border-bottom: 0;"><input class="btn" type="button" style="background: blue"
+                                 value="<fmt:message key="submission.unchecked"/>"
+                                 onclick="confirmSubmissionCheck(${s.id})"/></th>
                         </tr>
                     </c:if>
                 </c:forEach>
@@ -360,22 +358,21 @@
                     <th><fmt:message key="faculty.label.subject3"/></th>
                     <th><fmt:message key="submission.label.grade"/></th>
                 </tr>
-                <c:forEach var="s" begin="0" end="${submissions.size() - 1}">
-                    <c:if test="${submissions.get(s).checked}">
+                <c:forEach var="s" items="${submissions}">
+                    <c:if test="${s.checked}">
                         <tr>
-                            <th><span id="submission-${s}">${submissions.get(s).user.firstName}</span></th>
-                            <th><span id="submission-${s}">${submissions.get(s).user.lastName}</span></th>
-                            <th><span id="submission-${s}">${submissions.get(s).faculty.name}</span></th>
-                            <th><span>${submissions.get(s).faculty.subjects.get(0).name}</span></th>
-                            <th><span>${submissions.get(s).grades.get(0)}</span></th>
-                            <th><span>${submissions.get(s).faculty.subjects.get(1).name}</span></th>
-                            <th><span>${submissions.get(s).grades.get(1)}</span></th>
-                            <th><span>${submissions.get(s).faculty.subjects.get(2).name}</span></th>
-                            <th><span>${submissions.get(s).grades.get(2)}</span></th>
+                            <th><span id="submission-${s.id}">${s.user.firstName}</span></th>
+                            <th><span id="submission-${s.id}">${s.user.lastName}</span></th>
+                            <th><span id="submission-${s.id}">${s.faculty.name}</span></th>
+                            <th><span>${s.faculty.subjects.get(0).name}</span></th>
+                            <th><span>${s.grades.get(0)}</span></th>
+                            <th><span>${s.faculty.subjects.get(1).name}</span></th>
+                            <th><span>${s.grades.get(1)}</span></th>
+                            <th><span>${s.faculty.subjects.get(2).name}</span></th>
+                            <th><span>${s.grades.get(2)}</span></th>
 
                             <th style="border-bottom: 0;"><input class="btn" type="button" style="background: green"
-                                       value="<fmt:message key="submission.checked"/>"
-                                       onclick="confirmSubmissionCheck(${s})"/></th>
+                                       value="<fmt:message key="submission.checked"/>"/></th>
                         </tr>
                     </c:if>
                 </c:forEach>
@@ -428,7 +425,8 @@
 
             <h1 id="message-head" class="header"><fmt:message key="header.faculty.delete"/></h1>
             <input class="button btn" type="submit" style="background: red" value="<fmt:message key="button.confirm"/>">
-            <input class="btn" id="op-cancel" type="button" value="<fmt:message key="button.cancel"/>" onclick="deleteCancel()">
+            <input class="btn" id="op-cancel" type="button" value="<fmt:message key="button.cancel"/>"
+                   onclick="deleteCancel()">
         </form>
     </div>
 
@@ -601,11 +599,6 @@
         document.getElementById('edit-cancel').style.visibility = 'hidden';
     }
 
-    function blockCancel(){
-        document.getElementById('op-confirm').style.display = 'none';
-        document.getElementById('users').style.display = 'block';
-    }
-
     function blockUser(value){
 
         if(document.getElementById('user-status-' + value).value === 'Block') {
@@ -625,10 +618,15 @@
         }
     }
 
-    function confirmSubmissionCheck(value){
+    function blockCancel(){
+        document.getElementById('op-confirm').style.display = 'none';
+        document.getElementById('users').style.display = 'block';
+    }
+
+    function confirmSubmissionCheck(index){
         document.getElementById('op-confirm').style.display = 'block';
         document.getElementById('unchecked-submissions').style.display = 'none';
-        document.getElementById('op-index').value = value;
+        document.getElementById('op-index').value = index;
         document.getElementById('message-head').innerHTML = "<fmt:message key="header.submission.check"/>";
         document.getElementById('op-cancel').onclick = checkCancel;
         document.getElementById('op-command').value = 'checkSubmission';

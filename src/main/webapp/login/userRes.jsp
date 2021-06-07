@@ -101,8 +101,6 @@
 <body>
     <div class="container">
 
-        <input type="hidden" id="finalized" value="${applicationScope.finalized}">
-
         <div id="locale-changer" class="form-control" style="margin: 0">
             <form method="post" action="${pageContext.request.contextPath}/servlet">
                 <input type="hidden" name="command" value="changeLocale">
@@ -153,6 +151,7 @@
                     <th><fmt:message key="submission.label.grade"/></th>
                 </tr>
                 <c:forEach var="s" items="${submissions}">
+                    <tr>
                         <th><span>${s.faculty.name}</span></th>
                         <th><span>${s.faculty.subjects.get(0).name}</span></th>
                         <th><span>${s.grades.get(0)}</span></th>
@@ -230,16 +229,16 @@
                     <th><fmt:message key="faculty.label.subject2"/></th>
                     <th><fmt:message key="faculty.label.subject3"/></th>
                 </tr>
-                <c:forEach var="f" begin="0" end="${faculties.size() - 1}">
+                <c:forEach var="f" items="${faculties}">
                     <tr>
-                        <th><span id="fac-${faculties.get(f).id}-name">${faculties.get(f).name}</span></th>
-                        <th><span id="fac-${faculties.get(f).id}-st-amount">${faculties.get(f).studentsAmount}</span></th>
-                        <th><span id="fac-${faculties.get(f).id}-st-funded-amount">${faculties.get(f).stateFundedAmount}</span></th>
-                        <th><span id="fac-${faculties.get(f).id}-subject1">${faculties.get(f).subjects.get(0).name}</span></th>
-                        <th><span id="fac-${faculties.get(f).id}-subject2">${faculties.get(f).subjects.get(1).name}</span></th>
-                        <th><span id="fac-${faculties.get(f).id}-subject3">${faculties.get(f).subjects.get(2).name}</span></th>
+                        <th><span id="fac-${f.id}-name">${f.name}</span></th>
+                        <th><span id="fac-${f.id}-st-amount">${f.studentsAmount}</span></th>
+                        <th><span id="fac-${f.id}-st-funded-amount">${f.stateFundedAmount}</span></th>
+                        <th><span id="fac-${f.id}-subject1">${f.subjects.get(0).name}</span></th>
+                        <th><span id="fac-${f.id}-subject2">${f.subjects.get(1).name}</span></th>
+                        <th><span id="fac-${f.id}-subject3">${f.subjects.get(2).name}</span></th>
                         <th style="border-bottom: 0;"><input class="btn" type="button"
-                             value="<fmt:message key="submission.create.order"/>"onclick="orderSubmission(${faculties.get(f).id})"/></th>
+                             value="<fmt:message key="submission.create.order"/>" onclick="orderSubmission(${f.id})"/></th>
                     </tr>
                 </c:forEach>
 

@@ -119,29 +119,37 @@
         <div class="form-control">
             <h1 class="header"><fmt:message key="header.signUp"/></h1>
             <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
-            <label><fmt:message key="user.label.login"/></label>
-            <input type="text" name="login" placeholder="<fmt:message key="signUp.placeholder.login"/>"><br/>
+            <label for="login-input"><fmt:message key="user.label.login"/></label>
+            <input id="login-input" type="text" name="login"
+                   placeholder="<fmt:message key="signUp.placeholder.login"/>"><br/>
 
-            <label><fmt:message key="user.label.password"/></label>
-            <input type="text" name="password" placeholder="<fmt:message key="signUp.placeholder.password"/>"><br/>
+            <label for="pass-input"><fmt:message key="user.label.password"/></label>
+            <input id="pass-input" type="text" name="password"
+                   placeholder="<fmt:message key="signUp.placeholder.password"/>"><br/>
 
-            <label><fmt:message key="user.label.firstName"/></label>
-            <input type="text" name="first_name" placeholder="<fmt:message key="signUp.placeholder.firstName"/>"><br/>
+            <label for="fName"><fmt:message key="user.label.firstName"/></label>
+            <input id="fName" type="text" name="first_name"
+                   placeholder="<fmt:message key="signUp.placeholder.firstName"/>"><br/>
 
-            <label><fmt:message key="user.label.lastName"/></label>
-            <input type="text" name="last_name" placeholder="<fmt:message key="signUp.placeholder.lastName"/>"><br/>
+            <label for="lName"><fmt:message key="user.label.lastName"/></label>
+            <input id="lName" type="text" name="last_name"
+                   placeholder="<fmt:message key="signUp.placeholder.lastName"/>"><br/>
 
-            <label><fmt:message key="user.label.email"/></label>
-            <input type="email" name="email" placeholder="<fmt:message key="signUp.placeholder.email"/>"><br/>
+            <label for="email-input"><fmt:message key="user.label.email"/></label>
+            <input id="email-input" type="email" name="email"
+                   placeholder="<fmt:message key="signUp.placeholder.email"/>"><br/>
 
-            <label><fmt:message key="user.label.city"/></label>
-            <input type="text" name="city" placeholder="<fmt:message key="signUp.placeholder.city"/>"><br/>
+            <label for="city-input"><fmt:message key="user.label.city"/></label>
+            <input id="city-input" type="text" name="city"
+                   placeholder="<fmt:message key="signUp.placeholder.city"/>"><br/>
 
-            <label><fmt:message key="user.label.region"/></label>
-            <input type="text" name="region" placeholder="<fmt:message key="signUp.placeholder.region"/>"><br/>
+            <label for="region-input"><fmt:message key="user.label.region"/></label>
+            <input id="region-input" type="text" name="region"
+                   placeholder="<fmt:message key="signUp.placeholder.region"/>"><br/>
 
-            <label><fmt:message key="user.label.institution"/></label>
-            <input type="text" name="institution" placeholder="<fmt:message key="signUp.placeholder.institution"/>"><br/>
+            <label for="inst"><fmt:message key="user.label.institution"/></label>
+            <input id="inst" type="text" name="institution"
+                   placeholder="<fmt:message key="signUp.placeholder.institution"/>"><br/>
 
             <input class="button btn" type="submit" value="<fmt:message key="button.signUp"/>">
             <a class="link" href="${pageContext.request.contextPath}/index.jsp"><fmt:message key="entry.backToMain"/></a>

@@ -118,11 +118,13 @@
         <div class="form-control">
             <h1 class="header"><fmt:message key="header.login"/></h1>
             <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
-            <label><fmt:message key="user.label.login"/></label>
-            <input type="text" name="login" placeholder="<fmt:message key="login.login.placeholder"/>"><br/>
+            <label for="login-input"><fmt:message key="user.label.login"/></label>
+            <input id="login-input" type="text" name="login"
+                   placeholder="<fmt:message key="login.login.placeholder"/>"><br/>
 
-            <label><fmt:message key="user.label.password"/></label>
-            <input type="text" name="password" placeholder="<fmt:message key="login.password.placeholder"/>"><br/>
+            <label for="pass-input"><fmt:message key="user.label.password"/></label>
+            <input id="pass-input" type="text" name="password"
+                   placeholder="<fmt:message key="login.password.placeholder"/>"><br/>
 
             <input class="button btn" type="submit" value="<fmt:message key="button.login"/>">
             <a class="link" href="${pageContext.request.contextPath}/index.jsp"><fmt:message key="entry.backToMain"/></a>
