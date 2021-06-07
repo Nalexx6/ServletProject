@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCSubjectDao implements SubjectDao {
@@ -74,7 +75,31 @@ public class JDBCSubjectDao implements SubjectDao {
 
     @Override
     public List<Subject> findAll() {
-        return null;
+        List<Subject> res = new ArrayList<>();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL.SQL__FIND_ALL_SUBJECTS);
+            rs = pstmt.executeQuery();
+            SubjectMapper mapper = new SubjectMapper();
+            while (rs.next()) {
+                res.add(mapper.mapObject(rs));
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            if(con != null){
+                DBManager.getInstance().rollbackAndClose(con);
+            }
+            ex.printStackTrace();
+        } finally {
+            if(con != null){
+                DBManager.getInstance().commitAndClose(con);
+            }
+        }
+        return res;
     }
 
     @Override

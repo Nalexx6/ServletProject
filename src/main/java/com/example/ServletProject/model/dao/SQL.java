@@ -50,6 +50,9 @@ public final class SQL {
     public static final String SQL__FIND_SUBJECT_BY_ID =
             "SELECT * FROM subjects WHERE id=?";
 
+    public static final String SQL__FIND_ALL_SUBJECTS =
+            "SELECT * FROM subjects";
+
     public static final String SQL__FIND_SUBJECT_BY_NAME =
             "SELECT * FROM subjects WHERE name=?";
 

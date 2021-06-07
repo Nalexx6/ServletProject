@@ -1,11 +1,9 @@
 package com.example.ServletProject.controller.command;
 
 import com.example.ServletProject.controller.Paths;
-import com.example.ServletProject.model.entity.Faculty;
-import com.example.ServletProject.model.entity.Fields;
-import com.example.ServletProject.model.entity.Submission;
-import com.example.ServletProject.model.entity.User;
+import com.example.ServletProject.model.entity.*;
 import com.example.ServletProject.model.service.FacultyService;
+import com.example.ServletProject.model.service.SubjectService;
 import com.example.ServletProject.model.service.SubmissionService;
 import com.example.ServletProject.model.service.UserService;
 
@@ -31,8 +29,8 @@ public class LoginCommand implements Command{
 
     });
 
-    static private void setUserRole(HttpServletRequest request,
-                                    User user, List<Faculty> faculties, List<User> users, List<Submission> submissions) {
+    static private void setUserRole(HttpServletRequest request, User user, List<Faculty> faculties, List<User> users,
+                                    List<Submission> submissions, List<Subject> subjects) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
         session.setAttribute("role", user.getRole());
@@ -42,6 +40,7 @@ public class LoginCommand implements Command{
         session.setAttribute("faculties", faculties);
         session.setAttribute("users", users);
         session.setAttribute("submissions", submissions);
+        session.setAttribute("subjects", subjects);
     }
 
     static private void setUserRole(HttpServletRequest request,
@@ -76,14 +75,15 @@ public class LoginCommand implements Command{
             if(user.getRole().equals("ADMIN")) {
                 SubmissionService submissionService = new SubmissionService();
                 FacultyService facultyService = new FacultyService();
+                SubjectService subjectService = new SubjectService();
                 List<Faculty> faculties = facultyService.getAllFaculties();
                 for(Faculty f: faculties){
                     List<Submission> submissions = facultyService.findAllSubmissionsForFaculty(f);
                     submissions.sort(gradesComparator);
                     f.setSubmissions(submissions);
                 }
-                setUserRole(request, user, faculties,
-                        userService.getAllUsers(), submissionService.getAllSubmissions());
+                setUserRole(request, user, faculties, userService.getAllUsers(), submissionService.getAllSubmissions(),
+                        subjectService.getAllSubjects());
                 return Paths.ADMIN_PAGE;
             } else if ((user.getRole().equals("BLOCKED")) ){
                 request.getSession().setAttribute("message", MessageKeys.USER_BLOCKED);

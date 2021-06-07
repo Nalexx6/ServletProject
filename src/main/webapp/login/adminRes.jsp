@@ -123,6 +123,7 @@
         <input class="btn" type="button" value="<fmt:message key="button.profile"/>" onclick="showUserCredentials()">
         <input class="btn" type="button" value="<fmt:message key="button.faculty"/>" onclick="showFaculties()">
         <input class="btn" type="button" value="<fmt:message key="button.users"/>" onclick="showUsers()">
+        <input class="btn" type="button" value="<fmt:message key="button.subjects"/>" onclick="showSubjects()">
         <input class="btn" type="button" value="<fmt:message key="button.checked_submissions"/>"
                onclick="showCheckedSubmissions()">
         <c:if test="${!applicationScope.finalized}">
@@ -143,6 +144,20 @@
         <p><fmt:message key="user.label.city"/>: <c:out value="${user.city}"/>
         <p><fmt:message key="user.label.region"/>: <c:out value="${user.region}"/>
         <p><fmt:message key="user.label.institution"/>: <c:out value="${user.institution}"/>
+    </div>
+
+    <div id="subjects" style="display: none">
+        <c:set var="subjects" scope="session" value="${sessionScope.subjects}"/>
+        <table>
+            <tr>
+                <th><input class="btn" type="button" value="<fmt:message key="subject.name"/>"/></th>
+            </tr>
+            <c:forEach var="s" items="${subjects}">
+                <tr>
+                    <th><span>${s.name}</span></th>
+                </tr>
+            </c:forEach>
+        </table>
     </div>
 
     <div id="faculties" style="display: block">
@@ -482,6 +497,7 @@
         document.getElementById('pers-inf').style.display = 'block';
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'none';
+        document.getElementById('subjects').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'none';
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'none';
@@ -491,10 +507,23 @@
         clearFields();
     }
 
+    function showSubjects(){
+        document.getElementById('pers-inf').style.display = 'none';
+        document.getElementById('faculties').style.display = 'none';
+        document.getElementById('users').style.display = 'none';
+        document.getElementById('subjects').style.display = 'block';
+        document.getElementById('create-faculty').style.display = 'none';
+        document.getElementById('unchecked-submissions').style.display = 'none';
+        document.getElementById('submissions').style.display = 'none';
+        document.getElementById('op-confirm').style.display = 'none';
+        document.getElementById('header').innerHTML = '<fmt:message key="header.subjects"/>';
+    }
+
     function showFaculties(){
         document.getElementById('pers-inf').style.display = 'none';
         document.getElementById('faculties').style.display = 'block';
         document.getElementById('users').style.display = 'none';
+        document.getElementById('subjects').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'none';
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'none';
@@ -508,6 +537,7 @@
         document.getElementById('pers-inf').style.display = 'none';
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'block';
+        document.getElementById('subjects').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'none';
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'none';
@@ -521,6 +551,7 @@
         document.getElementById('pers-inf').style.display = 'none';
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'none';
+        document.getElementById('subjects').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'none';
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'block';
@@ -534,6 +565,7 @@
         document.getElementById('pers-inf').style.display = 'none';
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'none';
+        document.getElementById('subjects').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'none';
         document.getElementById('unchecked-submissions').style.display = 'block';
         document.getElementById('submissions').style.display = 'none';
@@ -547,6 +579,7 @@
         document.getElementById('pers-inf').style.display = 'none';
         document.getElementById('faculties').style.display = 'none';
         document.getElementById('users').style.display = 'none';
+        document.getElementById('subjects').style.display = 'none';
         document.getElementById('create-faculty').style.display = 'block';
         document.getElementById('unchecked-submissions').style.display = 'none';
         document.getElementById('submissions').style.display = 'none';
