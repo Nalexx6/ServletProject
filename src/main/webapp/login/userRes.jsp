@@ -283,12 +283,6 @@
     window.onload = init;
 
     function init(){
-        // if(document.getElementById("finalized").value === "true"){
-        //     document.getElementById("create-btn").disabled = true;
-        //     document.getElementById("create-btn").style.visibility = 'hidden';
-        //
-        // }
-
         if(document.getElementById("error-message").innerText !== ""){
             orderSubmission(document.getElementById("fac-error-index").value);
         } else if(document.getElementById("show-sort").value === "1"){
