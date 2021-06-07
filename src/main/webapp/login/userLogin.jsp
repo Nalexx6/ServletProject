@@ -117,7 +117,9 @@
         <input type="hidden" name="command" value="login"/>
         <div class="form-control">
             <h1 class="header"><fmt:message key="header.login"/></h1>
-            <h2 style="color: red; text-align: center">${sessionScope.message}</h2>
+            <c:if test="${sessionScope.message != null}">
+                <h2 style="color: red; text-align: center"><fmt:message key="${sessionScope.message}"/></h2>
+            </c:if>
             <label for="login-input"><fmt:message key="user.label.login"/></label>
             <input id="login-input" type="text" name="login"
                    placeholder="<fmt:message key="login.login.placeholder"/>"><br/>

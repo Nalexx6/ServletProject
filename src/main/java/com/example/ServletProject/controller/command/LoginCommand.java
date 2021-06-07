@@ -86,7 +86,7 @@ public class LoginCommand implements Command{
                         userService.getAllUsers(), submissionService.getAllSubmissions());
                 return Paths.ADMIN_PAGE;
             } else if ((user.getRole().equals("BLOCKED")) ){
-                request.getSession().setAttribute("message", "This profile is BLOCKED, please contact support team");
+                request.getSession().setAttribute("message", MessageKeys.USER_BLOCKED);
                 return "redirect:" + Paths.LOGIN_PAGE;
             } else {
                 user.setSubmissions(userService.findAllSubmissionsForUser(user));
@@ -94,7 +94,7 @@ public class LoginCommand implements Command{
                 return Paths.USER_PAGE;
             }
         } else {
-            request.getSession().setAttribute("message", "Please enter valid login and password!");
+            request.getSession().setAttribute("message", MessageKeys.LOGIN_INVALID);
             return "redirect:" + Paths.LOGIN_PAGE;
         }
     }

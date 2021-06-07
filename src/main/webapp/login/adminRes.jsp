@@ -252,7 +252,7 @@
                                         <fmt:message key="submission.checked" var="status"/>
                                     </c:when>
                                     <c:when test="${!s.checked}">
-                                        <c:set var="color" value="red"/>
+                                        <c:set var="color" value="blue"/>
                                         <fmt:message key="submission.unchecked" var="status"/>
                                     </c:when>
                                 </c:choose>
@@ -334,7 +334,7 @@
                             <th><span>${s.grades.get(2)}</span></th>
 
                             <th style="border-bottom: 0;"><input class="btn" type="button" style="background: blue"
-                                 value="<fmt:message key="submission.unchecked"/>"
+                                 value="<fmt:message key="submission.check"/>"
                                  onclick="confirmSubmissionCheck(${s.id})"/></th>
                         </tr>
                     </c:if>
@@ -385,32 +385,58 @@
         <form method="post" action="${pageContext.request.contextPath}/servlet">
             <input type="hidden" id="fac-command" name="command" value="createFaculty"/>
             <input type="hidden" id="edit-fac-index" name="editedFacIndex" value=""/>
-            <h2 id="error-message" style="color: red; text-align: center">${sessionScope.message}</h2>
+
+            <c:if test="${sessionScope.message != null}">
+                <h2 id="error-message" style="color: red; text-align: center"><fmt:message key="${sessionScope.message}"/></h2>
+            </c:if>
+            <input type="hidden" id="message-key" value="${sessionScope.message}">
             <input type="hidden" id="fac-error-index" value="${sessionScope.facIndex}">
+
+            <c:if test="${sessionScope.message != 'message.faculty.exists' && sessionScope.message != null}">
+                <h4 style="color: red; text-align: center"><fmt:message key="message.faculty.invalid.name"/></h4>
+            </c:if>
             <label for="fac-name"><fmt:message key="faculty.label.name"/></label>
             <input type="text" id="fac-name" name="name"
                    placeholder="<fmt:message key="faculty.placeholder.name"/>"><br/>
 
+            <c:if test="${sessionScope.message != 'message.faculty.exists' && sessionScope.message != null}">
+                <h4 style="color: red; text-align: center"><fmt:message key="message.faculty.invalid.students"/></h4>
+            </c:if>
             <label for="st-amount"><fmt:message key="faculty.label.students_amount"/></label>
             <input type="text" id="st-amount" name="students_amount"
                    placeholder="<fmt:message key="faculty.placeholder.students_amount"/>"><br/>
 
+            <c:if test="${sessionScope.message != 'message.faculty.exists' && sessionScope.message != null}">
+                <h4 style="color: red; text-align: center"><fmt:message key="message.faculty.invalid.students"/></h4>
+            </c:if>
             <label for="state-funded-amount"><fmt:message key="faculty.label.state_funded_amount"/></label>
             <input type="text" id="state-funded-amount" name="state_funded_amount"
                    placeholder="<fmt:message key="faculty.placeholder.state_funded_amount"/>"><br/>
 
+            <c:if test="${sessionScope.message != 'message.faculty.exists' && sessionScope.message != null}">
+                <h4 style="color: red; text-align: center"><fmt:message key="message.faculty.invalid.subject"/></h4>
+            </c:if>
             <label for="subject1"><fmt:message key="faculty.label.subject1"/></label>
             <input type="text" id="subject1" name="subject1_id"
                    placeholder="<fmt:message key="faculty.placeholder.subject1"/>">
 
+            <c:if test="${sessionScope.message != 'message.faculty.exists' && sessionScope.message != null}">
+                <h4 style="color: red; text-align: center"><fmt:message key="message.faculty.invalid.subject"/></h4>
+            </c:if>
             <label for="subject2"><fmt:message key="faculty.label.subject2"/></label>
             <input type="text" id="subject2" name="subject2_id"
                    placeholder="<fmt:message key="faculty.placeholder.subject2"/>">
 
+            <c:if test="${sessionScope.message != 'message.faculty.exists' && sessionScope.message != null}">
+                <h4 style="color: red; text-align: center"><fmt:message key="message.faculty.invalid.subject"/></h4>
+            </c:if>
             <label for="subject3"><fmt:message key="faculty.label.subject3"/></label>
             <input type="text" id="subject3" name="subject3_id"
                    placeholder="<fmt:message key="faculty.placeholder.subject3"/>">
 
+            <c:if test="${sessionScope.message != 'message.faculty.exists' && sessionScope.message != null}">
+                <h4 style="color: red; text-align: center"><fmt:message key="message.faculty.invalid.name"/></h4>
+            </c:if>
             <input class="button btn" type="submit" value="<fmt:message key="button.submit"/>">
             <input class="btn" type="button" id="edit-cancel" style="background: blue; visibility: hidden" value="<fmt:message key="button.cancel"/>"
                 onclick="editCancel()">
@@ -441,7 +467,7 @@
 
     function init(){
 
-        if(document.getElementById("error-message").innerText !== ""){
+        if(document.getElementById("message-key").value !== ""){
             if(document.getElementById("fac-error-index").value === "") {
                 createFaculty();
             } else {

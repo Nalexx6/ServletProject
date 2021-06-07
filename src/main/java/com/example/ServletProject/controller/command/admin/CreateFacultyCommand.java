@@ -2,6 +2,7 @@ package com.example.ServletProject.controller.command.admin;
 
 import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.controller.command.Command;
+import com.example.ServletProject.controller.command.MessageKeys;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Subject;
@@ -26,13 +27,13 @@ public class CreateFacultyCommand implements Command {
 
         FacultyService service = new FacultyService();
         if(!Validator.validateFacultyFields(faculty)){
-            request.getSession().setAttribute("message", "Parameters of new faculty must be valid");
+            request.getSession().setAttribute("message", MessageKeys.FACULTY_INVALID);
             request.getSession().removeAttribute("facIndex");
             return "redirect:" + Paths.ADMIN_PAGE;
         }
 
         if(service.getFacultyByName(faculty.getName()) != null){
-            request.getSession().setAttribute("message", "Faculty with such name already exists");
+            request.getSession().setAttribute("message", MessageKeys.FACULTY_EXISTS);
             request.getSession().removeAttribute("facIndex");
             return "redirect:" + Paths.ADMIN_PAGE;
         }

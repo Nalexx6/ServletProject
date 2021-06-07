@@ -249,20 +249,36 @@
             <form method="post" action="${pageContext.request.contextPath}/servlet">
                 <input type="hidden" name="command" value="createSubmission">
                 <input type="hidden" id="sub-fac-index" name="facultyIndex" value="0">
-                <h2 id="error-message" style="color: red; text-align: center">${sessionScope.message}</h2>
+                <c:if test="${sessionScope.message != null}">
+                    <h2 id="error-message" style="color: red; text-align: center"><fmt:message key="${sessionScope.message}"/></h2>
+                </c:if>
+                <input type="hidden" id="message-key" value="${sessionScope.message}">
                 <input type="hidden" id="fac-error-index" value="${sessionScope.facIndex}">
+
+                <c:if test="${sessionScope.message != null}">
+                    <h4 style="color: red; text-align: center"><fmt:message key="message.submission.grade"/></h4>
+                </c:if>
                 <label id="subject1_lbl" for="subject1"></label>
                 <input type="text" id="subject1" name="grade1"
                        placeholder="<fmt:message key="submission.placeholder.subject1"/>">
 
+                <c:if test="${sessionScope.message != null}">
+                    <h4 style="color: red; text-align: center"><fmt:message key="message.submission.grade"/></h4>
+                </c:if>
                 <label id="subject2_lbl" for="subject2"></label>
                 <input type="text" id="subject2" name="grade2"
                        placeholder="<fmt:message key="submission.placeholder.subject2"/>">
 
+                <c:if test="${sessionScope.message != null}">
+                    <h4 style="color: red; text-align: center"><fmt:message key="message.submission.grade"/></h4>
+                </c:if>
                 <label id="subject3_lbl" for="subject3"></label>
                 <input type="text" id="subject3" name="grade3"
                        placeholder="<fmt:message key="submission.placeholder.subject3"/>">
 
+                <c:if test="${sessionScope.message != null}">
+                    <h4 style="color: red; text-align: center"><fmt:message key="message.submission.sec_avg"/></h4>
+                </c:if>
                 <label for="sec-avg"><fmt:message key="submission.label.sec_avg"/></label>
                 <input type="text" id="sec-avg" name="sec-avg"
                        placeholder="<fmt:message key="submission.placeholder.sec_avg"/>"><br/>
@@ -282,7 +298,7 @@
     window.onload = init;
 
     function init(){
-        if(document.getElementById("error-message").innerText !== ""){
+        if(document.getElementById("message-key").value !== ""){
             orderSubmission(document.getElementById("fac-error-index").value);
         } else if(document.getElementById("show-sort").value === "1"){
             createSubmission();

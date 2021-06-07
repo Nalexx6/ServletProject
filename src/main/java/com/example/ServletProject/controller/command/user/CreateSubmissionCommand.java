@@ -2,6 +2,7 @@ package com.example.ServletProject.controller.command.user;
 
 import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.controller.command.Command;
+import com.example.ServletProject.controller.command.MessageKeys;
 import com.example.ServletProject.model.entity.*;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubmissionService;
@@ -34,7 +35,7 @@ public class CreateSubmissionCommand implements Command {
             user.setSubmissions(userService.findAllSubmissionsForUser(user));
             setSubmissions(request, user, userService.getAllUnsubmittedFaculties(user));
         } else {
-            request.getSession().setAttribute("message", "Please enter valid submission parameters");
+            request.getSession().setAttribute("message", MessageKeys.SUBMISSION_INVALID);
             request.getSession().setAttribute("facIndex", submission.getFaculty().getId());
         }
 

@@ -34,12 +34,12 @@ public class SignUpCommand implements Command{
 
         UserService userService = new UserService();
         if(!Validator.validateUserFields(user)){
-            request.getSession().setAttribute("message", "Please enter valid user parameters");
+            request.getSession().setAttribute("message", MessageKeys.SIGN_UP_INVALID);
             return "redirect:" + Paths.SIGN_UP_PAGE;
         }
 
         if(userService.getUserByLogin(user.getLogin()) != null){
-            request.getSession().setAttribute("message", "User with this login already exists");
+            request.getSession().setAttribute("message", MessageKeys.SIGN_UP_EXISTS);
             return "redirect:" + Paths.SIGN_UP_PAGE;
         }
 
