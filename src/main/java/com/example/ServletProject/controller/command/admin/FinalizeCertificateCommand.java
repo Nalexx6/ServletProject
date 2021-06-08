@@ -6,6 +6,8 @@ import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Submission;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubmissionService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class FinalizeCertificateCommand implements Command {
+    private static final Logger log = LogManager.getLogger(FinalizeCertificateCommand.class);
 
     private static final Comparator<Submission> gradesComparator = ((submission1, submission2) -> {
             if((submission2.getGrades().get(0) + submission2.getGrades().get(1) + submission2.getGrades().get(2)) >
@@ -22,7 +25,7 @@ public class FinalizeCertificateCommand implements Command {
                     (submission1.getGrades().get(0) + submission1.getGrades().get(1) + submission1.getGrades().get(2))){
                 return -1;
             } else {
-                return submission2.getId().compareTo(submission1.getId());
+                return submission2.getSecEducAvg().compareTo(submission1.getSecEducAvg());
             }
 
     });
@@ -36,6 +39,7 @@ public class FinalizeCertificateCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+        log.debug("Command starts");
 
         FacultyService service = new FacultyService();
         List<Faculty> faculties = service.getAllFaculties();
@@ -47,6 +51,8 @@ public class FinalizeCertificateCommand implements Command {
 
         SubmissionService submissionService = new SubmissionService();
         setFinalization(request, faculties, submissionService.getAllSubmissions());
+
+        log.debug("Command finished");
         return "redirect:" + Paths.ADMIN_PAGE;
     }
 

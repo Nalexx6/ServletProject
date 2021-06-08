@@ -9,6 +9,8 @@ import com.example.ServletProject.model.entity.Subject;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubjectService;
 import com.example.ServletProject.model.validator.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateFacultyCommand implements Command {
+    private static final Logger log = LogManager.getLogger(CreateFacultyCommand.class);
+
     static public void setFaculties(HttpServletRequest request, List<Faculty> faculties){
         HttpSession session = request.getSession();
         session.setAttribute("faculties", faculties);
@@ -23,24 +27,29 @@ public class CreateFacultyCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+        log.debug("Command starts");
+
         Faculty faculty = mapFaculty(request);
 
         FacultyService service = new FacultyService();
         if(!Validator.validateFacultyFields(faculty)){
             request.getSession().setAttribute("message", MessageKeys.FACULTY_INVALID);
             request.getSession().removeAttribute("facIndex");
+            log.trace("Invalid faculty parameters");
             return "redirect:" + Paths.ADMIN_PAGE;
         }
 
         if(service.getFacultyByName(faculty.getName()) != null){
             request.getSession().setAttribute("message", MessageKeys.FACULTY_EXISTS);
             request.getSession().removeAttribute("facIndex");
+            log.trace("Faculty with such name already exists");
             return "redirect:" + Paths.ADMIN_PAGE;
         }
 
         service.addFaculty(faculty);
         setFaculties(request, service.getAllFaculties());
 
+        log.debug("Command finished");
         return "redirect:" + Paths.ADMIN_PAGE;
     }
 

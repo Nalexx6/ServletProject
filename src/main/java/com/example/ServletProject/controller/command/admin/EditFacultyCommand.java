@@ -6,12 +6,18 @@ import com.example.ServletProject.controller.command.MessageKeys;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.validator.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class EditFacultyCommand  implements Command {
+    private static final Logger log = LogManager.getLogger(EditFacultyCommand.class);
+
     @Override
     public String execute(HttpServletRequest request) {
+        log.debug("Command starts");
+
         Faculty editedFaculty = CreateFacultyCommand.mapFaculty(request);
 
         FacultyService service = new FacultyService();
@@ -21,17 +27,21 @@ public class EditFacultyCommand  implements Command {
         if(!Validator.validateEditedFaculty(editedFaculty, faculty)){
             request.getSession().setAttribute("message", MessageKeys.FACULTY_INVALID_EDITION);
             request.getSession().setAttribute("facIndex", editedFaculty.getId());
+            log.trace("Invalid edition parameters");
             return "redirect:" + Paths.ADMIN_PAGE;
         }
 
         if(service.getFacultyByName(editedFaculty.getName()) != null && !editedFaculty.getName().equals(faculty.getName())){
             request.getSession().setAttribute("message", MessageKeys.FACULTY_EXISTS);
             request.getSession().setAttribute("facIndex", editedFaculty.getId());
+            log.trace("Faculty with such name already exists");
             return "redirect:" + Paths.ADMIN_PAGE;
         }
 
         service.editFaculty(editedFaculty);
         CreateFacultyCommand.setFaculties(request, service.getAllFaculties());
+
+        log.debug("Command finished");
         return "redirect:" + Paths.ADMIN_PAGE;
     }
 

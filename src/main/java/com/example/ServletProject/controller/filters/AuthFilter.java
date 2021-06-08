@@ -14,7 +14,7 @@ import java.util.HashSet;
 @WebFilter(filterName = "auth")
 public class AuthFilter implements Filter {
 
-    private static final Logger log = LogManager.getLogger(CommandAccessFilter.class);
+    private static final Logger log = LogManager.getLogger(AuthFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

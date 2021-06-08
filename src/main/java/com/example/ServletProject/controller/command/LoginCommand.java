@@ -6,6 +6,8 @@ import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubjectService;
 import com.example.ServletProject.model.service.SubmissionService;
 import com.example.ServletProject.model.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class LoginCommand implements Command{
+    private static final Logger log = LogManager.getLogger(LoginCommand.class);
+
 
     private static final Comparator<Submission> gradesComparator = ((submission1, submission2) -> {
         if((submission2.getGrades().get(0) + submission2.getGrades().get(1) + submission2.getGrades().get(2)) >
@@ -57,10 +61,13 @@ public class LoginCommand implements Command{
 
     @Override
     public String execute(HttpServletRequest request) {
+        log.debug("Command starts");
+
         String login = request.getParameter(Fields.USER__LOGIN);
 
         if( login == null || login.equals("") ){
-            request.getSession().setAttribute("message", "Please enter valid login and password!");
+            request.getSession().setAttribute("message", MessageKeys.LOGIN_INVALID);
+            log.trace("Invalid user parameters");
             return "/login/userLogin.jsp";
         }
 
@@ -80,17 +87,23 @@ public class LoginCommand implements Command{
                 }
                 setUserRole(request, user, faculties, userService.getAllUsers(), submissionService.getAllSubmissions(),
                         subjectService.getAllSubjects());
+                log.debug("Logging in as ADMIN");
+                log.debug("Command finished");
                 return Paths.ADMIN_PAGE;
             } else if ((user.getRole().equals("BLOCKED")) ){
                 request.getSession().setAttribute("message", MessageKeys.USER_BLOCKED);
+                log.trace("This user is blocked");
                 return "redirect:" + Paths.LOGIN_PAGE;
             } else {
                 user.setSubmissions(userService.findAllSubmissionsForUser(user));
                 setUserRole(request, user, userService.getAllUnsubmittedFaculties(user));
+                log.debug("Logging in as USER");
+                log.debug("Command finished");
                 return Paths.USER_PAGE;
             }
         } else {
             request.getSession().setAttribute("message", MessageKeys.LOGIN_INVALID);
+            log.trace("Invalid user parameters");
             return "redirect:" + Paths.LOGIN_PAGE;
         }
     }

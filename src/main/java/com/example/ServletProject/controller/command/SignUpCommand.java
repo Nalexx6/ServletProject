@@ -7,6 +7,8 @@ import com.example.ServletProject.model.entity.User;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.UserService;
 import com.example.ServletProject.model.validator.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class SignUpCommand implements Command{
+    private static final Logger log = LogManager.getLogger(SignUpCommand.class);
 
     static private void setUserRole(HttpServletRequest request,
                                     User user, List<Faculty> faculties) {
@@ -30,22 +33,27 @@ public class SignUpCommand implements Command{
 
     @Override
     public String execute(HttpServletRequest request) {
+        log.debug("Command starts");
+
         User user = mapUser(request);
 
         UserService userService = new UserService();
         if(!Validator.validateUserFields(user)){
             request.getSession().setAttribute("message", MessageKeys.SIGN_UP_INVALID);
+            log.trace("Invalid user parameters");
             return "redirect:" + Paths.SIGN_UP_PAGE;
         }
 
         if(userService.getUserByLogin(user.getLogin()) != null){
             request.getSession().setAttribute("message", MessageKeys.SIGN_UP_EXISTS);
+            log.trace("User already exists");
             return "redirect:" + Paths.SIGN_UP_PAGE;
         }
 
         userService.addUser(user);
         FacultyService facultyService = new FacultyService();
         setUserRole(request, user, facultyService.getAllFaculties());
+        log.debug("Command finished");
         if(user.getRole().equals("ADMIN")) {
             return /*redirect:*/Paths.ADMIN_PAGE;
         } else {

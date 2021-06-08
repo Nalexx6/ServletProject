@@ -4,6 +4,8 @@ import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.User;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class SortFacultiesCommand implements Command{
+    private static final Logger log = LogManager.getLogger(SortFacultiesCommand.class);
 
     private static final Comparator<Faculty> alphabetAscending = (Comparator.comparing(Faculty::getName));
 
@@ -34,6 +37,7 @@ public class SortFacultiesCommand implements Command{
 
     @Override
     public String execute(HttpServletRequest request) {
+        log.debug("Command starts");
 
         int type = Integer.parseInt(request.getParameter("sortType"));
 
@@ -49,6 +53,7 @@ public class SortFacultiesCommand implements Command{
         sort(faculties, type, request);
         setFaculties(request, faculties);
 
+        log.debug("Command finished");
         return "redirect:"+request.getParameter("page-path");
     }
 

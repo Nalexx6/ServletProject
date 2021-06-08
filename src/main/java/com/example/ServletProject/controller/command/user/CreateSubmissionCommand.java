@@ -8,6 +8,8 @@ import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubmissionService;
 import com.example.ServletProject.model.service.UserService;
 import com.example.ServletProject.model.validator.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateSubmissionCommand implements Command {
+    private static final Logger log = LogManager.getLogger(CreateSubmissionCommand.class);
 
     static public void setSubmissions(HttpServletRequest request, User user, List<Faculty> faculties){
         HttpSession session = request.getSession();
@@ -24,21 +27,26 @@ public class CreateSubmissionCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+        log.debug("Command starts");
+
         Submission submission = mapSubmission(request);
 
-        if(Validator.validateSubmissionFields(submission)) {
-            SubmissionService service = new SubmissionService();
-            service.addSubmission(submission);
-
-            UserService userService = new UserService();
-            User user = (User) request.getSession().getAttribute("user");
-            user.setSubmissions(userService.findAllSubmissionsForUser(user));
-            setSubmissions(request, user, userService.getAllUnsubmittedFaculties(user));
-        } else {
+        if(!Validator.validateSubmissionFields(submission)) {
             request.getSession().setAttribute("message", MessageKeys.SUBMISSION_INVALID);
             request.getSession().setAttribute("facIndex", submission.getFaculty().getId());
+            log.trace("Invalid submission parameters");
+            return "redirect:" + Paths.USER_PAGE;
         }
 
+        SubmissionService service = new SubmissionService();
+        service.addSubmission(submission);
+
+        UserService userService = new UserService();
+        User user = (User) request.getSession().getAttribute("user");
+        user.setSubmissions(userService.findAllSubmissionsForUser(user));
+        setSubmissions(request, user, userService.getAllUnsubmittedFaculties(user));
+
+        log.debug("Command finished");
         return "redirect:" + Paths.USER_PAGE;
     }
 
