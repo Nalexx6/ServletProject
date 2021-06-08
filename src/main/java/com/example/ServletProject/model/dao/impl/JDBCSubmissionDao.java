@@ -94,7 +94,6 @@ public class JDBCSubmissionDao implements SubmissionDao {
             while (rs.next()) {
                 res.add(mapper.mapObject(rs));
             }
-            System.out.println(res.size());
         } catch (SQLException ex) {
             if(con != null){
                 DBManager.getInstance().rollbackAndClose(con);
@@ -127,7 +126,6 @@ public class JDBCSubmissionDao implements SubmissionDao {
             while (rs.next()) {
                 res.add(mapper.mapObject(rs));
             }
-            System.out.println(res.size());
         } catch (SQLException ex) {
             if(con != null){
                 DBManager.getInstance().rollbackAndClose(con);

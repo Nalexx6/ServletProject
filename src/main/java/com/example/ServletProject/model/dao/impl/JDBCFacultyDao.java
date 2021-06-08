@@ -88,7 +88,7 @@ public class JDBCFacultyDao implements FacultyDao {
             while (rs.next()) {
                 res.add(mapper.mapObject(rs));
             }
-            System.out.println(res.size());
+
         } catch (SQLException ex) {
             if(con != null){
                 DBManager.getInstance().rollbackAndClose(con);
@@ -158,7 +158,6 @@ public class JDBCFacultyDao implements FacultyDao {
             }
 
             psmt.setLong(k, faculty.getId());
-            System.out.println(psmt);
             psmt.executeUpdate();
             psmt.close();
         } catch (SQLException ex) {

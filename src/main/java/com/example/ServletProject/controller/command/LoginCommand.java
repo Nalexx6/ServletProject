@@ -63,15 +63,11 @@ public class LoginCommand implements Command{
             request.getSession().setAttribute("message", "Please enter valid login and password!");
             return "/login/userLogin.jsp";
         }
-        System.out.println(login + " ");
 
         UserService userService = new UserService();
         User user = userService.getUserByLogin(login);
 
-
-
         if(validateUserData(user, request)){
-            System.out.println("User validated");
             if(user.getRole().equals("ADMIN")) {
                 SubmissionService submissionService = new SubmissionService();
                 FacultyService facultyService = new FacultyService();
