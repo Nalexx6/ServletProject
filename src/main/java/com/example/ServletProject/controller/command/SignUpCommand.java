@@ -19,6 +19,9 @@ import java.util.List;
 public class SignUpCommand implements Command{
     private static final Logger log = LogManager.getLogger(SignUpCommand.class);
 
+    /**
+     * Sets USER parameters
+     */
     static private void setUserRole(HttpServletRequest request,
                                     User user, List<Faculty> faculties) {
         HttpSession session = request.getSession();

@@ -1,5 +1,8 @@
 package com.example.ServletProject.controller;
 
+/**
+ * URL paths for all jsp pages
+ */
 public final class Paths {
 
     public static final String MAIN_PAGE = "/index.jsp";

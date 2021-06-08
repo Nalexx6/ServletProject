@@ -1,5 +1,8 @@
 package com.example.ServletProject.model.dao;
 
+/**
+ * SQL queries used in Dao ot query Database
+ */
 public final class SQL {
 
     //////////////////////////////////////////////////////////

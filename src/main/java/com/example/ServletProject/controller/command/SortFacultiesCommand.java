@@ -59,6 +59,7 @@ public class SortFacultiesCommand implements Command{
 
     private void sort(List<Faculty> faculties, int type, HttpServletRequest request){
 
+        //after sorting sets reversed comparator for corresponding sort type
         switch (type) {
             case (1):
                 faculties.sort(alphabetAscending);

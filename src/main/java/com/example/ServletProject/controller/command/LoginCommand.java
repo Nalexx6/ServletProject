@@ -19,7 +19,9 @@ import java.util.List;
 public class LoginCommand implements Command{
     private static final Logger log = LogManager.getLogger(LoginCommand.class);
 
-
+    /**
+        Comparator for sorting submissions after finalization
+    */
     private static final Comparator<Submission> gradesComparator = ((submission1, submission2) -> {
         if((submission2.getGrades().get(0) + submission2.getGrades().get(1) + submission2.getGrades().get(2)) >
                 (submission1.getGrades().get(0) + submission1.getGrades().get(1) + submission1.getGrades().get(2))) {
@@ -33,6 +35,9 @@ public class LoginCommand implements Command{
 
     });
 
+    /**
+     Sets ADMIN parameters
+     */
     static private void setUserRole(HttpServletRequest request, User user, List<Faculty> faculties, List<User> users,
                                     List<Submission> submissions, List<Subject> subjects) {
         HttpSession session = request.getSession();
@@ -47,6 +52,9 @@ public class LoginCommand implements Command{
         session.setAttribute("subjects", subjects);
     }
 
+    /**
+     Sets USER parameters
+     */
     static private void setUserRole(HttpServletRequest request,
                                     User user, List<Faculty> faculties) {
         HttpSession session = request.getSession();
@@ -79,12 +87,15 @@ public class LoginCommand implements Command{
                 SubmissionService submissionService = new SubmissionService();
                 FacultyService facultyService = new FacultyService();
                 SubjectService subjectService = new SubjectService();
+
+                //set corresponding submissions for each faculty
                 List<Faculty> faculties = facultyService.getAllFaculties();
                 for(Faculty f: faculties){
                     List<Submission> submissions = facultyService.findAllSubmissionsForFaculty(f);
                     submissions.sort(gradesComparator);
                     f.setSubmissions(submissions);
                 }
+
                 setUserRole(request, user, faculties, userService.getAllUsers(), submissionService.getAllSubmissions(),
                         subjectService.getAllSubjects());
                 log.debug("Logging in as ADMIN");

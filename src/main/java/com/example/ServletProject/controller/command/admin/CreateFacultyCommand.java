@@ -20,6 +20,9 @@ import java.util.List;
 public class CreateFacultyCommand implements Command {
     private static final Logger log = LogManager.getLogger(CreateFacultyCommand.class);
 
+    /**
+     * Sets faculties with recently created faculty
+     */
     static public void setFaculties(HttpServletRequest request, List<Faculty> faculties){
         HttpSession session = request.getSession();
         session.setAttribute("faculties", faculties);

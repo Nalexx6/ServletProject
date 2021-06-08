@@ -24,6 +24,9 @@ public class Servlet extends HttpServlet {
     private static final Map<String, Command> commands = new HashMap<>();
     private static final Logger log = LogManager.getLogger(Servlet.class);
 
+    /**
+     * Inits all accessible commands and loggedUsers container
+     */
     @Override
     public void init(){
 

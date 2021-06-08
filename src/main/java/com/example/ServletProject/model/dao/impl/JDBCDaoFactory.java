@@ -2,6 +2,9 @@ package com.example.ServletProject.model.dao.impl;
 
 import com.example.ServletProject.model.dao.DaoFactory;
 
+/**
+ * Dao Factory Implementation
+ */
 public class JDBCDaoFactory extends DaoFactory {
 
     @Override

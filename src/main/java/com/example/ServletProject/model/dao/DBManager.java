@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * DB manager. Works with MySQL DB.
+ * Only the required DAO methods are defined!
+ */
 public class DBManager {
 //    private static final Logger log = Logger.getLogger(DBManager.class);
 

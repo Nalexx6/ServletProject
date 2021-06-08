@@ -1,6 +1,7 @@
 package com.example.ServletProject.controller.filters;
 
 
+import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,18 +32,18 @@ public class AuthFilter implements Filter {
         ServletContext context = servletRequest.getServletContext();
         HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
 
-
+        //If user already logged on another browser or device, refuses to logging in him twice
         if(user == null && login != null ) {
             if (loggedUsers.contains(login)){
                 String message = "User is already logged";
                 servletRequest.setAttribute("message", message);
-                servletRequest.getRequestDispatcher("/error-page.jsp")
+                servletRequest.getRequestDispatcher(Paths.MAIN_PAGE)
                         .forward(servletRequest, servletResponse);
                 log.trace(message);
             }
         }
 
-        //Prevent error message from after page refreshing
+        //Prevent error message from displaying after page refreshing
         if(req.getSession().getAttribute("message-displayed") != null &&
                 (boolean) req.getSession().getAttribute("message-displayed")) {
             req.getSession().removeAttribute("message");
@@ -50,6 +51,7 @@ public class AuthFilter implements Filter {
             req.getSession().setAttribute("message-displayed", true);
         }
 
+        //For USER if sort was last command, div with accessible faculties will be displayed
         if(req.getSession().getAttribute("sortDisplayed") != null &&
                 (int) req.getSession().getAttribute("sortDisplayed") == 0) {
             req.getSession().setAttribute("sortDisplayed", 1);

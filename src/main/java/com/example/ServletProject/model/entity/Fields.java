@@ -1,5 +1,8 @@
 package com.example.ServletProject.model.entity;
-
+/**
+ * Defines fields names
+ * This names are used as rows for Database tables, and as entities parameters on JSP pages
+ */
 public final class Fields {
 
     // entities

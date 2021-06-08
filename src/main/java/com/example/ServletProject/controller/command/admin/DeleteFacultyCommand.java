@@ -16,6 +16,9 @@ import java.util.List;
 public class DeleteFacultyCommand implements Command {
     private static final Logger log = LogManager.getLogger(DeleteFacultyCommand.class);
 
+    /**
+     * Sets faculties without recently deleted faculty
+     */
     static private  void setFaculties(HttpServletRequest request, List<Faculty> faculties, List<Submission> submissions){
         HttpSession session = request.getSession();
         session.setAttribute("faculties", faculties);

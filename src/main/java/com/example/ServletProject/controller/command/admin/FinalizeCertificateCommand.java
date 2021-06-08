@@ -17,6 +17,9 @@ import java.util.List;
 public class FinalizeCertificateCommand implements Command {
     private static final Logger log = LogManager.getLogger(FinalizeCertificateCommand.class);
 
+    /**
+     Comparator for sorting submissions during finalization
+     */
     private static final Comparator<Submission> gradesComparator = ((submission1, submission2) -> {
             if((submission2.getGrades().get(0) + submission2.getGrades().get(1) + submission2.getGrades().get(2)) >
             (submission1.getGrades().get(0) + submission1.getGrades().get(1) + submission1.getGrades().get(2))) {
@@ -30,6 +33,9 @@ public class FinalizeCertificateCommand implements Command {
 
     });
 
+    /**
+     * Sets finalized faculties and submissions with their statuses
+     */
     private void setFinalization(HttpServletRequest request, List<Faculty> faculties, List<Submission> submissions){
         HttpSession session = request.getSession();
         session.setAttribute("faculties", faculties);
@@ -56,6 +62,9 @@ public class FinalizeCertificateCommand implements Command {
         return "redirect:" + Paths.ADMIN_PAGE;
     }
 
+    /**
+     * Sorts faculty submissions by their grades, and updates their statuses
+     */
     private void finalise(Faculty faculty){
         faculty.getSubmissions().sort(gradesComparator);
 

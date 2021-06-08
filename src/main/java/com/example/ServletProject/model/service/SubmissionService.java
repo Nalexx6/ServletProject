@@ -6,6 +6,9 @@ import com.example.ServletProject.model.entity.Submission;
 
 import java.util.List;
 
+/**
+ * Service layer for Submission entity with all possible operations
+ */
 public class SubmissionService {
 
     DaoFactory daoFactory = DaoFactory.getInstance();

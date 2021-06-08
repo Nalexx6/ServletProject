@@ -1,5 +1,10 @@
 package com.example.ServletProject.controller.command;
 
+
+/**
+ * Keys corresponds messages, which are placed in resources Resource Bundle
+ * Keys used in jsp pages to refer to bundle display messages
+ */
 public final class MessageKeys {
 
     public static final String USER_BLOCKED = "message.user.blocked";

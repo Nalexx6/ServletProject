@@ -10,6 +10,9 @@ import com.example.ServletProject.model.entity.User;
 
 import java.util.List;
 
+/**
+ * Service layer for User entity with all possible operations
+ */
 public class UserService {
 
     DaoFactory daoFactory = DaoFactory.getInstance();

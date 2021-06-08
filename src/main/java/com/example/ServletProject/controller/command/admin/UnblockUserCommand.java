@@ -14,6 +14,9 @@ import java.util.List;
 public class UnblockUserCommand implements Command {
     private static final Logger log = LogManager.getLogger(UnblockUserCommand.class);
 
+    /**
+     * Sets users with recently unblocked user
+     */
     static private  void setUsers(HttpServletRequest request, List<User> users){
         HttpSession session = request.getSession();
         session.setAttribute("users", users);

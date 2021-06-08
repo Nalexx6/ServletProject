@@ -8,6 +8,9 @@ import com.example.ServletProject.model.entity.Submission;
 
 import java.util.List;
 
+/**
+ * Service layer for Faculty entity with all possible operations
+ */
 public class FacultyService {
 
     DaoFactory daoFactory = DaoFactory.getInstance();

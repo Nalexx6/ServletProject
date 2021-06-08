@@ -15,6 +15,9 @@ public class BlockUserCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(BlockUserCommand.class);
 
+    /**
+     * Sets users with recently blocked user
+     */
     static private  void setUsers(HttpServletRequest request, List<User> users){
         HttpSession session = request.getSession();
         session.setAttribute("users", users);

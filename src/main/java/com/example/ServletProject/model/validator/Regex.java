@@ -1,5 +1,8 @@
 package com.example.ServletProject.model.validator;
 
+/**
+ * Regular expressions to validate entities inputted values
+ */
 public final class Regex {
 
     //User SignUp regex

@@ -15,7 +15,9 @@ public class CheckSubmissionCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(CheckSubmissionCommand.class);
 
-
+    /**
+     * Sets submissions with their statuses for ADMIN
+     */
     static private void setSubmissions(HttpServletRequest request, List<Submission> submissions){
         HttpSession session = request.getSession();
         session.setAttribute("submissions", submissions);

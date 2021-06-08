@@ -6,6 +6,9 @@ import com.example.ServletProject.model.entity.Subject;
 
 import java.util.List;
 
+/**
+ * Service layer for Subject entity with all possible operations
+ */
 public class SubjectService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 

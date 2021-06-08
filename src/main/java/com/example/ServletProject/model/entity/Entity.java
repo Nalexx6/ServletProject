@@ -1,5 +1,8 @@
 package com.example.ServletProject.model.entity;
 
+/**
+ * Parent class to all entities
+ */
 public class Entity {
 
     private Long id;
