@@ -63,17 +63,23 @@ public class CommandAccessFilter implements Filter {
             return true;
 
         HttpSession session = httpRequest.getSession(false);
-        if (session == null)
+        if (session == null) {
             return false;
+        }
 
         if((boolean) session.getServletContext().getAttribute("finalized") &&
                 unableAfterFinalization.contains(commandName)){
             return false;
         }
 
-        String userRole = (String) session.getAttribute("userRole");
-        if (userRole == null)
+        if(session.getAttribute("user") == null){
+            return true;
+        }
+
+        String userRole = (String) session.getAttribute("role");
+        if (userRole == null) {
             return false;
+        }
 
         return accessMap.get(userRole).contains(commandName)
                 || commons.contains(commandName);

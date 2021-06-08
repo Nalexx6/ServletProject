@@ -14,7 +14,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>command-access</filter-name>
-        <url-pattern>/login/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <!-- this way we set the resource bundle name -->
