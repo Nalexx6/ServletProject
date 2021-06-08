@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="trace">
+    <Appenders>
+        <Console name="Console">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-level %logger{36} - %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="trace"/>
+            </Filters>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root name="Servlet" level="TRACE">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

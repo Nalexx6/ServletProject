@@ -23,8 +23,6 @@ public class EncodingFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         log.debug("Filter starts");
 
-        System.out.println("EncodingFilter is processing");
-
         if (null == servletRequest.getCharacterEncoding()) {
             servletRequest.setCharacterEncoding(encoding);
         }
@@ -39,7 +37,6 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void destroy() {
-        log.debug("Filter destruction starts");
-        // do nothing
-        log.debug("Filter destruction finished");    }
+        Filter.super.destroy();
     }
+}

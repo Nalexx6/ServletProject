@@ -2,6 +2,8 @@ package com.example.ServletProject.controller.filters;
 
 
 import com.example.ServletProject.model.entity.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -11,6 +13,9 @@ import java.util.HashSet;
 
 @WebFilter(filterName = "auth")
 public class AuthFilter implements Filter {
+
+    private static final Logger log = LogManager.getLogger(CommandAccessFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Filter.super.init(filterConfig);
@@ -19,14 +24,23 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
                                                                             throws IOException, ServletException {
-
-        System.out.println("AuthFilter is processing");
-
+        log.debug("Filter starts");
         final HttpServletRequest req = (HttpServletRequest) servletRequest;
         final User user = (User) req.getSession().getAttribute("user");
         final String login = req.getParameter("login");
         ServletContext context = servletRequest.getServletContext();
         HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
+
+
+        if(user == null && login != null ) {
+            if (loggedUsers.contains(login)){
+                String message = "User is already logged";
+                servletRequest.setAttribute("message", message);
+                servletRequest.getRequestDispatcher("/error-page.jsp")
+                        .forward(servletRequest, servletResponse);
+                log.trace(message);
+            }
+        }
 
         //Prevent error message from after page refreshing
         if(req.getSession().getAttribute("message-displayed") != null &&
@@ -43,16 +57,6 @@ public class AuthFilter implements Filter {
             req.getSession().setAttribute("sortDisplayed", 2);
         }
 
-        if(user == null && login != null ) {
-            if (loggedUsers.contains(login)){
-                String message = "User is already logged";
-                servletRequest.setAttribute("message", message);
-                servletRequest.getRequestDispatcher("/error-page.jsp")
-                        .forward(servletRequest, servletResponse);
-                System.out.println("user " + req.getParameter("login") + " is  already logged");
-            }
-        }
-
         //Set default locale if user has not been on site yet
         if(req.getSession().getAttribute("locale") == null){
             req.getSession().setAttribute("locale", "EN");
@@ -64,6 +68,8 @@ public class AuthFilter implements Filter {
             req.getSession().setAttribute("studentSort", 3);
             req.getSession().setAttribute("stateFundedSort", 5);
         }
+
+        log.debug("Filter finished");
 
         filterChain.doFilter(servletRequest, servletResponse);
 

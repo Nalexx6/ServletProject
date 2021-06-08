@@ -39,7 +39,6 @@ public class CommandAccessFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.debug("Filter starts");
-        System.out.println("CommandFilter is processing");
 
         if (accessAllowed(request)) {
             log.debug("Filter finished");

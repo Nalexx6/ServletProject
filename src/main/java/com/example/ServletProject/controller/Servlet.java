@@ -3,6 +3,7 @@ package com.example.ServletProject.controller;
 import com.example.ServletProject.controller.command.*;
 import com.example.ServletProject.controller.command.admin.*;
 import com.example.ServletProject.controller.command.user.CreateSubmissionCommand;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -71,15 +72,14 @@ public class Servlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+
         log.debug("Controller starts");
 
         String commandName = request.getParameter("command");
         log.trace("Request parameter: command --> " + commandName);
 
-
         Command command = commands.getOrDefault(commandName, (r)->Paths.MAIN_PAGE);
         log.trace("Obtained command --> " + command);
-        System.out.println(command);
 
         String page = command.execute(request);
         request.getSession().setAttribute("message-displayed", false);
