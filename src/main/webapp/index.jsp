@@ -106,7 +106,9 @@
                 <input class="btn" style="background: lightgray; width: 50px" type="submit" name="locale" value="EN">
             </form>
         </div>
-        <c:out value="${requestScope.message}"/>
+        <c:if test="${sessionScope.message != null}">
+            <h4 style="color: red; text-align: center"><fmt:message key="${sessionScope.message}"/></h4>
+        </c:if>
         <h2 class="header">
             <fmt:message key="entry.name"/> <br/>
         </h2>

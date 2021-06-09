@@ -1,6 +1,7 @@
 package com.example.ServletProject.controller.filters;
 
 import com.example.ServletProject.controller.Paths;
+import com.example.ServletProject.controller.command.MessageKeys;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,9 +45,10 @@ public class CommandAccessFilter implements Filter {
             log.debug("Filter finished");
             chain.doFilter(request, response);
         } else {
-            String errorMessage = "You do not have permission to access the requested resource";
+            String errorMessage = MessageKeys.ACCESS_DENIED;
 
-            request.setAttribute("message", errorMessage);
+            HttpServletRequest req = (HttpServletRequest) request;
+            req.getSession().setAttribute("message", errorMessage);
             log.trace("Set the request attribute: message --> " + errorMessage);
 
             request.getRequestDispatcher(Paths.MAIN_PAGE)
