@@ -62,4 +62,24 @@ public class Submission extends Entity {
     public void setFinalizationStatus(Integer finalizationStatus) {
         this.finalizationStatus = finalizationStatus;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o == this){
+            return true;
+        }
+        if(!(o instanceof Submission)){
+            return false;
+        }
+
+        Submission submission = (Submission) o;
+        return  faculty.equals(submission.getFaculty()) &&
+                user.equals(submission.getUser()) &&
+                grades.get(0).equals(submission.getGrades().get(0)) &&
+                grades.get(1).equals(submission.getGrades().get(1)) &&
+                grades.get(2).equals(submission.getGrades().get(2)) &&
+                secEducAvg.equals(submission.getSecEducAvg()) &&
+                checked == submission.isChecked() &&
+                finalizationStatus.equals(submission.getFinalizationStatus());
+    }
 }

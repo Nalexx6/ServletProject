@@ -1,6 +1,7 @@
 package com.example.ServletProject.model.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class User extends com.example.ServletProject.model.entity.Entity {
 
@@ -98,4 +99,25 @@ public class User extends com.example.ServletProject.model.entity.Entity {
         this.submissions = submissions;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return login.equals(user.login) &&
+                password.equals(user.password) &&
+                firstName.equals(user.firstName) &&
+                lastName.equals(user.lastName) &&
+                role.equals(user.role) &&
+                email.equals(user.email) &&
+                city.equals(user.city) &&
+                region.equals(user.region) &&
+                institution.equals(user.institution) &&
+                Objects.equals(submissions, user.submissions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, password);
+    }
 }
