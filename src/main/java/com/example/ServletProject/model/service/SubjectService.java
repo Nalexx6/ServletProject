@@ -12,7 +12,7 @@ import java.util.List;
 public class SubjectService {
     DaoFactory daoFactory = DaoFactory.getInstance();
 
-    public Subject findSubjectByName(String name){
+    public Subject getSubjectByName(String name){
         try(SubjectDao subjectDao = daoFactory.createSubjectDao()){
             return subjectDao.findByName(name);
         } catch (Exception e){

@@ -69,10 +69,10 @@ public class CreateFacultyCommand implements Command {
 
         List<Subject> list = new ArrayList<>();
         SubjectService service = new SubjectService();
-        list.add(service.findSubjectByName(request.getParameter(Fields.FACULTY__SUB1_ID)));
+        list.add(service.getSubjectByName(request.getParameter(Fields.FACULTY__SUB1_ID)));
 
-        list.add(service.findSubjectByName(request.getParameter(Fields.FACULTY__SUB2_ID)));
-        list.add(service.findSubjectByName(request.getParameter(Fields.FACULTY__SUB3_ID)));
+        list.add(service.getSubjectByName(request.getParameter(Fields.FACULTY__SUB2_ID)));
+        list.add(service.getSubjectByName(request.getParameter(Fields.FACULTY__SUB3_ID)));
         faculty.setSubjects(list);
         return faculty;
 
