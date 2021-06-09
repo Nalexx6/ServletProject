@@ -1,7 +1,6 @@
 package controllerTest.command;
 
 import com.example.ServletProject.controller.Paths;
-import com.example.ServletProject.controller.command.admin.CreateFacultyCommand;
 import com.example.ServletProject.controller.command.user.CreateSubmissionCommand;
 import com.example.ServletProject.model.entity.Fields;
 import org.junit.jupiter.api.Test;

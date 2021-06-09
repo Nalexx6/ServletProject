@@ -26,7 +26,7 @@ public class CommandAccessFilter implements Filter {
         Filter.super.init(filterConfig);
 
         accessMap.put("ADMIN", Arrays.asList("createFaculty", "editFaculty", "deleteFaculty",
-                "blockUser", "unblockUser", "checkSubmission", "finaliseCertificate"));
+                "blockUser", "unblockUser", "checkSubmission", "finalizeCertificate"));
 
         accessMap.put("USER", Collections.singletonList("createSubmission"));
 
