@@ -36,6 +36,8 @@ public class CreateFacultyCommandTest {
         CreateFacultyCommand command = new CreateFacultyCommand();
 
         assertEquals("redirect:" + Paths.ADMIN_PAGE, command.execute(req));
+        Mockito.verify(req, Mockito.times(2)).getSession();
+
     }
 
     @Test
@@ -61,6 +63,8 @@ public class CreateFacultyCommandTest {
         CreateFacultyCommand command = new CreateFacultyCommand();
 
         assertEquals("redirect:" + Paths.ADMIN_PAGE, command.execute(req));
+        Mockito.verify(req, Mockito.times(2)).getSession();
+
     }
 
 }
