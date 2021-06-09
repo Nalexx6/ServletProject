@@ -51,7 +51,9 @@ public class Validator {
     }
 
     public static boolean validateSubmissionFields(Submission submission){
-        return  submission.getGrades().size() == 3 &&
+        return  submission.getUser() != null &&
+                submission.getFaculty() != null &&
+                submission.getGrades().size() == 3 &&
                 Pattern.compile(Regex.SUBMISSION_GRADE).matcher(submission.getGrades().get(0).toString()).find() &&
                 Pattern.compile(Regex.SUBMISSION_GRADE).matcher(submission.getGrades().get(1).toString()).find() &&
                 Pattern.compile(Regex.SUBMISSION_GRADE).matcher(submission.getGrades().get(2).toString()).find() &&

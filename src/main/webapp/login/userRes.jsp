@@ -279,8 +279,8 @@
                 <c:if test="${sessionScope.message != null}">
                     <h4 style="color: red; text-align: center"><fmt:message key="message.submission.sec_avg"/></h4>
                 </c:if>
-                <label for="sec-avg"><fmt:message key="submission.label.sec_avg"/></label>
-                <input type="text" id="sec-avg" name="sec-avg"
+                <label for="sec_education_avg"><fmt:message key="submission.label.sec_avg"/></label>
+                <input type="text" id="sec_education_avg" name="sec-avg"
                        placeholder="<fmt:message key="submission.placeholder.sec_avg"/>"><br/>
 
                 <input class="btn" type="submit" value="<fmt:message key="button.submit"/>">
@@ -348,5 +348,6 @@
         document.getElementById("subject1").value = "";
         document.getElementById("subject2").value = "";
         document.getElementById("subject3").value = "";
+        document.getElementById("sec_education_avg").value = "";
     }
 </script>

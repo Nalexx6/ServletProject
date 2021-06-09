@@ -69,7 +69,7 @@ public class CreateSubmissionCommand implements Command {
         }
         submission.setGrades(grades);
 
-        submission.setSecEducAvg(Double.parseDouble(request.getParameter("sec-avg")));
+        submission.setSecEducAvg(Double.parseDouble(request.getParameter(Fields.SUBMISSION__SEC_EDUC_AVG)));
         submission.setChecked(false);
 
         return submission;
