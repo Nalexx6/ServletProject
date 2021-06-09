@@ -280,7 +280,7 @@
                     <h4 style="color: red; text-align: center"><fmt:message key="message.submission.sec_avg"/></h4>
                 </c:if>
                 <label for="sec_education_avg"><fmt:message key="submission.label.sec_avg"/></label>
-                <input type="text" id="sec_education_avg" name="sec-avg"
+                <input type="text" id="sec_education_avg" name="sec_education_avg"
                        placeholder="<fmt:message key="submission.placeholder.sec_avg"/>"><br/>
 
                 <input class="btn" type="submit" value="<fmt:message key="button.submit"/>">
