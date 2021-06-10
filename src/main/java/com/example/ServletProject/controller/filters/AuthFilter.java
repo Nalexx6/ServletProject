@@ -2,6 +2,7 @@ package com.example.ServletProject.controller.filters;
 
 
 import com.example.ServletProject.controller.Paths;
+import com.example.ServletProject.controller.command.MessageKeys;
 import com.example.ServletProject.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,11 +36,12 @@ public class AuthFilter implements Filter {
         //If user already logged on another browser or device, refuses to logging in him twice
         if(user == null && login != null ) {
             if (loggedUsers.contains(login)){
-                String message = "User is already logged";
-                servletRequest.setAttribute("message", message);
+
+                req.getSession().setAttribute("message", MessageKeys.ALREADY_LOGGED);
+                log.trace("Set the request attribute: message --> " + MessageKeys.ALREADY_LOGGED);
+
                 servletRequest.getRequestDispatcher(Paths.MAIN_PAGE)
                         .forward(servletRequest, servletResponse);
-                log.trace(message);
             }
         }
 

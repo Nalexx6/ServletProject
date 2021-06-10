@@ -8,6 +8,7 @@ package com.example.ServletProject.controller.command;
 public final class MessageKeys {
 
     public static final String ACCESS_DENIED = "message.access.denied";
+    public static final String ALREADY_LOGGED = "message.already.logged";
 
     public static final String USER_BLOCKED = "message.user.blocked";
     public static final String LOGIN_INVALID = "message.login.invalid";
