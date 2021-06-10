@@ -2,6 +2,7 @@ package com.example.ServletProject.controller.command.admin;
 
 import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.controller.command.Command;
+import com.example.ServletProject.controller.command.SessionUtil;
 import com.example.ServletProject.model.entity.Submission;
 import com.example.ServletProject.model.service.SubmissionService;
 import org.apache.logging.log4j.LogManager;
@@ -15,14 +16,6 @@ public class CheckSubmissionCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(CheckSubmissionCommand.class);
 
-    /**
-     * Sets submissions with their statuses for ADMIN
-     */
-    static private void setSubmissions(HttpServletRequest request, List<Submission> submissions){
-        HttpSession session = request.getSession();
-        session.setAttribute("submissions", submissions);
-    }
-
     @Override
     public String execute(HttpServletRequest request) {
         log.debug("Command starts");
@@ -30,7 +23,7 @@ public class CheckSubmissionCommand implements Command {
         SubmissionService service = new SubmissionService();
         service.checkSubmission(service.getSubmissionById(Long.parseLong(request.getParameter("opIndex"))));
 
-        setSubmissions(request, service.getAllSubmissions());
+        SessionUtil.setSubmissions(request);
 
         log.debug("Command finished");
         return "redirect:" + Paths.ADMIN_PAGE;

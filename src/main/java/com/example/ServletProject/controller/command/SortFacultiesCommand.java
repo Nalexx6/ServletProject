@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Comparator;
 import java.util.List;
 
@@ -30,11 +29,6 @@ public class SortFacultiesCommand implements Command{
     private static final Comparator<Faculty> stateFundedAmountDescending = ((faculty1, faculty2) ->
             faculty2.getStateFundedAmount().compareTo(faculty1.getStateFundedAmount()));
 
-    static public void setFaculties(HttpServletRequest request, List<Faculty> faculties){
-        HttpSession session = request.getSession();
-        session.setAttribute("faculties", faculties);
-    }
-
     @Override
     public String execute(HttpServletRequest request) {
         log.debug("Command starts");
@@ -51,7 +45,8 @@ public class SortFacultiesCommand implements Command{
             request.getSession().setAttribute("sortDisplayed", 0);
         }
         sort(faculties, type, request);
-        setFaculties(request, faculties);
+
+        SessionUtil.setSortedFaculties(request, faculties);
 
         log.debug("Command finished");
         return "redirect:"+request.getParameter("page-path");

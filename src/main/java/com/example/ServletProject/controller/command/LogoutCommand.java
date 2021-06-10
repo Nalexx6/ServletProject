@@ -28,8 +28,6 @@ public class LogoutCommand implements Command{
             session.invalidate();
         }
 
-
-
         log.debug("Command finished");
         return "redirect:" + Paths.MAIN_PAGE;
     }

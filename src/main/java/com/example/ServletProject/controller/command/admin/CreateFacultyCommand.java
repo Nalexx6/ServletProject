@@ -3,11 +3,14 @@ package com.example.ServletProject.controller.command.admin;
 import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.controller.command.Command;
 import com.example.ServletProject.controller.command.MessageKeys;
+import com.example.ServletProject.controller.command.SessionUtil;
 import com.example.ServletProject.model.entity.Faculty;
 import com.example.ServletProject.model.entity.Fields;
 import com.example.ServletProject.model.entity.Subject;
+import com.example.ServletProject.model.entity.Submission;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubjectService;
+import com.example.ServletProject.model.service.SubmissionService;
 import com.example.ServletProject.model.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,14 +22,6 @@ import java.util.List;
 
 public class CreateFacultyCommand implements Command {
     private static final Logger log = LogManager.getLogger(CreateFacultyCommand.class);
-
-    /**
-     * Sets faculties with recently created faculty
-     */
-    static public void setFaculties(HttpServletRequest request, List<Faculty> faculties){
-        HttpSession session = request.getSession();
-        session.setAttribute("faculties", faculties);
-    }
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -48,9 +43,9 @@ public class CreateFacultyCommand implements Command {
             log.trace("Faculty with such name already exists");
             return "redirect:" + Paths.ADMIN_PAGE;
         }
-
         service.addFaculty(faculty);
-        setFaculties(request, service.getAllFaculties());
+
+        SessionUtil.setFaculties(request);
 
         log.debug("Command finished");
         return "redirect:" + Paths.ADMIN_PAGE;

@@ -3,6 +3,7 @@ package com.example.ServletProject.controller.command.user;
 import com.example.ServletProject.controller.Paths;
 import com.example.ServletProject.controller.command.Command;
 import com.example.ServletProject.controller.command.MessageKeys;
+import com.example.ServletProject.controller.command.SessionUtil;
 import com.example.ServletProject.model.entity.*;
 import com.example.ServletProject.model.service.FacultyService;
 import com.example.ServletProject.model.service.SubmissionService;
@@ -12,18 +13,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CreateSubmissionCommand implements Command {
     private static final Logger log = LogManager.getLogger(CreateSubmissionCommand.class);
-
-    static public void setSubmissions(HttpServletRequest request, User user, List<Faculty> faculties){
-        HttpSession session = request.getSession();
-        session.setAttribute("user", user);
-        session.setAttribute("faculties", faculties);
-    }
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -44,7 +38,7 @@ public class CreateSubmissionCommand implements Command {
         UserService userService = new UserService();
         User user = (User) request.getSession().getAttribute("user");
         user.setSubmissions(userService.findAllSubmissionsForUser(user));
-        setSubmissions(request, user, userService.getAllUnsubmittedFaculties(user));
+        SessionUtil.setSubmissions(request, user, userService.getAllUnsubmittedFaculties(user));
 
         log.debug("Command finished");
         return "redirect:" + Paths.USER_PAGE;

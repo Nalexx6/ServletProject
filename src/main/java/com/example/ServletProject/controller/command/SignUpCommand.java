@@ -19,21 +19,6 @@ import java.util.List;
 public class SignUpCommand implements Command{
     private static final Logger log = LogManager.getLogger(SignUpCommand.class);
 
-    /**
-     * Sets USER parameters
-     */
-    static private void setUserRole(HttpServletRequest request,
-                                    User user, List<Faculty> faculties) {
-        HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
-        System.out.println("Logging in user");
-        HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
-        loggedUsers.add(user.getLogin());
-        session.setAttribute("role", user.getRole());
-        session.setAttribute("user", user);
-        session.setAttribute("faculties", faculties);
-    }
-
     @Override
     public String execute(HttpServletRequest request) {
         log.debug("Command starts");
@@ -54,8 +39,10 @@ public class SignUpCommand implements Command{
         }
 
         userService.addUser(user);
+
         FacultyService facultyService = new FacultyService();
-        setUserRole(request, user, facultyService.getAllFaculties());
+        SessionUtil.setUserParams(request, user, facultyService.getAllFaculties());
+
         log.debug("Command finished");
         if(user.getRole().equals("ADMIN")) {
             return /*redirect:*/Paths.ADMIN_PAGE;

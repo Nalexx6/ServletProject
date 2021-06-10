@@ -9,11 +9,8 @@ import com.example.ServletProject.model.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class LoginCommand implements Command{
@@ -34,38 +31,6 @@ public class LoginCommand implements Command{
         }
 
     });
-
-    /**
-     Sets ADMIN parameters
-     */
-    static private void setUserRole(HttpServletRequest request, User user, List<Faculty> faculties, List<User> users,
-                                    List<Submission> submissions, List<Subject> subjects) {
-        HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
-        session.setAttribute("role", user.getRole());
-        session.setAttribute("user", user);
-        HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
-        loggedUsers.add(user.getLogin());
-        session.setAttribute("faculties", faculties);
-        session.setAttribute("users", users);
-        session.setAttribute("submissions", submissions);
-        session.setAttribute("subjects", subjects);
-    }
-
-    /**
-     Sets USER parameters
-     */
-    static private void setUserRole(HttpServletRequest request,
-                                    User user, List<Faculty> faculties) {
-        HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
-        System.out.println("Logging in user");
-        HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
-        loggedUsers.add(user.getLogin());
-        session.setAttribute("role", user.getRole());
-        session.setAttribute("user", user);
-        session.setAttribute("faculties", faculties);
-    }
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -96,7 +61,7 @@ public class LoginCommand implements Command{
                     f.setSubmissions(submissions);
                 }
 
-                setUserRole(request, user, faculties, userService.getAllUsers(), submissionService.getAllSubmissions(),
+                SessionUtil.setUserParams(request, user, faculties, userService.getAllUsers(), submissionService.getAllSubmissions(),
                         subjectService.getAllSubjects());
                 log.debug("Logging in as ADMIN");
                 log.debug("Command finished");
@@ -107,7 +72,7 @@ public class LoginCommand implements Command{
                 return "redirect:" + Paths.LOGIN_PAGE;
             } else {
                 user.setSubmissions(userService.findAllSubmissionsForUser(user));
-                setUserRole(request, user, userService.getAllUnsubmittedFaculties(user));
+                SessionUtil.setUserParams(request, user, userService.getAllUnsubmittedFaculties(user));
                 log.debug("Logging in as USER");
                 log.debug("Command finished");
                 return Paths.USER_PAGE;
