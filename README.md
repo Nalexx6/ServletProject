@@ -4,22 +4,22 @@ But I decided to pass it as 2nd lab of OOP Fundamentals course, because it has m
 
 So there are them:
 
-     ~App is designed corresponding to MVC template
+    App is designed corresponding to MVC template
   
-     ~Main Servlet designed as Front-Controller
+    Main Servlet designed as Front-Controller
   
-     ~Accessible functionality for USER and ADMIN designed using pattern COMMAND
+    Accessible functionality for USER and ADMIN designed using pattern COMMAND
   
-    ~Database processes using JDBC and DAO pattern designed as FACTORY
+    Database processes using JDBC and DAO pattern designed as FACTORY
   
-     ~DB Manager class designed as SINGLETONE
+    DB Manager class designed as SINGLETONE
   
-    ~Application has Service layer to separate business logic and DB implemenation
+    Application has Service layer to separate business logic and DB implemenation
 
-    ~Filters implemetenting CHAIN pattern
+    Filters implemetenting CHAIN pattern
   
 Additional tasks, which are realized:
 
-    ~40% tests coverage(JUnit + Mockito)
+    40% tests coverage(JUnit + Mockito)
   
-    ~Work with real Database
+    Work with real Database
