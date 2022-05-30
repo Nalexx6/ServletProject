@@ -19,8 +19,8 @@ public class AuthFilter implements Filter {
     private static final Logger log = LogManager.getLogger(AuthFilter.class);
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
+    public void init(FilterConfig filterConfig) {
+
     }
 
     @Override

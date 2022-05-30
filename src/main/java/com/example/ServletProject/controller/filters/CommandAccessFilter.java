@@ -23,8 +23,7 @@ public class CommandAccessFilter implements Filter {
     private static List<String> unableAfterFinalization = new ArrayList<>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
+    public void init(FilterConfig filterConfig) {
 
         accessMap.put("ADMIN", Arrays.asList("createFaculty", "editFaculty", "deleteFaculty",
                 "blockUser", "unblockUser", "checkSubmission", "finalizeCertificate"));
